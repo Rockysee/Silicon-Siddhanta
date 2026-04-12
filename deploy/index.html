@@ -109,40 +109,51 @@ section{padding:80px 24px;max-width:1200px;margin:0 auto}
 .orb-container{position:relative;width:240px;height:240px;margin:40px auto}
 .orb{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  border-radius:50%;transition:all 0.4s ease-out;
+  border-radius:50%;
 }
 .orb-core{
-  width:120px;height:120px;
+  width:80px;height:80px;
   background:radial-gradient(circle at 40% 35%,rgba(229,161,0,0.8),rgba(229,161,0,0.3) 60%,transparent);
-  box-shadow:0 0 40px rgba(229,161,0,0.4);
-  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 20px rgba(229,161,0,0.2);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
   font-size:18px;font-weight:800;color:var(--text);letter-spacing:3px;
-  animation:breathe 8s ease-in-out infinite;
+  transition:width 0.5s ease-out, height 0.5s ease-out, box-shadow 0.5s ease-out, background 0.5s ease-out;
 }
-@keyframes breathe{
-  0%,100%{width:80px;height:80px;box-shadow:0 0 20px rgba(229,161,0,0.2)}
-  25%{width:140px;height:140px;box-shadow:0 0 60px rgba(229,161,0,0.5)}
-  50%{width:140px;height:140px;box-shadow:0 0 40px rgba(99,102,241,0.4)}
-  75%{width:80px;height:80px;box-shadow:0 0 30px rgba(14,165,233,0.3)}
-}
+.orb-core .phase-label{font-size:16px;font-weight:800;letter-spacing:3px}
+.orb-core .timer-label{font-size:11px;font-weight:500;letter-spacing:1px;opacity:0.7;margin-top:2px}
 .orb-ring{
-  border:1px solid rgba(229,161,0,0.12);animation:breathe-ring 8s ease-in-out infinite;
+  border:1px solid rgba(229,161,0,0.12);
+  width:100px;height:100px;opacity:0.3;
+  transition:width 0.5s ease-out, height 0.5s ease-out, opacity 0.5s ease-out;
 }
-.orb-ring:nth-child(1){animation-delay:0.1s}
-.orb-ring:nth-child(2){animation-delay:0.2s}
-@keyframes breathe-ring{
-  0%,100%{width:100px;height:100px;opacity:0.3}
-  25%{width:180px;height:180px;opacity:0.6}
-  50%{width:180px;height:180px;opacity:0.4}
-  75%{width:100px;height:100px;opacity:0.2}
+.breath-info{
+  text-align:center;margin-top:20px;min-height:50px;
 }
+.breath-info .technique-name{font-size:16px;font-weight:700;color:var(--accent);letter-spacing:1px}
+.breath-info .technique-desc{font-size:12px;color:var(--text3);margin-top:4px;line-height:1.6}
+.breath-info .cycle-count{font-size:11px;color:var(--cyan);margin-top:6px;font-weight:600}
 .breath-techniques{
   display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:32px;
 }
 .breath-chip{
   padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;
   font-size:12px;color:var(--text2);font-weight:500;display:flex;align-items:center;gap:6px;
+  cursor:pointer;transition:all 0.3s ease;user-select:none;
 }
+.breath-chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.breath-chip.active{
+  background:rgba(229,161,0,0.15);border-color:var(--accent);color:var(--accent);font-weight:700;
+  box-shadow:0 0 12px rgba(229,161,0,0.2);
+}
+.breath-controls{display:flex;gap:12px;margin-top:20px;justify-content:center}
+.breath-btn{
+  padding:10px 28px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;
+  border:1px solid var(--accent);background:transparent;color:var(--accent);
+  transition:all 0.3s ease;letter-spacing:0.5px;
+}
+.breath-btn:hover{background:rgba(229,161,0,0.1);transform:translateY(-1px)}
+.breath-btn.primary{background:var(--accent);color:var(--bg)}
+.breath-btn.primary:hover{box-shadow:0 0 20px rgba(229,161,0,0.3)}
 
 /* ═══ TECH STACK ═══ */
 .stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
@@ -288,6 +299,41 @@ footer{
 .guru-card .topics-row{display:flex;flex-wrap:wrap;gap:4px}
 .guru-card .topic-chip{font-size:9px;padding:3px 8px;border-radius:10px;white-space:nowrap}
 
+/* ═══ ASTROLOGY INTERACTIVE ═══ */
+.astro-container{display:flex;gap:32px;flex-wrap:wrap;align-items:start;justify-content:center}
+.astro-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:400px}
+.astro-form h3{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:4px;font-weight:600}
+.form-group input,.form-group select{width:100%;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;font-family:var(--font)}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);outline:none}
+.form-btn{padding:10px 20px;background:var(--accent);color:var(--bg);border:none;border-radius:6px;font-weight:700;cursor:pointer;font-size:12px;margin-top:8px;transition:all .2s}
+.form-btn:hover{background:var(--accent-hov);transform:translateY(-1px)}
+.form-btn.demo{background:var(--indigo);margin-left:8px}
+.form-btn.demo:hover{background:#4f46e5}
+.astro-explanation{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:16px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.6}
+.astro-chart-display{max-width:360px;text-align:center}
+.chart-label-text{font-size:12px;color:var(--accent);margin-top:12px;font-weight:600}
+
+/* ═══ VASTU INTERACTIVE ═══ */
+.vastu-selector{display:flex;flex-direction:column;gap:20px;max-width:420px}
+.vastu-select-group{display:flex;flex-direction:column;gap:8px}
+.vastu-select-group label{font-size:12px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.vastu-select-group select{padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;font-family:var(--font)}
+.vastu-select-group select:focus{border-color:var(--accent);outline:none}
+.vastu-compass{display:grid;grid-template-columns:repeat(3,80px);gap:4px;margin:20px 0;justify-content:center}
+.compass-btn{padding:12px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;color:var(--text2);transition:all .2s;text-align:center}
+.compass-btn:hover{border-color:var(--accent);color:var(--accent);transform:scale(1.05)}
+.compass-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.vastu-result{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.7}
+.vastu-result .rating{font-size:14px;font-weight:700;margin:8px 0}
+.vastu-result .rating.good{color:var(--pos)}
+.vastu-result .rating.caution{color:var(--warn)}
+.vastu-result .rating.bad{color:var(--neg)}
+.vastu-score-bar{background:var(--bg3);height:8px;border-radius:4px;margin:10px 0;overflow:hidden}
+.vastu-score-fill{height:100%;background:var(--accent);border-radius:4px}
+.vastu-explanation{background:rgba(229,161,0,0.08);border:1px solid rgba(229,161,0,0.2);border-radius:8px;padding:12px;margin:10px 0;font-size:11px;line-height:1.6}
+
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:768px){
   .nav-links{display:none}
@@ -298,6 +344,11 @@ footer{
   .guru-chat-panel{height:100%;max-height:100vh;border-radius:0}
   .guru-chat-overlay{padding:0}
   .guru-grid{grid-template-columns:1fr}
+  .astro-container{flex-direction:column;gap:24px;align-items:center}
+  .astro-form{max-width:100%;width:100%}
+  .astro-chart-display{max-width:100%;width:100%}
+  .vastu-selector{max-width:100%;width:100%}
+  .vastu-compass{grid-template-columns:repeat(3,70px)}
 }
 
 /* ═══ ANIMATIONS ═══ */
@@ -395,54 +446,62 @@ footer{
 <!-- ═══ ASTROLOGY PREVIEW ═══ -->
 <section id="astrology">
   <div class="section-label">Astrology Engine</div>
-  <h2 class="section-title">South Indian Chart + Multi-System Analysis</h2>
+  <h2 class="section-title">Interactive Birth Chart Generator</h2>
   <p class="section-desc">
-    Swiss Ephemeris precision combined with four distinct Jyotish interpretation frameworks. Every planet position, nakshatra pada, and sub-lord chain computed to arc-second accuracy.
+    Think of your birth chart as a snapshot of the sky at the exact moment you were born. Each planet was in a specific zodiac sign, influencing your personality, career, relationships, and life events.
   </p>
-  <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:start;justify-content:center">
-    <!-- Chart -->
-    <div>
-      <div class="chart-grid">
-        <!-- Row 0: Pisces Aries Taurus Gemini -->
-        <div class="chart-cell"><div class="sign">♓ Pis</div></div>
-        <div class="chart-cell"><div class="sign">♈ Ari</div><span class="planet" style="color:#EC4899">♀</span></div>
-        <div class="chart-cell"><div class="sign">♉ Tau</div></div>
-        <div class="chart-cell asc"><div class="sign">♊ Gem</div><span style="font-size:7px;color:var(--accent)">ASC</span></div>
-        <!-- Row 1 -->
-        <div class="chart-cell"><div class="sign">♒ Aqu</div><span class="planet" style="color:#FF8C00">☉</span></div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-cell"><div class="sign">♋ Can</div><span class="planet" style="color:#B8C4D4">☽</span></div>
-        <!-- Row 2 -->
-        <div class="chart-cell"><div class="sign">♑ Cap</div><span class="planet" style="color:#16A34A">☿</span><span class="planet" style="color:#B45309">☋</span></div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-cell"><div class="sign">♌ Leo</div><span class="planet" style="color:#DC2626">♂ᴿ</span><span class="planet" style="color:#EAB308">♃ᴿ</span><span class="planet" style="color:#8B5CF6">☊ᴿ</span><span class="planet" style="color:#4F6BCC">♄ᴿ</span></div>
-        <!-- Row 3 -->
-        <div class="chart-cell"><div class="sign">♐ Sag</div></div>
-        <div class="chart-cell"><div class="sign">♏ Sco</div></div>
-        <div class="chart-cell"><div class="sign">♎ Lib</div></div>
-        <div class="chart-cell"><div class="sign">♍ Vir</div></div>
+  <div class="astro-container">
+    <!-- Input Form -->
+    <div class="astro-form">
+      <h3>📋 Your Birth Data</h3>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="astroName" placeholder="Your name" value="Hemant Thackeray">
       </div>
-      <p style="text-align:center;font-size:10px;color:var(--text3);margin-top:8px">Hemant Thackeray · 27/03/1980 · Kalyan</p>
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <input type="date" id="astroDOB" value="1980-03-27">
+      </div>
+      <div class="form-group">
+        <label>Time of Birth (24-hour)</label>
+        <input type="time" id="astroTOB" value="11:45">
+      </div>
+      <div class="form-group">
+        <label>Place of Birth</label>
+        <input type="text" id="astroPOB" placeholder="City, Country" value="Kalyan, India">
+      </div>
+      <button class="form-btn" onclick="generateAstroChart()">Generate Chart</button>
+      <button class="form-btn demo" onclick="loadDemoChart()">Demo</button>
+      <div class="astro-explanation">
+        <strong>Your Ascendant</strong> (Rising Sign) is the zodiac sign that was rising on the eastern horizon at your birth time. It shapes your personality and how others see you. <strong>Your Moon Sign</strong> represents your emotional nature and inner self. <strong>Your Sun Sign</strong> (Western astrology) is your core identity and life purpose.
+      </div>
     </div>
-    <!-- Details -->
-    <div style="max-width:400px">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-size:12px;color:var(--text2);line-height:2">
+    <!-- Chart Display -->
+    <div class="astro-chart-display">
+      <div class="chart-grid" id="astroChartGrid">
+        <div class="chart-cell"><div class="sign">♓</div></div>
+        <div class="chart-cell"><div class="sign">♈</div></div>
+        <div class="chart-cell"><div class="sign">♉</div></div>
+        <div class="chart-cell asc"><div class="sign">♊</div><span style="font-size:7px;color:var(--accent)">ASC</span></div>
+        <div class="chart-cell"><div class="sign">♒</div></div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-cell"><div class="sign">♋</div></div>
+        <div class="chart-cell"><div class="sign">♑</div></div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-cell"><div class="sign">♌</div></div>
+        <div class="chart-cell"><div class="sign">♐</div></div>
+        <div class="chart-cell"><div class="sign">♏</div></div>
+        <div class="chart-cell"><div class="sign">♎</div></div>
+        <div class="chart-cell"><div class="sign">♍</div></div>
+      </div>
+      <div id="astroSummary" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.8">
         <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Chart Summary</div>
-        <div><strong style="color:var(--text)">Ascendant:</strong> ♊ Gemini (6.81°) · Lord: Mercury</div>
-        <div><strong style="color:var(--text)">Moon:</strong> ♋ Cancer 25°42' · Ashlesha · Own Sign</div>
-        <div><strong style="color:var(--text)">Sun:</strong> ♓ Pisces 13°09' · Uttara Bhadrapada</div>
-        <div><strong style="color:var(--text)">Current Dasha:</strong> <span style="color:#B8C4D4">☽ Moon</span>-<span style="color:#B45309">☋ Ketu</span></div>
-        <div><strong style="color:var(--text)">Active Yoga:</strong> <span style="color:var(--pos)">Gajakesari (80%)</span></div>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
-          <div style="font-size:10px;color:var(--indigo);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Systems Used</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(59,130,246,0.12);color:#3b82f6;font-weight:600">KP System</span>
-            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(34,197,94,0.12);color:#22c55e;font-weight:600">Parashari</span>
-            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(168,85,247,0.12);color:#a855f7;font-weight:600">Brajesh Gautam</span>
-            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(239,68,68,0.12);color:#ef4444;font-weight:600">Nadi</span>
-          </div>
+        <div id="astroSummaryContent">
+          <div><strong style="color:var(--text)">Ascendant:</strong> ♊ Gemini · Communicative, analytical</div>
+          <div><strong style="color:var(--text)">Moon:</strong> ♋ Cancer · Emotional, nurturing</div>
+          <div><strong style="color:var(--text)">Sun:</strong> ♓ Pisces · Intuitive, spiritual</div>
         </div>
       </div>
     </div>
@@ -452,37 +511,84 @@ footer{
 <!-- ═══ VASTU PREVIEW ═══ -->
 <section id="vastu" style="background:linear-gradient(180deg,transparent,rgba(229,161,0,0.02),transparent)">
   <div class="section-label">Vastu Cross-Check</div>
-  <h2 class="section-title">9×9 Vastu Purusha Mandala Analysis</h2>
+  <h2 class="section-title">Interactive Room Placement Checker</h2>
   <p class="section-desc">
-    Upload your floor plan, overlay the classical 81-pada grid with 45 Vastu deities, mark room positions, and receive automated defect detection with prioritized remedies.
+    Vastu Shastra is the ancient Indian science of architecture and spatial arrangement. Like Feng Shui, it teaches that the placement of rooms in your home affects energy flow, influencing your health, wealth, and happiness.
   </p>
   <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:start;justify-content:center">
-    <div class="vastu-grid-preview">
-      <div class="vastu-zone"><div class="z-icon">🌬️</div><div class="z-dir">NW</div><div class="z-el">Air · Vayu</div></div>
-      <div class="vastu-zone"><div class="z-icon">🌊</div><div class="z-dir">N</div><div class="z-el">Water · Kubera</div></div>
-      <div class="vastu-zone"><div class="z-icon">💧</div><div class="z-dir">NE</div><div class="z-el">Water · Ishaan</div></div>
-      <div class="vastu-zone"><div class="z-icon">💨</div><div class="z-dir">W</div><div class="z-el">Air · Varun</div></div>
-      <div class="vastu-zone" style="border-color:var(--border-acc)"><div class="z-icon">🕉️</div><div class="z-dir" style="color:var(--indigo)">CENTER</div><div class="z-el">Akasha · Brahma</div></div>
-      <div class="vastu-zone"><div class="z-icon">✨</div><div class="z-dir">E</div><div class="z-el">Space · Indra</div></div>
-      <div class="vastu-zone"><div class="z-icon">🏔️</div><div class="z-dir">SW</div><div class="z-el">Earth · Nairitya</div></div>
-      <div class="vastu-zone"><div class="z-icon">🌍</div><div class="z-dir">S</div><div class="z-el">Earth · Yama</div></div>
-      <div class="vastu-zone"><div class="z-icon">🔥</div><div class="z-dir">SE</div><div class="z-el">Fire · Agni</div></div>
-    </div>
-    <div style="max-width:360px">
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-size:12px;color:var(--text2);line-height:1.8">
-        <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Analysis Features</div>
-        <div>📐 Floor plan image upload (drag & drop)</div>
-        <div>🔲 Interactive 9×9 grid with 45 deity positions</div>
-        <div>🏠 16 room types with click-to-assign</div>
-        <div>⚠️ Automated defect detection (Critical/Major/Minor)</div>
-        <div>💊 Remedies from classical texts + BG teachings</div>
-        <div>📊 Vastu Score (0-100) with direction-wise report</div>
-        <div>🪐 Optional birth chart integration (9th house rules)</div>
-        <div>📋 Comprehensive PDF-ready report generation</div>
-        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
-          <div style="font-size:10px;color:var(--indigo);font-weight:700;margin-bottom:4px">SOURCES</div>
-          <div style="font-size:11px">Brihat Samhita · Mayamata · Manasara · BG Ep.11</div>
+    <!-- Selector -->
+    <div class="vastu-selector">
+      <div class="vastu-select-group">
+        <label>Select Room Type</label>
+        <select id="vastuRoomType" onchange="updateVastuResult()">
+          <option value="">Choose a room...</option>
+          <option value="Kitchen">Kitchen (Fire Element)</option>
+          <option value="Bedroom">Bedroom (Rest & Sleep)</option>
+          <option value="Bathroom">Bathroom (Water Element)</option>
+          <option value="Living Room">Living Room (Social Space)</option>
+          <option value="Pooja Room">Pooja Room (Spiritual Space)</option>
+          <option value="Study">Study (Concentration)</option>
+          <option value="Dining">Dining Room (Nourishment)</option>
+          <option value="Entrance">Entrance (Welcome)</option>
+          <option value="Staircase">Staircase (Transition)</option>
+          <option value="Store Room">Store Room (Storage)</option>
+          <option value="Well/Bore">Well/Bore (Water Source)</option>
+          <option value="Septic Tank">Septic Tank (Waste)</option>
+          <option value="Garden">Garden (Green Space)</option>
+          <option value="Garage">Garage (Vehicles)</option>
+          <option value="Balcony">Balcony (Open Space)</option>
+          <option value="Terrace">Terrace (Highest Point)</option>
+        </select>
+      </div>
+      <div class="vastu-select-group">
+        <label>Click on a Direction in the 3×3 Grid</label>
+        <div class="vastu-compass">
+          <button class="compass-btn" onclick="setVastuDirection('NW')">🌬️ NW</button>
+          <button class="compass-btn" onclick="setVastuDirection('N')">🌊 N</button>
+          <button class="compass-btn" onclick="setVastuDirection('NE')">💧 NE</button>
+          <button class="compass-btn" onclick="setVastuDirection('W')">💨 W</button>
+          <button class="compass-btn" onclick="setVastuDirection('CENTER')" style="border-color:var(--indigo)">🕉️ CTR</button>
+          <button class="compass-btn" onclick="setVastuDirection('E')">✨ E</button>
+          <button class="compass-btn" onclick="setVastuDirection('SW')">🏔️ SW</button>
+          <button class="compass-btn" onclick="setVastuDirection('S')">🌍 S</button>
+          <button class="compass-btn" onclick="setVastuDirection('SE')">🔥 SE</button>
         </div>
+      </div>
+      <div id="vastuResultContainer" style="display:none">
+        <div class="vastu-result">
+          <div style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Placement Analysis</div>
+          <div id="vastuRatingDisplay" class="rating"></div>
+          <div class="vastu-score-bar"><div id="vastuScoreFill" class="vastu-score-fill" style="width:50%"></div></div>
+          <div id="vastuWhydisplay" class="vastu-explanation"></div>
+          <div id="vastuRemedyDisplay" style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compass Display -->
+    <div style="max-width:360px">
+      <div class="vastu-grid-preview">
+        <div class="vastu-zone"><div class="z-icon">🌬️</div><div class="z-dir">NW</div><div class="z-el">Air · Vayu</div></div>
+        <div class="vastu-zone"><div class="z-icon">🌊</div><div class="z-dir">N</div><div class="z-el">Water · Kubera</div></div>
+        <div class="vastu-zone"><div class="z-icon">💧</div><div class="z-dir">NE</div><div class="z-el">Water · Ishaan</div></div>
+        <div class="vastu-zone"><div class="z-icon">💨</div><div class="z-dir">W</div><div class="z-el">Air · Varun</div></div>
+        <div class="vastu-zone" style="border-color:var(--border-acc)"><div class="z-icon">🕉️</div><div class="z-dir" style="color:var(--indigo)">CENTER</div><div class="z-el">Akasha · Brahma</div></div>
+        <div class="vastu-zone"><div class="z-icon">✨</div><div class="z-dir">E</div><div class="z-el">Space · Indra</div></div>
+        <div class="vastu-zone"><div class="z-icon">🏔️</div><div class="z-dir">SW</div><div class="z-el">Earth · Nairitya</div></div>
+        <div class="vastu-zone"><div class="z-icon">🌍</div><div class="z-dir">S</div><div class="z-el">Earth · Yama</div></div>
+        <div class="vastu-zone"><div class="z-icon">🔥</div><div class="z-dir">SE</div><div class="z-el">Fire · Agni</div></div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.6">
+        <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Directions & Elements</div>
+        <div><strong style="color:var(--accent)">NE:</strong> Water, Wisdom, Purification</div>
+        <div><strong style="color:var(--accent)">E:</strong> Light, Growth, Knowledge</div>
+        <div><strong style="color:var(--accent)">SE:</strong> Fire, Energy, Transformation</div>
+        <div><strong style="color:var(--accent)">S:</strong> Stability, Wealth, Grounding</div>
+        <div><strong style="color:var(--accent)">SW:</strong> Earth, Protection, Strength</div>
+        <div><strong style="color:var(--accent)">W:</strong> Air, Movement, Flexibility</div>
+        <div><strong style="color:var(--accent)">NW:</strong> Air, Support, Guidance</div>
+        <div><strong style="color:var(--accent)">N:</strong> Water, Prosperity, Flow</div>
+        <div><strong style="color:var(--accent)">CENTER:</strong> Akasha (Space), Balance, Unity</div>
       </div>
     </div>
   </div>
@@ -493,30 +599,41 @@ footer{
   <div class="section-label">Pranayama Simulator</div>
   <h2 class="section-title" style="text-align:center">Breathe With the Masters</h2>
   <p class="section-desc" style="text-align:center;margin:0 auto 8px">
-    14 breathing techniques from Sadhguru, Sri Sri Ravi Shankar, and classical Pranayama. Animated orb with real-time guidance. Boltable into any React app.
+    14 breathing techniques with real timing patterns. Click a technique, then Start. Follow the orb.
   </p>
 
   <div class="orb-container">
-    <div class="orb orb-ring" style="width:180px;height:180px"></div>
-    <div class="orb orb-ring" style="width:200px;height:200px"></div>
-    <div class="orb orb-core" id="breathOrb">IN</div>
+    <div class="orb orb-ring" id="breathRing1"></div>
+    <div class="orb orb-ring" id="breathRing2"></div>
+    <div class="orb orb-core" id="breathOrb"><span class="phase-label">OM</span><span class="timer-label">select below</span></div>
   </div>
 
-  <div class="breath-techniques">
-    <span class="breath-chip">🌊 Ujjayi</span>
-    <span class="breath-chip">🌙 Nadi Shodhana</span>
-    <span class="breath-chip">🌀 Sudarshan Kriya</span>
-    <span class="breath-chip">🧘 Isha Kriya</span>
-    <span class="breath-chip">🐝 Bhramari</span>
-    <span class="breath-chip">💎 Kapalabhati</span>
-    <span class="breath-chip">🔥 Bhastrika</span>
-    <span class="breath-chip">⬜ Box Breathing</span>
-    <span class="breath-chip">😴 4-7-8 Relaxation</span>
-    <span class="breath-chip">🕊️ So-Hum</span>
-    <span class="breath-chip">🦁 Simha Kriya</span>
-    <span class="breath-chip">👁️ Shambhavi Prep</span>
-    <span class="breath-chip">❄️ Sitali</span>
-    <span class="breath-chip">🧘 Meditation</span>
+  <div class="breath-info" id="breathInfo">
+    <div class="technique-name" id="breathTechName">Choose a Technique</div>
+    <div class="technique-desc" id="breathTechDesc">Each technique has unique inhale, hold, exhale, and rest timing</div>
+    <div class="cycle-count" id="breathCycleCount"></div>
+  </div>
+
+  <div class="breath-controls">
+    <button class="breath-btn primary" id="breathStartBtn" onclick="toggleBreathing()">Start</button>
+    <button class="breath-btn" id="breathResetBtn" onclick="resetBreathing()">Reset</button>
+  </div>
+
+  <div class="breath-techniques" id="breathChips">
+    <span class="breath-chip" data-tech="ujjayi">🌊 Ujjayi</span>
+    <span class="breath-chip" data-tech="nadi_shodhana">🌙 Nadi Shodhana</span>
+    <span class="breath-chip" data-tech="sudarshan_kriya">🌀 Sudarshan Kriya</span>
+    <span class="breath-chip" data-tech="isha_kriya">🧘 Isha Kriya</span>
+    <span class="breath-chip" data-tech="bhramari">🐝 Bhramari</span>
+    <span class="breath-chip" data-tech="kapalabhati">💎 Kapalabhati</span>
+    <span class="breath-chip" data-tech="bhastrika">🔥 Bhastrika</span>
+    <span class="breath-chip" data-tech="box">⬜ Box Breathing</span>
+    <span class="breath-chip" data-tech="relaxation_478">😴 4-7-8 Relaxation</span>
+    <span class="breath-chip" data-tech="so_hum">🕊️ So-Hum</span>
+    <span class="breath-chip" data-tech="simha_kriya">🦁 Simha Kriya</span>
+    <span class="breath-chip" data-tech="shambhavi_prep">👁️ Shambhavi Prep</span>
+    <span class="breath-chip" data-tech="sitali">❄️ Sitali</span>
+    <span class="breath-chip" data-tech="meditation">🧘 Meditation</span>
   </div>
 
   <div style="margin-top:24px;text-align:center;max-width:500px">
@@ -625,15 +742,298 @@ footer{
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════════
-// BREATHING ORB ANIMATION
+// BREATHING SIMULATOR ENGINE — 14 techniques with real timing patterns
 // ═══════════════════════════════════════════════════════════════════════════
-const orb = document.getElementById('breathOrb');
-const states = ['IN','IN','IN','IN','HOLD','HOLD','OUT','OUT','OUT','OUT','OUT','OUT'];
-let idx = 0;
-setInterval(() => {
-  orb.textContent = states[idx % states.length];
-  idx++;
-}, 700);
+
+const BREATH_TECHNIQUES = {
+  ujjayi: {
+    name: "Ujjayi Pranayama", icon: "🌊", master: "Hatha Yoga Pradipika",
+    desc: "Ocean breath — constrict throat gently, classical 1:4:2 ratio. Beginner: no retention. Feel the ocean sound in your throat.",
+    phases: [{label:"INHALE",dur:4},{label:"HOLD",dur:16},{label:"EXHALE",dur:8}],
+    cycles: 12, color:"rgba(229,161,0,0.8)"
+  },
+  nadi_shodhana: {
+    name: "Nadi Shodhana", icon: "🌙", master: "Classical / Isha Foundation",
+    desc: "Alternate nostril — Vishnu Mudra (thumb=right, ring=left). Classical 1:4:2 ratio. Balances Ida & Pingala nadis.",
+    phases: [{label:"LEFT IN",dur:4},{label:"HOLD",dur:16},{label:"RIGHT OUT",dur:8},{label:"RIGHT IN",dur:4},{label:"HOLD",dur:16},{label:"LEFT OUT",dur:8}],
+    cycles: 10, color:"rgba(99,102,241,0.8)"
+  },
+  sudarshan_kriya: {
+    name: "Sudarshan Kriya", icon: "🌀", master: "Sri Sri Ravi Shankar",
+    desc: "3-speed rhythmic cycle: Slow (8-10/min) → Medium (30/min) → Fast (rapid bursts). Exact counts are tradition-protected; this is a guided approximation.",
+    phases: [
+      {label:"SLOW IN",dur:3.5},{label:"SLOW OUT",dur:3.5},
+      {label:"SLOW IN",dur:3.5},{label:"SLOW OUT",dur:3.5},
+      {label:"SLOW IN",dur:3.5},{label:"SLOW OUT",dur:3.5},
+      {label:"MED IN",dur:1},{label:"MED OUT",dur:1},
+      {label:"MED IN",dur:1},{label:"MED OUT",dur:1},
+      {label:"MED IN",dur:1},{label:"MED OUT",dur:1},
+      {label:"MED IN",dur:1},{label:"MED OUT",dur:1},
+      {label:"FAST IN",dur:0.4},{label:"FAST OUT",dur:0.4},
+      {label:"FAST IN",dur:0.4},{label:"FAST OUT",dur:0.4},
+      {label:"FAST IN",dur:0.4},{label:"FAST OUT",dur:0.4},
+      {label:"FAST IN",dur:0.4},{label:"FAST OUT",dur:0.4},
+      {label:"FAST IN",dur:0.4},{label:"FAST OUT",dur:0.4},
+      {label:"REST",dur:5}
+    ],
+    cycles: 3, color:"rgba(14,165,233,0.8)"
+  },
+  isha_kriya: {
+    name: "Isha Kriya", icon: "🧘", master: "Sadhguru (Isha Foundation)",
+    desc: "Stage 1: Inhale 'I am not the body', Exhale 'I am not even the mind' for 7 min. Stage 2: Long 'Ahhh' exhale x7. Stage 3: Silent sitting 5 min.",
+    phases: [
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"NOT BODY (IN)",dur:5},{label:"NOT MIND (OUT)",dur:5},
+      {label:"DEEP IN",dur:4},{label:"AHHH OUT",dur:12},
+      {label:"SILENCE",dur:10}
+    ],
+    cycles: 1, color:"rgba(229,161,0,0.8)"
+  },
+  bhramari: {
+    name: "Bhramari", icon: "🐝", master: "Hatha Yoga Pradipika",
+    desc: "Humming bee breath — close ears with thumbs (Shanmukhi Mudra). Inhale 5s, hum exhale up to 9s. Classical ratio 1:3.",
+    phases: [{label:"INHALE",dur:5},{label:"HUM OUT",dur:9},{label:"REST",dur:3}],
+    cycles: 7, color:"rgba(168,85,247,0.8)"
+  },
+  kapalabhati: {
+    name: "Kapalabhati", icon: "💎", master: "Classical / Isha Foundation",
+    desc: "Skull-shining — sharp belly-pump exhales, passive inhales. 1 cycle/sec. After 10 pumps: deep inhale, hold, slow exhale.",
+    phases: [
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"PUMP OUT",dur:0.5},{label:"AUTO IN",dur:0.5},
+      {label:"DEEP IN",dur:3},{label:"HOLD",dur:3},{label:"SLOW OUT",dur:4}
+    ],
+    cycles: 3, color:"rgba(234,179,8,0.8)"
+  },
+  bhastrika: {
+    name: "Bhastrika", icon: "🔥", master: "Swami Sivananda / Classical",
+    desc: "Bellows breath — BOTH inhale & exhale forceful and equal (unlike Kapalabhati). 10 pumps then hold. Generates heat.",
+    phases: [
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"FORCE IN",dur:1},{label:"FORCE OUT",dur:1},
+      {label:"DEEP IN",dur:3},{label:"HOLD",dur:5},{label:"SLOW OUT",dur:4}
+    ],
+    cycles: 3, color:"rgba(239,68,68,0.8)"
+  },
+  box: {
+    name: "Box Breathing", icon: "⬜", master: "Navy SEAL (Mark Divine)",
+    desc: "Equal 4-4-4-4: inhale nose 4s, hold 4s, exhale mouth 4s, hold empty 4s. Total cycle 16s. Used before high-stress ops.",
+    phases: [{label:"INHALE",dur:4},{label:"HOLD FULL",dur:4},{label:"EXHALE",dur:4},{label:"HOLD EMPTY",dur:4}],
+    cycles: 10, color:"rgba(99,102,241,0.8)"
+  },
+  relaxation_478: {
+    name: "4-7-8 Relaxation", icon: "😴", master: "Dr. Andrew Weil",
+    desc: "Tongue tip on ridge behind upper teeth. Inhale nose 4s, hold 7s, exhale mouth with sigh 8s. Max 4 breaths first month, then 8.",
+    phases: [{label:"NOSE IN",dur:4},{label:"HOLD",dur:7},{label:"SIGH OUT",dur:8}],
+    cycles: 4, color:"rgba(14,165,233,0.8)"
+  },
+  so_hum: {
+    name: "So-Hum Meditation", icon: "🕊️", master: "Vedic / Art of Living",
+    desc: "'So' (I am That) on inhale, 'Hum' (I am) on exhale. 21,600 natural breaths/day carry this mantra. Visualize breath: spine base → crown → spine base.",
+    phases: [{label:"SO (IN)",dur:4},{label:"HUM (OUT)",dur:4}],
+    cycles: 30, color:"rgba(229,161,0,0.8)"
+  },
+  simha_kriya: {
+    name: "Simha Kriya", icon: "🦁", master: "Sadhguru (Isha Foundation)",
+    desc: "Inhale nose with tongue pressed hard on palate 4s. Open mouth wide, tongue out & down, roar 'HA' exhale 5s. Builds immunity.",
+    phases: [{label:"TONGUE UP IN",dur:4},{label:"ROAR HA OUT",dur:5},{label:"REST",dur:3}],
+    cycles: 10, color:"rgba(239,68,68,0.8)"
+  },
+  shambhavi_prep: {
+    name: "Shambhavi Prep", icon: "👁️", master: "Sadhguru (Inner Engineering)",
+    desc: "Prep for Shambhavi Mahamudra: AUM chant → Bhastrika-style fluttering → Kumbhaka with 3 Bandhas. Full practice requires initiation.",
+    phases: [
+      {label:"AUM CHANT",dur:5},{label:"AUM CHANT",dur:5},{label:"AUM CHANT",dur:5},
+      {label:"FLUTTER IN",dur:0.5},{label:"FLUTTER OUT",dur:0.5},
+      {label:"FLUTTER IN",dur:0.5},{label:"FLUTTER OUT",dur:0.5},
+      {label:"FLUTTER IN",dur:0.5},{label:"FLUTTER OUT",dur:0.5},
+      {label:"FLUTTER IN",dur:0.5},{label:"FLUTTER OUT",dur:0.5},
+      {label:"FLUTTER IN",dur:0.5},{label:"FLUTTER OUT",dur:0.5},
+      {label:"FLUTTER IN",dur:0.5},{label:"FLUTTER OUT",dur:0.5},
+      {label:"DEEP IN",dur:4},{label:"BANDHA HOLD",dur:15},{label:"SLOW OUT",dur:6},
+      {label:"SILENCE",dur:10}
+    ],
+    cycles: 1, color:"rgba(168,85,247,0.8)"
+  },
+  sitali: {
+    name: "Sitali", icon: "❄️", master: "Hatha Yoga Pradipika",
+    desc: "Cooling breath — curl tongue into straw, inhale cool air 5s. Close mouth, hold 7s. Exhale slowly through nose 6s. Reduces body heat & anger.",
+    phases: [{label:"COOL TONGUE IN",dur:5},{label:"HOLD",dur:7},{label:"NOSE OUT",dur:6},{label:"REST",dur:2}],
+    cycles: 10, color:"rgba(14,165,233,0.8)"
+  },
+  meditation: {
+    name: "Meditation Breath", icon: "🧘", master: "Universal (All Traditions)",
+    desc: "No control — simply observe natural breath. Target ~6 breaths/min. Notice cool air in, warm air out. When mind wanders, gently return.",
+    phases: [{label:"NATURAL IN",dur:5},{label:"NATURAL OUT",dur:6}],
+    cycles: 30, color:"rgba(99,102,241,0.8)"
+  }
+};
+
+// State
+let breathState = { running:false, techKey:null, phaseIdx:0, timer:null, countdown:0, cycles:0 };
+const breathOrb = document.getElementById('breathOrb');
+const breathRing1 = document.getElementById('breathRing1');
+const breathRing2 = document.getElementById('breathRing2');
+const breathTechName = document.getElementById('breathTechName');
+const breathTechDesc = document.getElementById('breathTechDesc');
+const breathCycleCount = document.getElementById('breathCycleCount');
+const breathStartBtn = document.getElementById('breathStartBtn');
+
+// Chip click handlers
+document.querySelectorAll('.breath-chip[data-tech]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const key = chip.dataset.tech;
+    if(breathState.running) stopBreathing();
+    document.querySelectorAll('.breath-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    breathState.techKey = key;
+    breathState.phaseIdx = 0;
+    breathState.cycles = 0;
+    const tech = BREATH_TECHNIQUES[key];
+    breathTechName.textContent = tech.icon + ' ' + tech.name;
+    breathTechDesc.textContent = tech.desc;
+    const cycleDur = tech.phases.reduce((s,p) => s + p.dur, 0);
+    const totalMin = ((cycleDur * tech.cycles) / 60).toFixed(1);
+    breathCycleCount.textContent = tech.master + ' — ' + tech.cycles + ' cycles (' + totalMin + ' min)';
+    breathOrb.querySelector('.phase-label').textContent = 'READY';
+    breathOrb.querySelector('.timer-label').textContent = 'press start';
+    setOrbSize(80, 0.2, 'rgba(229,161,0,0.8)');
+  });
+});
+
+function setOrbSize(size, glow, color) {
+  const c = color || 'rgba(229,161,0,0.8)';
+  breathOrb.style.width = size + 'px';
+  breathOrb.style.height = size + 'px';
+  breathOrb.style.boxShadow = '0 0 ' + (20 + glow*60) + 'px ' + c;
+  breathOrb.style.background = 'radial-gradient(circle at 40% 35%,' + c + ',' + c.replace('0.8','0.3') + ' 60%,transparent)';
+  const ringSize1 = size + 30;
+  const ringSize2 = size + 50;
+  breathRing1.style.width = ringSize1 + 'px';
+  breathRing1.style.height = ringSize1 + 'px';
+  breathRing1.style.opacity = 0.2 + glow * 0.4;
+  breathRing2.style.width = ringSize2 + 'px';
+  breathRing2.style.height = ringSize2 + 'px';
+  breathRing2.style.opacity = 0.15 + glow * 0.3;
+}
+
+function isInhalePhase(label) { return /IN|INHALE|SO|DEEP IN|COOL IN|FORCE IN|AUTO IN|SLOW IN|LEFT IN|RIGHT IN|MED IN|FAST IN/i.test(label); }
+function isHoldPhase(label) { return /HOLD|PAUSE|SILENCE/i.test(label); }
+
+function runPhase() {
+  if(!breathState.running || !breathState.techKey) return;
+  const tech = BREATH_TECHNIQUES[breathState.techKey];
+  const phase = tech.phases[breathState.phaseIdx];
+  const dur = phase.dur;
+  const label = phase.label;
+
+  breathOrb.querySelector('.phase-label').textContent = label;
+
+  // Determine orb size based on phase type
+  let targetSize, targetGlow;
+  if(isInhalePhase(label)) {
+    targetSize = 150; targetGlow = 0.8;
+  } else if(isHoldPhase(label)) {
+    targetSize = 140; targetGlow = 0.5;
+  } else {
+    targetSize = 80; targetGlow = 0.15;
+  }
+
+  // Animate transition
+  const transDur = Math.max(dur * 0.8, 0.3);
+  breathOrb.style.transition = 'width ' + transDur + 's ease-in-out, height ' + transDur + 's ease-in-out, box-shadow ' + transDur + 's ease-in-out, background ' + transDur + 's ease-in-out';
+  breathRing1.style.transition = 'width ' + transDur + 's ease-in-out, height ' + transDur + 's ease-in-out, opacity ' + transDur + 's ease-in-out';
+  breathRing2.style.transition = 'width ' + transDur + 's ease-in-out, height ' + transDur + 's ease-in-out, opacity ' + transDur + 's ease-in-out';
+  setOrbSize(targetSize, targetGlow, tech.color);
+
+  // Countdown timer
+  breathState.countdown = Math.ceil(dur);
+  breathOrb.querySelector('.timer-label').textContent = breathState.countdown + 's';
+  const countInterval = setInterval(() => {
+    breathState.countdown--;
+    if(breathState.countdown > 0) {
+      breathOrb.querySelector('.timer-label').textContent = breathState.countdown + 's';
+    } else {
+      clearInterval(countInterval);
+    }
+  }, 1000);
+
+  // Next phase
+  breathState.timer = setTimeout(() => {
+    clearInterval(countInterval);
+    breathState.phaseIdx++;
+    if(breathState.phaseIdx >= tech.phases.length) {
+      breathState.phaseIdx = 0;
+      breathState.cycles++;
+      const cDur = tech.phases.reduce((s,p) => s + p.dur, 0);
+      const elapsed = ((cDur * breathState.cycles) / 60).toFixed(1);
+      const total = ((cDur * tech.cycles) / 60).toFixed(1);
+      breathCycleCount.textContent = 'Cycle ' + breathState.cycles + '/' + tech.cycles + ' — ' + elapsed + '/' + total + ' min';
+    }
+    runPhase();
+  }, dur * 1000);
+}
+
+function toggleBreathing() {
+  if(!breathState.techKey) {
+    breathTechDesc.textContent = 'Please select a technique first!';
+    breathTechDesc.style.color = 'var(--accent)';
+    setTimeout(() => { breathTechDesc.style.color = ''; }, 2000);
+    return;
+  }
+  if(breathState.running) {
+    stopBreathing();
+  } else {
+    breathState.running = true;
+    breathState.phaseIdx = 0;
+    breathState.cycles = 0;
+    breathStartBtn.textContent = 'Pause';
+    breathStartBtn.classList.remove('primary');
+    runPhase();
+  }
+}
+
+function stopBreathing() {
+  breathState.running = false;
+  clearTimeout(breathState.timer);
+  breathStartBtn.textContent = 'Start';
+  breathStartBtn.classList.add('primary');
+  const tech = breathState.techKey ? BREATH_TECHNIQUES[breathState.techKey] : null;
+  breathOrb.querySelector('.phase-label').textContent = 'PAUSED';
+  breathOrb.querySelector('.timer-label').textContent = breathState.cycles ? breathState.cycles + ' cycles' : '';
+}
+
+function resetBreathing() {
+  stopBreathing();
+  breathState.techKey = null;
+  breathState.phaseIdx = 0;
+  breathState.cycles = 0;
+  document.querySelectorAll('.breath-chip').forEach(c => c.classList.remove('active'));
+  breathOrb.querySelector('.phase-label').textContent = 'OM';
+  breathOrb.querySelector('.timer-label').textContent = 'select below';
+  breathTechName.textContent = 'Choose a Technique';
+  breathTechDesc.textContent = 'Each technique has unique inhale, hold, exhale, and rest timing';
+  breathCycleCount.textContent = '';
+  setOrbSize(80, 0.2, 'rgba(229,161,0,0.8)');
+}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // GURU AI ENGINE v2 — Intent + Entity + Context + Persona Blending
@@ -1362,14 +1762,524 @@ chatInput.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKe
 document.getElementById("chatOverlay").addEventListener("click", e => { if (e.target.id === "chatOverlay") closeChat(); });
 document.getElementById("guruSelectorOverlay").addEventListener("click", e => { if (e.target.id === "guruSelectorOverlay") closeGuruSelector(); });
 
+// ═══════════════════════════════════════════════════════════════════════════
+// ASTROLOGY INTERACTIVE ENGINE
+// ═══════════════════════════════════════════════════════════════════════════
+
+const VEDIC_SIGNS = [
+  { num: 0, sign: "♈", name: "Aries", vedic: "Mesha", start: [4,14], end: [5,14] },
+  { num: 1, sign: "♉", name: "Taurus", vedic: "Vrishabha", start: [5,15], end: [6,14] },
+  { num: 2, sign: "♊", name: "Gemini", vedic: "Mithuna", start: [6,15], end: [7,16] },
+  { num: 3, sign: "♋", name: "Cancer", vedic: "Karka", start: [7,17], end: [8,16] },
+  { num: 4, sign: "♌", name: "Leo", vedic: "Simha", start: [8,17], end: [9,16] },
+  { num: 5, sign: "♍", name: "Virgo", vedic: "Kanya", start: [9,17], end: [10,16] },
+  { num: 6, sign: "♎", name: "Libra", vedic: "Tula", start: [10,17], end: [11,15] },
+  { num: 7, sign: "♏", name: "Scorpio", vedic: "Vrischika", start: [11,16], end: [12,15] },
+  { num: 8, sign: "♐", name: "Sagittarius", vedic: "Dhanu", start: [12,16], end: [1,13] },
+  { num: 9, sign: "♑", name: "Capricorn", vedic: "Makara", start: [1,14], end: [2,12] },
+  { num: 10, sign: "♒", name: "Aquarius", vedic: "Kumbha", start: [2,13], end: [3,14] },
+  { num: 11, sign: "♓", name: "Pisces", vedic: "Meena", start: [3,15], end: [4,13] }
+];
+
+const SIGN_MEANINGS = {
+  "Aries": "Energetic, bold, ambitious",
+  "Taurus": "Stable, sensual, grounded",
+  "Gemini": "Communicative, analytical, curious",
+  "Cancer": "Emotional, nurturing, protective",
+  "Leo": "Creative, confident, generous",
+  "Virgo": "Practical, detail-oriented, helpful",
+  "Libra": "Balanced, diplomatic, artistic",
+  "Scorpio": "Intense, transformative, mysterious",
+  "Sagittarius": "Optimistic, adventurous, philosophical",
+  "Capricorn": "Ambitious, disciplined, responsible",
+  "Aquarius": "Innovative, progressive, humanitarian",
+  "Pisces": "Intuitive, artistic, spiritual"
+};
+
+function getSunSign(month, day) {
+  for (let s of VEDIC_SIGNS) {
+    const [sm, sd] = s.start;
+    const [em, ed] = s.end;
+    if ((month === sm && day >= sd) || (month === em && day <= ed)) {
+      return s;
+    }
+  }
+  return VEDIC_SIGNS[0];
+}
+
+function getMoonSign(month, day) {
+  const daysPerSign = 2.25;
+  const refDate = new Date(2024, 0, 1); // Reference for Moon in Aries
+  const birthDate = new Date(2024, month - 1, day);
+  const daysDiff = Math.floor((birthDate - refDate) / (24 * 60 * 60 * 1000));
+  const signIndex = Math.floor((daysDiff / daysPerSign) % 12);
+  return VEDIC_SIGNS[signIndex];
+}
+
+function getAscendant(month, day, hour) {
+  const baseHour = 6; // sunrise
+  const hoursDiff = hour - baseHour;
+  const signShift = Math.floor(hoursDiff / 2);
+  const sunSign = getSunSign(month, day);
+  const ascIndex = (sunSign.num + signShift) % 12;
+  return VEDIC_SIGNS[ascIndex];
+}
+
+function generateAstroChart() {
+  const name = document.getElementById("astroName").value || "User";
+  const dob = document.getElementById("astroDOB").value;
+  const tob = document.getElementById("astroTOB").value;
+  const pob = document.getElementById("astroPOB").value;
+
+  if (!dob || !tob) {
+    alert("Please fill in Date of Birth and Time of Birth");
+    return;
+  }
+
+  const [y, m, d] = dob.split('-').map(Number);
+  const [h, min] = tob.split(':').map(Number);
+
+  const sunSign = getSunSign(m, d);
+  const moonSign = getMoonSign(m, d);
+  const ascSign = getAscendant(m, d, h);
+
+  renderAstroChart(ascSign, sunSign, moonSign, name, dob, pob);
+}
+
+function loadDemoChart() {
+  document.getElementById("astroName").value = "Hemant Thackeray";
+  document.getElementById("astroDOB").value = "1980-03-27";
+  document.getElementById("astroTOB").value = "11:45";
+  document.getElementById("astroPOB").value = "Kalyan, India";
+  generateAstroChart();
+}
+
+function renderAstroChart(ascSign, sunSign, moonSign, name, dob, pob) {
+  const signs = VEDIC_SIGNS.map(s => s.sign);
+  let html = "";
+
+  // Row 0: Pisces, Aries, Taurus, Gemini
+  html += `<div class="chart-cell"><div class="sign">${signs[11]}</div></div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[0]}</div></div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[1]}</div></div>`;
+  const asc0 = ascSign.num === 2 ? `asc` : '';
+  html += `<div class="chart-cell ${asc0}"><div class="sign">${signs[2]}</div>${asc0 ? '<span style="font-size:7px;color:var(--accent)">ASC</span>' : ''}</div>`;
+
+  // Row 1: Aquarius, center, center, Cancer
+  html += `<div class="chart-cell"><div class="sign">${signs[10]}</div></div>`;
+  html += `<div class="chart-center">🕉️</div>`;
+  html += `<div class="chart-center">🕉️</div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[3]}</div></div>`;
+
+  // Row 2: Capricorn, center, center, Leo
+  html += `<div class="chart-cell"><div class="sign">${signs[9]}</div></div>`;
+  html += `<div class="chart-center">🕉️</div>`;
+  html += `<div class="chart-center">🕉️</div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[4]}</div></div>`;
+
+  // Row 3: Sagittarius, Scorpio, Libra, Virgo
+  html += `<div class="chart-cell"><div class="sign">${signs[8]}</div></div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[7]}</div></div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[6]}</div></div>`;
+  html += `<div class="chart-cell"><div class="sign">${signs[5]}</div></div>`;
+
+  document.getElementById("astroChartGrid").innerHTML = html;
+  document.getElementById("astroSummaryContent").innerHTML = `
+    <div><strong style="color:var(--accent)">Ascendant (Rising Sign):</strong><br>${ascSign.sign} ${ascSign.name} · ${SIGN_MEANINGS[ascSign.name]}</div>
+    <div style="margin-top:8px"><strong style="color:var(--accent)">Moon Sign:</strong><br>${moonSign.sign} ${moonSign.name} · ${SIGN_MEANINGS[moonSign.name]}</div>
+    <div style="margin-top:8px"><strong style="color:var(--accent)">Sun Sign:</strong><br>${sunSign.sign} ${sunSign.name} · ${SIGN_MEANINGS[sunSign.name]}</div>
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--text3)"><strong>${name}</strong> · ${dob} · ${pob}</div>
+  `;
+  document.querySelector('.chart-label-text').textContent = `${name}'s Chart · ${dob.split('-')[2]}-${dob.split('-')[1]}-${dob.split('-')[0]}`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// VASTU INTERACTIVE ENGINE
+// ═══════════════════════════════════════════════════════════════════════════
+
+const VASTU_RULES = {
+  Kitchen: { SE: {score: 95, rating: "✅ IDEAL", why: "Agni (Fire God) rules SE. Cooking aligns perfectly with fire energy."}, NW: {score: 70, rating: "⚠️ CAUTION", why: "Northwest is Vayu (Air). Wind can affect cooking. Manageable."}, NE: {score: 15, rating: "❌ WORST", why: "NE is water element. Fire+Water = conflict. Creates health issues."} },
+  Bedroom: { SW: {score: 95, rating: "✅ IDEAL", why: "SW is Earth element. Heavy, stable. Perfect for rest and marriage."}, S: {score: 75, rating: "⚠️ CAUTION", why: "South is ok but can be hot. Good with proper ventilation."}, NE: {score: 20, rating: "❌ WORST", why: "Northeast for bedrooms weakens health and relationships."} },
+  Bathroom: { NW: {score: 90, rating: "✅ IDEAL", why: "Air flow handles moisture well. Prevents dampness issues."}, W: {score: 70, rating: "⚠️ CAUTION", why: "West water element works but less ideal than NW."}, NE: {score: 10, rating: "❌ WORST", why: "NE is sacred. Placing toilet here is highly inauspicious."} },
+  "Pooja Room": { NE: {score: 95, rating: "✅ IDEAL", why: "Northeast is sacred, ruled by Ishaan. Highest spiritual energy."}, E: {score: 80, rating: "⚠️ GOOD", why: "East faces sunrise. Excellent for meditation."}, SW: {score: 15, rating: "❌ BAD", why: "Southwest drains spiritual energy. Never place temple here."} },
+  "Living Room": { N: {score: 90, rating: "✅ IDEAL", why: "North (Kubera) brings prosperity and social harmony."}, E: {score: 85, rating: "✅ GOOD", why: "East brings positive energy and growth."}, SW: {score: 30, rating: "⚠️ AVOID", why: "Southwest creates heaviness and blocked energy."} },
+  Study: { NW: {score: 80, rating: "✅ GOOD", why: "Northwest aids focus and mental clarity. Vayu enhances intellect."}, NE: {score: 85, rating: "✅ IDEAL", why: "Northeast purifies mind. Best for learning and wisdom."}, SW: {score: 25, rating: "❌ BAD", why: "Southwest creates mental lethargy and lack of focus."} },
+  Dining: { W: {score: 90, rating: "✅ IDEAL", why: "West element (Varun) aids digestion and family bonding."}, N: {score: 70, rating: "⚠️ GOOD", why: "North is ok but less ideal than West."}, SW: {score: 30, rating: "❌ BAD", why: "Southwest creates heaviness in digestion."} },
+  Entrance: { N: {score: 90, rating: "✅ IDEAL", why: "North brings prosperity and good visitors."}, E: {score: 85, rating: "✅ GOOD", why: "East welcomes fresh positive energy."}, SW: {score: 20, rating: "❌ BAD", why: "Southwest entrance blocks prosperity flow."} },
+  Staircase: { SW: {score: 85, rating: "✅ IDEAL", why: "SW corner can hold heavy structures. Stairs need stability."}, S: {score: 75, rating: "⚠️ GOOD", why: "South is stable. Ok for stairs."}, NE: {score: 15, rating: "❌ BAD", why: "Stairs in NE disturb spiritual energy flow."} },
+  "Store Room": { SW: {score: 90, rating: "✅ IDEAL", why: "Southwest is heavy and grounding. Perfect for storage."}, S: {score: 75, rating: "⚠️ GOOD", why: "South works but less ideal."}, CENTER: {score: 10, rating: "❌ BAD", why: "Center should be open and light. Never block with storage."} },
+  "Well/Bore": { NE: {score: 95, rating: "✅ IDEAL", why: "Northeast (Ishaan) is sacred water place. Most auspicious."}, N: {score: 80, rating: "⚠️ GOOD", why: "North (Kubera) brings prosperity through water."}, SW: {score: 15, rating: "❌ BAD", why: "Southwest water creates financial loss."} },
+  "Septic Tank": { NW: {score: 85, rating: "✅ IDEAL", why: "Northwest handles waste safely. Vayu disperses negative energy."}, W: {score: 70, rating: "⚠️ GOOD", why: "West works but less ideal than NW."}, NE: {score: 5, rating: "❌ BAD", why: "NEVER place septic in NE. Destroys family health."} },
+  Garden: { N: {score: 85, rating: "✅ IDEAL", why: "North brings growth and prosperity. Trees thrive here."}, E: {score: 80, rating: "✅ GOOD", why: "East sunlight supports plant growth."}, S: {score: 50, rating: "⚠️ CAUTION", why: "South is ok but hot. Avoid big trees blocking sun."} },
+  Garage: { NW: {score: 85, rating: "✅ IDEAL", why: "Northwest stores vehicles safely. Air circulation prevents rust."}, SE: {score: 75, rating: "⚠️ GOOD", why: "Southeast ok but hotter. Vehicles heat up."}, NE: {score: 20, rating: "❌ BAD", why: "Northeast is sacred. Never put vehicles/machines here."} },
+  Balcony: { N: {score: 90, rating: "✅ IDEAL", why: "North balcony brings cool breeze and prosperity."}, E: {score: 85, rating: "✅ GOOD", why: "East balcony gets sunrise. Brings positive energy."}, SW: {score: 25, rating: "❌ BAD", why: "Southwest balcony blocks escape routes for energy."} },
+  Terrace: { "Highest NE": {score: 90, rating: "✅ IDEAL", why: "Terrace open to sky is good. NE corner gets sunrise."}, Open: {score: 80, rating: "✅ GOOD", why: "Keep terrace open and uncluttered."}, SW: {score: 50, rating: "⚠️ CAUTION", why: "SW can have highest point but less ideal than NE."} }
+};
+
+let selectedRoom = null;
+let selectedDirection = null;
+
+function setVastuDirection(dir) {
+  selectedDirection = dir;
+  document.querySelectorAll('.compass-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  updateVastuResult();
+}
+
+function updateVastuResult() {
+  selectedRoom = document.getElementById("vastuRoomType").value;
+
+  if (!selectedRoom || !selectedDirection) {
+    document.getElementById("vastuResultContainer").style.display = "none";
+    return;
+  }
+
+  const ruleSet = VASTU_RULES[selectedRoom];
+  if (!ruleSet || !ruleSet[selectedDirection]) {
+    document.getElementById("vastuResultContainer").style.display = "none";
+    return;
+  }
+
+  const result = ruleSet[selectedDirection];
+  const ratingClass = result.score >= 80 ? "good" : result.score >= 50 ? "caution" : "bad";
+
+  document.getElementById("vastuRatingDisplay").innerHTML = `
+    <div class="rating ${ratingClass}">${result.rating}</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:4px">Score: <strong style="color:var(--accent)">${result.score}/100</strong></div>
+  `;
+
+  document.getElementById("vastuScoreFill").style.width = `${result.score}%`;
+  document.getElementById("vastuScoreFill").style.background = result.score >= 80 ? "var(--pos)" : result.score >= 50 ? "var(--warn)" : "var(--neg)";
+
+  document.getElementById("vastuWhydisplay").innerHTML = `<strong>Why:</strong> ${result.why}`;
+
+  let remedy = "";
+  if (result.score < 80) {
+    const remedies = {
+      Kitchen: "Place a copper pyramid in kitchen corner. Keep Tulsi plant at entrance.",
+      Bedroom: "Hang a light wind chime. Place a crystal on NE side of room.",
+      Bathroom: "Install a window for ventilation. Place salt in corners.",
+      "Living Room": "Place a mirror on SW wall. Keep lights bright in SW.",
+      Study: "Add more light. Place a lamp in SW corner. Keep plants in E.",
+      Dining: "Brighten the space. Paint in warm colors. Use good lighting.",
+      Entrance: "Paint door in auspicious color. Place a Tulsi plant outside.",
+      Staircase: "Keep stairs well-lit. Paint in light colors. Avoid dark corners.",
+      "Store Room": "Organize items. Use bright lights. Clean regularly.",
+      "Well/Bore": "Plant trees around it. Create a sacred space nearby.",
+      "Septic Tank": "Plant flowers around it. Place sacred symbols nearby.",
+      Garden: "Add more green space. Plant in NE/E direction.",
+      Garage: "Use bright lights. Keep doors open when possible.",
+      Balcony: "Paint railings in bright colors. Add plants.",
+      Terrace: "Keep open and clear. Paint walls in light colors."
+    };
+    remedy = remedies[selectedRoom] || "Consult a Vastu expert for detailed remedies.";
+  }
+
+  document.getElementById("vastuRemedyDisplay").innerHTML = remedy ? `<strong>Remedy:</strong> ${remedy}` : "";
+  document.getElementById("vastuResultContainer").style.display = "block";
+}
+
 // ─── Init ───
 renderGrid();
+
+// Add layman text before chart
+document.querySelector('.astro-form').insertAdjacentHTML('afterbegin', '<p style="font-size:11px;color:var(--text3);margin-bottom:16px;font-style:italic">Your birth time determines your Ascendant (Rising Sign) — the most personal part of your chart. Even 2 hours difference changes everything!</p>');
 
 // Fade-up on scroll
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fade-up'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.feature-card,.stack-item').forEach(el => observer.observe(el));
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TTS VOICEOVER ENGINE — Browser Web Speech API
+// ═══════════════════════════════════════════════════════════════════════════
+
+const TTS = {
+  synth: window.speechSynthesis || null,
+  enabled: true,
+  speaking: false,
+  voicesReady: false,
+  voices: [],
+
+  // Guru voice profiles — pitch (0.1-2), rate (0.1-10), volume (0-1)
+  profiles: {
+    sadhguru:  { pitch: 0.8, rate: 0.85, volume: 1.0, lang: 'en-IN', prefer: ['Google हिन्दी','Rishi','Samantha','Daniel'] },
+    srisri:    { pitch: 1.1, rate: 0.8,  volume: 0.95, lang: 'en-IN', prefer: ['Google हिन्दी','Veena','Samantha','Karen'] },
+    brajesh:   { pitch: 0.9, rate: 0.9,  volume: 1.0, lang: 'en-IN', prefer: ['Google हिन्दी','Rishi','Alex','Daniel'] },
+    siddha:    { pitch: 0.7, rate: 0.75, volume: 0.9, lang: 'en-IN', prefer: ['Google हिन्दी','Rishi','Daniel','Alex'] },
+    narrator:  { pitch: 1.0, rate: 0.85, volume: 0.9, lang: 'en-US', prefer: ['Samantha','Google US English','Alex','Karen'] }
+  },
+
+  // Breathing technique → voice mapping
+  breathVoiceMap: {
+    isha_kriya: 'sadhguru', simha_kriya: 'sadhguru', shambhavi_prep: 'sadhguru',
+    sudarshan_kriya: 'srisri', so_hum: 'srisri',
+    ujjayi: 'narrator', nadi_shodhana: 'narrator', bhramari: 'narrator',
+    kapalabhati: 'narrator', bhastrika: 'narrator', box: 'narrator',
+    relaxation_478: 'narrator', sitali: 'narrator', meditation: 'narrator'
+  },
+
+  init() {
+    if (!this.synth) return;
+    const loadVoices = () => {
+      this.voices = this.synth.getVoices();
+      this.voicesReady = this.voices.length > 0;
+    };
+    loadVoices();
+    if (this.synth.onvoiceschanged !== undefined) {
+      this.synth.onvoiceschanged = loadVoices;
+    }
+    // iOS Safari workaround: voices load after user interaction
+    document.addEventListener('click', () => { if (!this.voicesReady) loadVoices(); }, { once: true });
+  },
+
+  getVoice(profileKey) {
+    const prof = this.profiles[profileKey] || this.profiles.narrator;
+    if (!this.voices.length) return null;
+    // Try preferred voices first
+    for (const pref of prof.prefer) {
+      const v = this.voices.find(v => v.name.includes(pref));
+      if (v) return v;
+    }
+    // Fallback: match language
+    const langMatch = this.voices.find(v => v.lang.startsWith(prof.lang.split('-')[0]));
+    if (langMatch) return langMatch;
+    // Last resort: first available
+    return this.voices[0] || null;
+  },
+
+  speak(text, profileKey, onEnd) {
+    if (!this.synth || !this.enabled || !text) { if (onEnd) onEnd(); return; }
+    this.synth.cancel(); // Stop any current speech
+    const prof = this.profiles[profileKey] || this.profiles.narrator;
+    const utt = new SpeechSynthesisUtterance(text);
+    const voice = this.getVoice(profileKey);
+    if (voice) utt.voice = voice;
+    utt.pitch = prof.pitch;
+    utt.rate = prof.rate;
+    utt.volume = prof.volume;
+    utt.lang = prof.lang;
+    this.speaking = true;
+    utt.onend = () => { this.speaking = false; if (onEnd) onEnd(); };
+    utt.onerror = () => { this.speaking = false; if (onEnd) onEnd(); };
+    this.synth.speak(utt);
+  },
+
+  stop() {
+    if (this.synth) { this.synth.cancel(); this.speaking = false; }
+  }
+};
+
+TTS.init();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BREATHING VOICEOVER — Guru-style guidance per phase
+// ═══════════════════════════════════════════════════════════════════════════
+
+const BREATH_GUIDANCE = {
+  ujjayi: {
+    'INHALE': ["Breathe in slowly through the nose... constrict the throat gently... feel the ocean sound","Draw the breath in deep... feel the warmth in your throat... ujjayi victorious breath"],
+    'HOLD': ["Hold the breath with awareness... feel prana filling every cell","Retain gently... no strain... let the energy settle within"],
+    'EXHALE': ["Release slowly through the throat... same ocean sound... let everything go","Exhale with control... feel the warmth leaving... surrender completely"]
+  },
+  nadi_shodhana: {
+    'LEFT IN': ["Close right nostril with thumb... breathe in through left... Ida nadi activates","Left nostril inhale... cooling breath... moon energy entering"],
+    'HOLD': ["Close both nostrils... hold with awareness... prana balancing","Retain the breath... feel the balance between left and right"],
+    'RIGHT OUT': ["Release right nostril... exhale right side... Pingala purifying","Right nostril exhale... warm energy releasing... sun channel clearing"],
+    'RIGHT IN': ["Keep left closed... inhale through right... Pingala nadi activates","Right nostril inhale... solar energy... warming breath entering"],
+    'LEFT OUT': ["Close right... exhale left... one full round complete","Left nostril exhale... cooling release... balance restored"]
+  },
+  sudarshan_kriya: {
+    'SLOW IN': ["Breathe in slowly... rhythm of nature... let the breath be long","Slow deep inhale... connect to the rhythm within"],
+    'SLOW OUT': ["Slow exhale... let everything settle... rhythm of the ocean","Release slowly... this is the rhythm of peace"],
+    'MED IN': ["Medium pace now... breath quickens... energy building","Faster inhale... feel the shift... prana increasing"],
+    'MED OUT': ["Medium exhale... steady rhythm... like the wind","Release at this pace... feel the energy moving"],
+    'FAST IN': ["Rapid breath now... fast and rhythmic... energy peaks","Quick inhale... rhythm of fire... transformation happening"],
+    'FAST OUT': ["Fast exhale... let go completely... rapid release","Quick release... fast and powerful... clearing everything"],
+    'REST': ["Rest now... feel the stillness after the storm... this is Sudarshan Kriya","Be still... the breath has done its work... rest in awareness"]
+  },
+  isha_kriya: {
+    'NOT BODY (IN)': ["Breathe in... I am not the body...","Inhale deeply... I am not the body..."],
+    'NOT MIND (OUT)': ["Breathe out... I am not even the mind...","Exhale slowly... I am not even the mind..."],
+    'DEEP IN': ["Take a deep breath in...","Inhale fully..."],
+    'AHHH OUT': ["Ahhhhhhhhh...","Exhale with the sound... Ahhhhh..."],
+    'SILENCE': ["Sit in silence... face slightly upturned... awareness at the third eye...","Rest in stillness... you are pure awareness..."]
+  },
+  bhramari: {
+    'INHALE': ["Breathe in through the nose... deep and full... close your ears with thumbs","Deep inhale... prepare for the hum... Shanmukhi Mudra"],
+    'HUM OUT': ["Hummmmm... like the black bee... feel it in your skull... hummmmm","Bhramari hum... mmmmm... vibration healing every cell"],
+    'REST': ["Rest... feel the vibration fading... silence after the hum","Pause... the healing continues in silence"]
+  },
+  kapalabhati: {
+    'PUMP OUT': ["Ha!","Pump!"],
+    'AUTO IN': ["",""],
+    'DEEP IN': ["Now breathe in deeply... fill completely","Deep inhale after the pumping... prana fills you"],
+    'HOLD': ["Hold... feel the energy... skull is shining","Retain... Kapalabhati means shining skull... feel the light"],
+    'SLOW OUT': ["Release slowly... observe the stillness within","Slow exhale... feel the clarity... the skull shines"]
+  },
+  bhastrika: {
+    'FORCE IN': ["In!","Breathe!"],
+    'FORCE OUT': ["Out!","Release!"],
+    'DEEP IN': ["Deep breath in now... full lungs","Inhale fully... gather the fire"],
+    'HOLD': ["Hold... feel the heat... Bhastrika builds inner fire","Retain with awareness... energy is blazing"],
+    'SLOW OUT': ["Release slowly... feel the warmth radiating","Slow exhale... the bellows rest... fire glows within"]
+  },
+  box: {
+    'INHALE': ["Inhale for four counts... steady and calm","Breathe in... one... two... three... four"],
+    'HOLD FULL': ["Hold... lungs full... four counts... stay calm","Retain... steady... equal in all sides of the box"],
+    'EXHALE': ["Exhale for four... controlled release","Breathe out... one... two... three... four"],
+    'HOLD EMPTY': ["Hold empty... four counts... stay present","Pause at the bottom... calm and centered"]
+  },
+  relaxation_478: {
+    'NOSE IN': ["Inhale through the nose... four counts... tongue on the ridge","Breathe in quietly... one... two... three... four"],
+    'HOLD': ["Hold your breath... seven counts... this is where the magic happens","Retain... the nervous system recalibrates... seven full counts"],
+    'SIGH OUT': ["Exhale through the mouth with a sigh... eight counts... let everything go","Whoosh... release it all... eight counts of surrender"]
+  },
+  so_hum: {
+    'SO (IN)': ["So... I am that... breathe in the universal mantra","So... feel the breath rise from the base of spine to the crown"],
+    'HUM (OUT)': ["Hum... I am... exhale the eternal vibration","Hum... the breath descends... crown to base... I am"]
+  },
+  simha_kriya: {
+    'TONGUE UP IN': ["Inhale through nose... press tongue hard against palate... feel the pressure","Deep breath in... tongue up firmly... building the lion's energy"],
+    'ROAR HA OUT': ["Open wide... tongue out... HAAA! Roar like a lion!","HAAA! Full roar... tongue out and down... release everything!"],
+    'REST': ["Rest... feel the power of the lion within","Pause... immunity strengthening... the lion rests"]
+  },
+  shambhavi_prep: {
+    'AUM CHANT': ["Aummmmm... feel the vibration through the entire body","Ommmmm... the primordial sound... every cell vibrates"],
+    'FLUTTER IN': ["In!","Flutter!"],
+    'FLUTTER OUT': ["Out!","Release!"],
+    'DEEP IN': ["Deep inhale... prepare for Kumbhaka","Breathe in fully... engage awareness"],
+    'BANDHA HOLD': ["Hold... engage Mula Bandha... Uddiyana... Jalandhara... three locks","Kumbhaka with all three bandhas... energy locked and rising"],
+    'SLOW OUT': ["Release the bandhas one by one... exhale slowly","Slowly release... Jalandhara first... then Uddiyana... then Mula"],
+    'SILENCE': ["Rest in meditation... the energy integrates... be still","Silence... Shambhavi opens the third eye... rest here"]
+  },
+  sitali: {
+    'COOL TONGUE IN': ["Curl the tongue... breathe in through the straw... feel cool air entering","Sitali inhale... cooling breath... the body temperature drops"],
+    'HOLD': ["Close the mouth... hold the cool breath within","Retain... the coolness spreads through your entire body"],
+    'NOSE OUT': ["Exhale slowly through the nose... the heat releases","Release through the nose... warm air out... coolness remains within"],
+    'REST': ["Rest... feel the cooling effect... anger dissolves... peace remains","Pause... Sitali brings inner peace and cooling"]
+  },
+  meditation: {
+    'NATURAL IN': ["Simply observe... the breath comes in on its own... no control","Notice the cool air at the nostrils... the chest expands... just watch"],
+    'NATURAL OUT': ["The breath leaves... naturally... warm air... just observe","Release... the belly softens... the breath knows its own rhythm"]
+  }
+};
+
+// Patch runPhase to add TTS voiceover
+const _originalRunPhase = runPhase;
+runPhase = function() {
+  if(!breathState.running || !breathState.techKey) return;
+  const tech = BREATH_TECHNIQUES[breathState.techKey];
+  const phase = tech.phases[breathState.phaseIdx];
+  const guidance = BREATH_GUIDANCE[breathState.techKey];
+  const voiceKey = TTS.breathVoiceMap[breathState.techKey] || 'narrator';
+
+  if(guidance && guidance[phase.label] && phase.dur >= 2) {
+    const lines = guidance[phase.label];
+    const line = lines[Math.floor(Math.random() * lines.length)];
+    if(line) TTS.speak(line, voiceKey);
+  }
+
+  _originalRunPhase();
+};
+
+// Patch stopBreathing to stop TTS
+const _originalStop = stopBreathing;
+stopBreathing = function() {
+  TTS.stop();
+  _originalStop();
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GURU CHATBOT TTS — Read responses aloud with distinct guru voices
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Guru ID → TTS profile mapping
+const GURU_TTS_MAP = {
+  brajesh: 'brajesh',
+  sadhguru: 'sadhguru',
+  srisri: 'srisri',
+  siddha: 'siddha'
+};
+
+// Patch addMsg to add speaker button and auto-read guru responses
+const _originalAddMsg = addMsg;
+addMsg = function(role, text, guru) {
+  _originalAddMsg(role, text, guru);
+
+  if (role === 'guru' && TTS.enabled) {
+    const el = document.getElementById("msgs");
+    const lastMsg = el.lastElementChild;
+    if (lastMsg) {
+      // Add speaker button
+      const speakerBtn = document.createElement('button');
+      speakerBtn.className = 'tts-speaker-btn';
+      speakerBtn.innerHTML = '🔊';
+      speakerBtn.title = 'Listen to response';
+      speakerBtn.style.cssText = 'position:absolute;top:6px;right:6px;background:none;border:none;cursor:pointer;font-size:16px;opacity:0.6;transition:opacity 0.2s;padding:4px;z-index:2';
+      speakerBtn.onmouseenter = () => speakerBtn.style.opacity = '1';
+      speakerBtn.onmouseleave = () => speakerBtn.style.opacity = '0.6';
+
+      const bbl = lastMsg.querySelector('.bbl');
+      if (bbl) {
+        bbl.style.position = 'relative';
+        bbl.appendChild(speakerBtn);
+      }
+
+      // Clean text for TTS (strip markdown-like formatting)
+      const cleanText = text
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/_([^_]+)_/g, '$1')
+        .replace(/[🪐🧘🙏✨🔮🌊🌙🌀🐝💎🔥⬜😴🕊️🦁👁️❄️📡☀️🎯🏠]/g, '')
+        .replace(/\n+/g, '. ')
+        .trim();
+
+      const guruVoice = GURU_TTS_MAP[conversationState.guru] || 'narrator';
+
+      // Click to play/stop
+      speakerBtn.addEventListener('click', () => {
+        if (TTS.speaking) {
+          TTS.stop();
+          speakerBtn.innerHTML = '🔊';
+        } else {
+          speakerBtn.innerHTML = '⏹️';
+          TTS.speak(cleanText, guruVoice, () => { speakerBtn.innerHTML = '🔊'; });
+        }
+      });
+
+      // Auto-read (speak automatically when guru responds)
+      setTimeout(() => {
+        if (TTS.enabled && !TTS.speaking) {
+          speakerBtn.innerHTML = '⏹️';
+          TTS.speak(cleanText, guruVoice, () => { speakerBtn.innerHTML = '🔊'; });
+        }
+      }, 200);
+    }
+  }
+};
+
+// Add mute/unmute toggle to chat UI
+(function addTTSToggle() {
+  const chatHeader = document.querySelector('#chatPanel') || document.querySelector('.guru-chat-header');
+  if (!chatHeader) return;
+  // Find the header area - add toggle near close button
+  const closeBtn = chatHeader.querySelector('button') || chatHeader.querySelector('[onclick*="close"]');
+  if (closeBtn && closeBtn.parentElement) {
+    const muteBtn = document.createElement('button');
+    muteBtn.id = 'ttsMuteBtn';
+    muteBtn.innerHTML = '🔊';
+    muteBtn.title = 'Toggle voice';
+    muteBtn.style.cssText = 'background:none;border:none;cursor:pointer;font-size:18px;padding:4px 8px;opacity:0.8;transition:opacity 0.2s';
+    muteBtn.onclick = () => {
+      TTS.enabled = !TTS.enabled;
+      if (!TTS.enabled) TTS.stop();
+      muteBtn.innerHTML = TTS.enabled ? '🔊' : '🔇';
+      muteBtn.title = TTS.enabled ? 'Mute voice' : 'Unmute voice';
+    };
+    closeBtn.parentElement.insertBefore(muteBtn, closeBtn);
+  }
+})();
 </script>
 </body>
 </html>
