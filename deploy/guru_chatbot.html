@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guru AI Chat — Silicon Siddhanta</title>
+<meta name="description" content="4-in-1 Vedic Guru AI Chatbot with real conversational intelligence. Brajesh Gautam, Sadhguru, Sri Sri, Siddha Sage.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b1120;--bg2:#131b2e;--bg3:#1a2340;--text:#eef2f7;--text2:#8b9cc0;--text3:#5a6b8a;--accent:#e5a100;--indigo:#6366f1;--cyan:#0ea5e9;--green:#22c55e;--border:#1e2a42;--radius:14px;--font:'Inter',system-ui,sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 40%,var(--bg) 100%)}
+
+.landing{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px}
+.landing h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;background:linear-gradient(135deg,var(--accent),var(--indigo),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.landing .sub{font-size:15px;color:var(--accent);font-weight:500;margin-bottom:8px;letter-spacing:1px}
+.landing p{font-size:17px;color:var(--text2);max-width:620px;line-height:1.7;margin-bottom:32px}
+.guru-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;max-width:1060px;width:100%;margin-bottom:36px}
+.guru-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:22px;cursor:pointer;transition:all .3s ease;text-align:left;position:relative;overflow:hidden}
+.guru-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.guru-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s}
+.guru-card:hover::before{opacity:1}
+.guru-card .top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.guru-card .emoji-wrap{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.guru-card h3{font-size:17px;font-weight:700}
+.guru-card .title{font-size:11px;margin-top:2px}
+.guru-card .tagline{font-size:12.5px;color:var(--text3);line-height:1.55;margin-bottom:10px}
+.guru-card .topics-row{display:flex;flex-wrap:wrap;gap:4px}
+.guru-card .topic-chip{font-size:10px;padding:3px 8px;border-radius:10px;white-space:nowrap}
+
+/* Chat */
+.chat-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.55);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:16px}
+.chat-overlay.open{display:flex}
+.chat-panel{width:100%;max-width:480px;height:min(720px,92vh);background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.6)}
+.chat-hdr{padding:12px 16px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.chat-hdr .av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;cursor:pointer;transition:transform .2s}
+.chat-hdr .av:hover{transform:scale(1.1)}
+.chat-hdr .info{flex:1}
+.chat-hdr .info h3{font-size:14px;font-weight:600}
+.chat-hdr .info .status{font-size:10px;display:flex;align-items:center;gap:4px}
+.chat-hdr .info .status .dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.chat-hdr .btns{display:flex;gap:6px}
+.chat-hdr .btns button{background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text2);cursor:pointer;padding:4px 10px;font-size:10px;font-family:var(--font);transition:all .2s}
+.chat-hdr .btns button:hover{border-color:var(--accent);color:var(--text)}
+.chat-hdr .close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;padding:0 4px;transition:color .2s}
+.chat-hdr .close:hover{color:var(--text)}
+
+/* Context banner */
+.ctx-banner{padding:8px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:10px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.ctx-banner .ctx-tag{padding:2px 7px;border-radius:8px;font-size:9px;font-weight:600}
+
+.msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.msgs::-webkit-scrollbar{width:4px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.msg{display:flex;max-width:88%}
+.msg.user{align-self:flex-end}
+.msg.guru{align-self:flex-start}
+.msg .bbl{padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.msg.guru .bbl{background:var(--bg3);border:1px solid var(--border)}
+.msg .bbl .bold{font-weight:600}
+.msg .bbl .dim{opacity:0.5;font-size:11px}
+.msg .bbl .quote-block{border-left:3px solid;padding-left:10px;margin:8px 0;font-style:italic;opacity:0.85}
+.msg .bbl .action-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.msg .bbl .action-chip{padding:4px 10px;border-radius:12px;font-size:11px;cursor:pointer;transition:all .2s;border:1px solid}
+.msg .bbl .action-chip:hover{filter:brightness(1.3)}
+.msg .time{font-size:8px;color:var(--text3);margin-top:3px;text-align:right}
+.typing-wrap{align-self:flex-start;display:flex;align-items:center;gap:8px}
+.typing-dots{display:flex;gap:4px;padding:10px 16px;border-radius:14px;background:var(--bg3);border:1px solid var(--border)}
+.typing-dots span{width:6px;height:6px;border-radius:50%;animation:blink 1.4s infinite both}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
+
+.quick-row{padding:8px 16px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--border)}
+.quick-row .qchip{padding:5px 11px;border-radius:14px;cursor:pointer;font-size:11px;transition:all .2s;border:1px solid}
+.quick-row .qchip:hover{filter:brightness(1.4)}
+
+.input-bar{padding:10px 12px;background:var(--bg2);border-top:1px solid var(--border);display:flex;gap:8px;align-items:center}
+.input-bar input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;transition:border-color .2s}
+.input-bar input:focus{border-color:var(--accent)}
+.input-bar input::placeholder{color:var(--text3)}
+.input-bar .send{width:40px;height:40px;border-radius:10px;border:none;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:all .2s;font-weight:700}
+.input-bar .send:disabled{opacity:0.3;cursor:default}
+
+.float-orb{position:fixed;bottom:24px;right:24px;z-index:90;cursor:pointer;text-align:center}
+.float-orb .orb{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--accent),var(--indigo));display:flex;align-items:center;justify-content:center;font-size:25px;border:2px solid rgba(229,161,0,0.25);box-shadow:0 0 20px rgba(229,161,0,0.3),0 4px 16px rgba(0,0,0,0.4);animation:orbP 3s ease-in-out infinite;transition:transform .2s}
+.float-orb .orb:hover{transform:scale(1.12)}
+.float-orb .lbl{font-size:9px;color:var(--text3);margin-top:4px;letter-spacing:.5px}
+@keyframes orbP{0%,100%{transform:scale(1);box-shadow:0 0 12px rgba(229,161,0,0.3)}50%{transform:scale(1.12);box-shadow:0 0 24px rgba(229,161,0,0.5)}}
+
+@media(max-width:600px){
+  .guru-grid{grid-template-columns:1fr;gap:10px}
+  .chat-panel{height:100%;max-height:100vh;border-radius:0}
+  .chat-overlay{padding:0}
+}
+</style>
+</head>
+<body>
+
+<section class="landing" id="landing">
+  <div class="sub">SILICON SIDDHANTA</div>
+  <h1>🙏 Guru AI Chat</h1>
+  <p>Four enlightened perspectives, real conversational intelligence. Each guru remembers context, understands intent, and responds in their authentic voice.</p>
+  <div class="guru-grid" id="guruGrid"></div>
+</section>
+
+<div class="chat-overlay" id="chatOverlay">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-hdr" id="chatHdr"></div>
+    <div class="ctx-banner" id="ctxBanner" style="display:none"></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="quick-row" id="quickRow"></div>
+    <div class="input-bar">
+      <input id="chatInput" placeholder="Ask a question..." autocomplete="off" />
+      <button class="send" id="sendBtn" onclick="handleSend()" disabled>↑</button>
+    </div>
+  </div>
+</div>
+
+<div class="float-orb" onclick="scrollToGrid()">
+  <div class="orb">🙏</div>
+  <div class="lbl">GURU AI</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// ██  GURU AI ENGINE v2 — Intent + Entity + Context + Persona Blending  ██
+// ═══════════════════════════════════════════════════════════════════════════
+
+// ─── INTENT TAXONOMY ───
+const INTENTS = {
+  LEARN:    { id:"LEARN",    label:"Seeking knowledge",     weight:1.0 },
+  PRACTICE: { id:"PRACTICE", label:"Wants practical steps",  weight:1.0 },
+  PERSONAL: { id:"PERSONAL", label:"Personal advice/reading", weight:1.2 },
+  COMPARE:  { id:"COMPARE",  label:"Comparing concepts",     weight:0.9 },
+  DEBATE:   { id:"DEBATE",   label:"Challenging/questioning", weight:0.8 },
+  COMFORT:  { id:"COMFORT",  label:"Seeking emotional support",weight:1.1 },
+  REMEDY:   { id:"REMEDY",   label:"Wants specific remedy",   weight:1.1 },
+  STORY:    { id:"STORY",    label:"Wants story/analogy",     weight:0.9 },
+  GREETING: { id:"GREETING", label:"Greeting/intro",          weight:0.5 },
+  META:     { id:"META",     label:"About the guru/system",   weight:0.6 },
+};
+
+// ─── ENTITY TYPES ───
+const ENTITY_PATTERNS = {
+  planet:    { patterns: ["sun","moon","mars","mercury","jupiter","venus","saturn","rahu","ketu","surya","chandra","mangal","budh","guru","shukra","shani"], type:"planet" },
+  chakra:    { patterns: ["muladhara","swadhisthana","manipura","anahata","vishuddha","ajna","sahasrara","root chakra","sacral","solar plexus","heart chakra","throat chakra","third eye","crown chakra","kundalini"], type:"chakra" },
+  technique: { patterns: ["shambhavi","surya kriya","isha kriya","simha kriya","sudarshan kriya","nadi shodhana","bhastrika","bhramari","ujjayi","kapalabhati","vasi yoga","so-hum","box breathing","4-7-8","pranayama","meditation","sahaj samadhi"], type:"technique" },
+  emotion:   { patterns: ["anxiety","stress","anger","fear","depression","sad","lonely","confused","lost","worried","overwhelmed","frustrated","heartbreak","grief","panic","insomnia","can't sleep","restless","nervous"], type:"emotion" },
+  lifeArea:  { patterns: ["career","job","money","wealth","marriage","relationship","love","health","children","education","business","property","travel","spiritual","family","father","mother","sibling"], type:"lifeArea" },
+  concept:   { patterns: ["karma","dharma","moksha","samsara","maya","prana","dasha","transit","sade sati","manglik","retrograde","combustion","exalted","debilitated","neecha bhanga","yoga","dosha","remedy","mantra","gemstone","fasting","daan","charity"], type:"concept" },
+  food:      { patterns: ["turmeric","neem","tulsi","honey","ghee","milk","ginger","pepper","ashwagandha","triphala","diet","food","eat","fast","vegetarian","sattvic","rajasic","tamasic","cooking","meal"], type:"food" },
+  herb:      { patterns: ["turmeric","neem","tulsi","ashwagandha","triphala","brahmi","shatavari","giloy","amla","haritaki","guduchi","moringa","black pepper","ginger","cardamom","cinnamon"], type:"herb" },
+  vastu:     { patterns: ["vastu","direction","north","south","east","west","northeast","southeast","southwest","northwest","bedroom","kitchen","toilet","entrance","temple room","pooja","mandala","pada","zone"], type:"vastu" },
+};
+
+// ─── INTENT DETECTION PATTERNS ───
+const INTENT_RULES = [
+  { intent:"GREETING", patterns: [/^(hi|hello|namaste|namaskar|pranam|hey|good\s*(morning|evening|afternoon)|vanakkam|jai\s*guru|howdy|greetings)/i] },
+  { intent:"META",     patterns: [/who\s*are\s*you|about\s*you|introduce|what\s*can\s*you|your\s*background|tell\s*me\s*about\s*yourself|your\s*experience/i] },
+  { intent:"PRACTICE", patterns: [/how\s*(do|can|should|to)\s*(i|we|one)|step|practice|technique|exercise|routine|daily|morning|start|begin|guide\s*me|teach\s*me|show\s*me|walk\s*me|what\s*should\s*i\s*do/i] },
+  { intent:"PERSONAL", patterns: [/\b(my|i'm|i am|i have|i feel|my chart|my life|my career|my marriage|my health|for me|in my case|my horoscope|my birth|my dasha|about me)\b/i] },
+  { intent:"REMEDY",   patterns: [/remed|cure|heal|fix|solve|help\s*with|what\s*to\s*do\s*(for|about)|mantra\s*for|gemstone\s*for|how\s*to\s*(overcome|deal|handle|manage|reduce|remove|stop)/i] },
+  { intent:"COMFORT",  patterns: [/worried|scared|anxious|depressed|sad|lonely|confused|lost|helpless|hopeless|suffering|pain|struggle|difficult time|going through|hard time|can't cope|overwhelmed/i] },
+  { intent:"COMPARE",  patterns: [/vs|versus|difference|compare|better|which\s*(is|one)|between|or\b.*\bor\b|similar|distinct/i] },
+  { intent:"DEBATE",   patterns: [/but\s*(what|how|why)|don't\s*(you|agree)|really|prove|evidence|scientific|how\s*can\s*you\s*say|that's\s*not|i\s*disagree|doesn't\s*make\s*sense|superstit/i] },
+  { intent:"STORY",    patterns: [/story|example|analogy|metaphor|explain\s*like|tell\s*me\s*a|illustrat|real\s*life|case\s*study|experience|anecdote/i] },
+  { intent:"LEARN",    patterns: [/what\s*(is|are|does|do)|explain|meaning|significance|why|tell\s*me\s*about|describe|define|concept|philosophy|teach|understand|knowledge|insight|elaborate/i] },
+];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GURU DATA — DEEP KNOWLEDGE GRAPH (not flat lists)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const GURUS = {
+brajesh: {
+  id:"brajesh",name:"Brajesh Gautam",title:"Vedic Astrologer & Consciousness Guide",
+  emoji:"🪐",color:"#e5a100",greeting:"नमस्कार",
+  tagline:"Consciousness-centered Jyotish — Cosmic WiFi",
+  voice:{
+    opener:["Suniye, ","Dekhiye, ","Yeh bahut important hai — ","Main aapko ek baat bataun — ","Samjhiye, "],
+    hindi:["Pehle bhoolo, phir seekho","Jab taiyari hogi, tab milega","Graha indicator hain, cause nahi","Cosmic WiFi se connect karo"],
+    closer:["Samjhe? 🙏","Yahi Jyotish ki shakti hai.","Consciousness badlo, reality badlegi.","Iss pe dhyaan do."],
+    style:"bilingual Hindi-English, tech analogies (WiFi/GPS/Alexa), direct, consciousness-centered, uses जी with respect"
+  },
+  graph:{
+    cosmicWifi:{
+      label:"Cosmic WiFi",icon:"📡",
+      core:"Universe = cosmic WiFi. Consciousness = device. Intention = password. Karma = bandwidth. Ajna Chakra = antenna.",
+      formula:"Mental Command (मानसिक आदेश) + Strong Intention (दृढ़ संकल्प) + Firm Conviction (दृढ़ विश्वास) + Complete Faith (पूर्ण श्रद्धा) = Connection",
+      depth:["Signal strength depends on your sadhana — meditation clears the antenna","Saturn & Ketu are gatekeepers — they test if you're ready for cosmic download","Moon is the receiver — disturbed Moon = static on the cosmic channel","The rishis were permanently connected — that's how they cognized the Vedas","Your chart shows your default bandwidth — but consciousness upgrade changes everything"],
+      practice:"Daily meditation to clear Ajna Chakra. Tratak (candle gazing) strengthens the antenna. Moon mantras improve reception.",
+      story:"Think of it like this — everyone has a smartphone (consciousness), but most people have it on airplane mode (ignorance). Jyotish shows you where the settings are. Sadhana turns off airplane mode."
+    },
+    planets:{
+      label:"Graha Teachings",icon:"☀️",
+      Sun:{core:"Atma — soul's divine identity. NOT ego (Western mistake). Dharma significator.",chakra:"Manipura + Ajna",remedy:"Surya Namaskar at sunrise, Aditya Hridaya Stotra, offer water (Arghya)",depth:"Sun in 10th = king. Sun in 12th = spiritual seeker. Weak Sun = soul's lesson is humility, not weakness."},
+      Moon:{core:"Manas — mind, emotions, causal body. MOST important for daily life. 95% of decisions from subconscious.",chakra:"Swadhisthana + Ajna",remedy:"Full moon meditation, serve mother, Chandra Kavach",depth:"Moon Sign > Sun Sign in Vedic. Full Moon = strong receiving. New Moon = strong sending. Moon-Ketu = past life spiritual impressions."},
+      Mars:{core:"Purusharth — fire of effort, courage, action. NOT malefic — the warrior within.",chakra:"Muladhara + Manipura",remedy:"Hanuman Chalisa Tuesdays, physical exercise, red lentils donation",depth:"Manglik Dosha 90% overhyped. Mars in 3rd = tremendous courage. Mars retrograde = internal battles, great for shadow work."},
+      Mercury:{core:"Buddhi — intelligence, communication. Prince of cosmic court. Adapts to companions.",chakra:"Vishuddha",remedy:"Vishnu Sahasranama Wednesdays, journaling, green vegetables to cows",depth:"Mercury + Jupiter = wise. Mercury + Rahu = cunning. Debilitated Mercury thinks in images/dreams, not spreadsheets."},
+      Jupiter:{core:"Guru — divine teacher, grace, expansion. Most benefic. Gives WISDOM to use money well.",chakra:"Swadhisthana + Sahasrara",remedy:"Serve your Guru, yellow donations, Guru Mantra Thursdays",depth:"5th/7th/9th aspects ALL benefic. Gaja Kesari = honor. Jupiter-Ketu = Ganesh Yoga (divine intuition). 16-year Mahadasha = golden expansion."},
+      Venus:{core:"Shukra — life force essence. Asura Guru, knows Sanjeevani (resurrection science). Heart Chakra.",chakra:"Anahata",remedy:"Worship Lakshmi Fridays, white donations, artistic expression",depth:"Venus exalted in Pisces = highest spiritual love. Venus-Rahu = obsessive desire. Venus-Ketu = spiritual love over physical."},
+      Saturn:{core:"Shani — BLIND judge (अंधा). Reads only karmic ledger. Delivers exactly what you deserve.",chakra:"Muladhara + Ajna",remedy:"Serve elderly/disabled, black sesame Saturdays, feed crows, patience as sadhana",depth:"Delays are preparations, not denials. Sade Sati = 7.5 year masterclass. Saturn retrograde = past-life debts fast-tracked. Saturn + discipline = your greatest ally."},
+      Rahu:{core:"Head without body — all desire, no grounding. Shadow planet. Amplifies everything it touches.",chakra:"Ajna (distortion mode)",remedy:"Durga Chalisa, donate to marginalized, avoid intoxicants, grounding practices",depth:"Rahu + good planet = very good. Rahu + bad = very bad. 18-year Mahadasha = roller coaster. Saturn's agent through shortcuts."},
+      Ketu:{core:"Body without head — past-life mastery, moksha karaka. Where Ketu sits = already mastered.",chakra:"Sahasrara + Ajna",remedy:"Meditation (Ketu's natural remedy), Ganesh Mantra, blanket donations",depth:"Ketu in 12th = strong moksha. Ketu-Jupiter (Ganesh Yoga) = spiritual genius. 7-year Mahadasha = awakening if prepared. Ketu frees, doesn't take."}
+    },
+    fortune:{
+      label:"Three Fortune Levels",icon:"🎯",
+      levels:[
+        {name:"Birth Fortune (जन्म से भाग्यशाली)",map:"Chart Promise",teaching:"Your starting hand. 9th house, Jupiter, Ascendant lord strength. Good hand doesn't guarantee good game."},
+        {name:"Karma Fortune (कर्म से भाग्यशाली)",map:"Dasha Activation",teaching:"What you EARN through effort. Right Dasha activates opportunities — but you must ACT."},
+        {name:"Prarabdh Fortune (प्रारब्ध से भाग्यशाली)",map:"Transit Trigger",teaching:"Destiny — karmic fruits that MUST manifest. Sade Sati, Jupiter over Ascendant. Here, surrender is wisest."}
+      ],
+      depth:"When all three align — Birth Promise + Dasha Activation + Transit Trigger — that's when the BIG results come. Teeno ka alignment = magic."
+    },
+    houses:{
+      label:"Bhava Teachings",icon:"🏠",
+      data:{1:"Tanu — your conscious identity, physical body, personality lens",2:"Dhana — wealth, family values, speech, food habits",3:"Sahaja — courage, willpower, siblings, communication",4:"Sukha — happiness, mother, home, inner peace",5:"Putra — children, creativity, past-life merit, romance",6:"Ripu — enemies, disease, debt — but strong 6th = you DEFEAT enemies",7:"Kalatra — spouse, partnerships, the 'other'",8:"Ayu — death/rebirth, hidden knowledge, occult, sudden events",9:"Bhagya — fortune, dharma, guru, father, higher wisdom, GRACE enters here",10:"Karma — career, status, the action you're meant to perform",11:"Labha — gains, networks, friends, desire fulfillment",12:"Vyaya — loss, liberation, foreign lands, moksha. What you lose here, you gain next life"}
+    },
+    retrograde:{
+      label:"Vakri (Retrograde)",icon:"🔄",
+      core:"Planet appears backward = optical illusion with REAL karmic significance. Like walking forward but looking backward — unfinished past-life business.",
+      vakSiddhi:"Retrograde planets have Vak Siddhi — speech manifestation power. Words have extra potency. Be careful!",
+      perPlanet:{Mars:"Warrior turns inward — fight inner demons, great for therapy",Mercury:"Communicator reviews — edit, revise, reconnect. Not bad luck, cosmic review",Jupiter:"Guru reflects — wisdom from within, past-life spiritual knowledge surfaces",Venus:"Lover reconsiders — past relationships resurface, values evolve",Saturn:"Karmic judge fast-tracks — debts that take years may resolve in months"}
+    },
+    chakras:{
+      label:"Chakra-Planet Map",icon:"🧘",
+      map:[
+        {chakra:"Muladhara (Root)",planets:"Saturn + Mars",element:"Earth",teaching:"Foundation. Weak = fear, instability, money worries"},
+        {chakra:"Swadhisthana (Sacral)",planets:"Jupiter + Moon",element:"Water",teaching:"Creativity, emotions, children. Jupiter expands, Moon flows"},
+        {chakra:"Manipura (Solar Plexus)",planets:"Sun + Mars",element:"Fire",teaching:"Power center. Agni — willpower, confidence, digestive fire"},
+        {chakra:"Anahata (Heart)",planets:"Venus + Moon",element:"Air",teaching:"Love — Venus = romantic, Moon = emotional. Open Anahata sees beauty everywhere"},
+        {chakra:"Vishuddha (Throat)",planets:"Mercury",element:"Ether",teaching:"Communication, truth. Blocked = can't express your truth"},
+        {chakra:"Ajna (Third Eye)",planets:"Saturn + Ketu + Moon",element:"Light",teaching:"Command center. Cosmic WiFi antenna. Saturn = discipline to see, Ketu = past-life sight, Moon = receives"},
+        {chakra:"Sahasrara (Crown)",planets:"Jupiter + Ketu",element:"Consciousness",teaching:"Divine connection. Jupiter = Guru's grace, Ketu = liberation. Open = connected to Brahman"}
+      ]
+    }
+  },
+  quotes:["Pehle bhoolo, phir seekho","Saturn andha hai — wo sirf karma ka hisaab dekhta hai","Cosmic WiFi sabke liye available hai — kitne log connect karte hain?","Chart padho toh consciousness padho — graha indicator hain, cause nahi","Sub-lord badla toh kahani badal gayi — yahi KP ki shakti hai","Remedy karo energy level pe — frequency shift karo, reality shift hogi","तीन भाग्य — जन्म का, कर्म का, प्रारब्ध का","Jab taiyari hogi, tab milega — Saturn ka promise hai yeh","Consciousness badlo, sab badal jayega","Jyotish mein problem science ki nahi — practitioner ki samajh ki hai"]
+},
+
+sadhguru: {
+  id:"sadhguru",name:"Sadhguru",title:"Yogi, Mystic & Isha Foundation Founder",
+  emoji:"🧘",color:"#6366f1",greeting:"Namaskaram",
+  tagline:"Inner Engineering — self-transformation through consciousness",
+  voice:{
+    opener:["See, the thing is... ","First and foremost — ","You know, the whole thing about... ","Let me put it this way — ","Now look, "],
+    challenge:["But have you actually tried it?","Don't believe me — experience it yourself","The problem is not what you think it is...","Most people confuse information with transformation"],
+    closer:["That's all there is to it.","Simple, isn't it? But not easy.","Now the question is — will you DO it?","Think about it. Or better yet — stop thinking and experience it."],
+    style:"witty, irreverent, Socratic questioning, challenges assumptions, metaphors, experiential not intellectual"
+  },
+  graph:{
+    innerEngineering:{
+      label:"Inner Engineering",icon:"🧘",
+      core:"You are not this body, not even this mind. You are the consciousness that perceives both.",
+      fiveBodies:["Annamaya Kosha (Physical/food body)","Pranamaya Kosha (Energy body)","Manomaya Kosha (Mental body)","Vijnanamaya Kosha (Wisdom/intuitive body)","Anandamaya Kosha (Bliss body)"],
+      depth:["Align physical, mental, energy bodies → ailments dissolve naturally","Your experience of life is 100% determined by how you are within, not what happens outside","Compulsive behavior is the only problem. Conscious response is the only solution","The instrument called human body — if you know how to use it, it's the most magnificent machine","Enlightenment is not an achievement — it's your natural state when you remove the obstacles"],
+      practice:"Shambhavi Mahamudra daily 21 minutes. Isha Kriya as starter. Angamardana for body mastery."
+    },
+    food:{
+      label:"Food & Body",icon:"🍃",
+      core:"Food shapes consciousness. Your body is a piece of earth — what you put in determines soil quality.",
+      rules:[
+        {rule:"Sattvic for clarity",detail:"Fresh fruits, vegetables, whole grains, nuts, ghee, raw honey, spices (turmeric, ginger, cumin)"},
+        {rule:"Never heat honey",detail:"Heated honey becomes toxic — molecular structure changes. Always consume raw"},
+        {rule:"1/4 stomach empty",detail:"Eat until 75% full. Minimal water during meals. Drink 1.5 hours after eating"},
+        {rule:"Neem + Turmeric morning",detail:"Small balls on empty stomach. Neem = pathogen killer, turmeric = alkalizer. Ancient Ayurvedic powerhouse"},
+        {rule:"Tamasic creates inertia",detail:"Meat, stale food, alcohol, heavy fermented → heaviness, dullness, unconsciousness"},
+        {rule:"Eat by hunger, not clock",detail:"Body has its own intelligence. Snacking destroys digestive fire. 2 meals sufficient for most"}
+      ],
+      depth:["If you eat joyfully and with gratitude, even simple food becomes transformative","Fasting occasionally heightens energy — body gets to clean instead of process","The moment food enters you, it becomes you. Be conscious of what you're becoming"]
+    },
+    space:{
+      label:"Sacred Space & Vastu",icon:"🏛️",
+      core:"Architecture is geometry. Geometry affects energy. Energy affects consciousness.",
+      dhyanalinga:{desc:"33ft high, 76ft diameter, 250,000 bricks, no pillars, no steel. Pure geometry holds it.",water:"Water drips from gold dome continuously — resonance induces meditative state",design:"Round because energy radiates in circles. Square creates dislocation. 5000-year design life"},
+      depth:["Sacred geometry creates subtle preparation for higher consciousness","Consecration: rituals + geometry = energetic imprints affecting all who enter","Ancient temples encode astronomical and energetic knowledge in every pillar","Home space: orientation, geometry, material choice affect family's wellbeing and consciousness"],
+      practice:"Keep northeast corner of home clean and open. Avoid sleeping with head to north. Create a dedicated meditation space."
+    },
+    breath:{
+      label:"Pranayama & Breath",icon:"💨",
+      core:"Breath is THE bridge between body and consciousness. Master breath → master life.",
+      techniques:{
+        ishaKriya:{name:"Isha Kriya",time:"12-15 min",desc:"Guided breath awareness meditation. Bridge between physical and non-physical. Beginner-friendly."},
+        simhaKriya:{name:"Simha Kriya (Lion Breath)",time:"5 min",desc:"Powerful energizer. Enhances lung capacity, boosts immunity, purifies."},
+        nadiShodhana:{name:"Nadi Shodhana",time:"6-7 min",desc:"Alternate nostril breathing. Thumb→right, ring→left. Cleanses channels, balances hemispheres."},
+        shambhaviPrep:{name:"Shambhavi Prep Breathing",time:"15 min",desc:"Controlled breathing before main Shambhavi Mahamudra practice."}
+      },
+      depth:["Most people use 30% lung capacity — quality of breath = quality of life","Breath count determines lifespan in yogic science — slow, conscious = longer life","Pranayama is NOT hyperventilation — controlled, conscious modulation of nervous system","If you can just watch your breath for 15 minutes without losing awareness, you've touched the divine"]
+    },
+    astrology:{
+      label:"Transcending Planets",icon:"⭐",
+      core:"Jyotish is valid — but if you're established within, NO planet decides your life.",
+      depth:["What's within has bigger influence than stars — consciousness supersedes planets","All incapable minds seek predictions. Capable minds make plans and fulfill them","On the spiritual path, planets can go wherever they want — YOU go where you want","Use astrology as information, not destiny. Personal will supersedes planetary programming when consciousness is elevated","Your body is earth — planets influence it. Your consciousness is beyond — that's the key distinction"],
+      practice:"Rather than reading horoscopes, do Shambhavi Mahamudra daily. Inner dimension becomes stronger than any planetary influence."
+    }
+  },
+  quotes:["The sign of intelligence is that you are constantly wondering. Idiots are always dead sure","No work is stressful. It is your inability to manage body, mind, and emotions","Nothing in life is a problem — everything is a possibility","Love is not something you do. Love is something you are","You cannot think your way to enlightenment. Only experience your way there","If all your energies focus in one direction, enlightenment is not far away","The problem with logic — always rational, never wise","If you resist change, you resist life itself","The most beautiful moments are expressing joy, not seeking it","Your body is not your enemy — it's your vehicle to liberation","What you are seeking is already within you","Yoga is not a religion. It's a technology. And it works"]
+},
+
+srisri: {
+  id:"srisri",name:"Sri Sri Ravi Shankar",title:"Spiritual Leader & Art of Living Founder",
+  emoji:"🙏",color:"#0ea5e9",greeting:"Jai Gurudev!",
+  tagline:"Art of Living — breath links body, mind, and spirit",
+  voice:{
+    opener:["Beautiful question! ","Hmm? ","You know what... ","Let me tell you something beautiful — ","Ah, this is wonderful — "],
+    warmth:["Hmm?","Just smile!","This too shall pass","Everything is changing — only the Self is permanent","You are much more than your thoughts"],
+    closer:["Hmm? 🙏","Just remember — this too shall pass!","Smile — it costs nothing but creates much!","Jai Gurudev! 🙏"],
+    style:"gentle, warm, soft humor, questions with 'Hmm?', wisdom sutras, 'This too shall pass', 'Smile!', encouraging"
+  },
+  graph:{
+    sudarshan:{
+      label:"Sudarshan Kriya & Breath",icon:"🌬️",
+      core:"For every emotion, there's a corresponding breath rhythm. Change the breath → change the emotion instantly.",
+      phases:[
+        {name:"Ujjayi (Victory Breath)",desc:"Slow, deep, ocean sound through constricted throat. Builds internal heat and focus. 5-10 min"},
+        {name:"Bhastrika (Bellows Breath)",desc:"Rapid forceful inhale-exhale through nostrils. 30 strokes × 3 rounds. Energizes, burns toxins"},
+        {name:"So-Hum Meditation",desc:"'So' on inhale (I am), 'Hum' on exhale (that). Rhythmic, mantra-based. 10-15 min"},
+        {name:"Sudarshan Kriya Cycles",desc:"Fast rhythmic breathing in three speeds — slow, medium, fast. The signature practice. 15-20 min"},
+        {name:"Deep Rest",desc:"Complete relaxation. Body absorbs the prana generated. 5-10 min"}
+      ],
+      science:"20 min/day Sudarshan Kriya: cortisol ↓56%, prolactin ↑50%, better immunity, reduced PTSD symptoms",
+      otherTechniques:{
+        nadiShodhana:{name:"Nadi Shodhana",desc:"Alternate nostril — balances left-right brain in 5 minutes. Calms instantly"},
+        bhramari:{name:"Bhramari",desc:"Humming bee — close ears, hum on exhale. Dissolves anxiety, aids sleep"},
+        ujjayi:{name:"Ujjayi",desc:"Ocean breath — slight throat constriction. Builds heat, focus, presence"}
+      }
+    },
+    meditation:{
+      label:"Meditation & Inner Peace",icon:"🧘‍♂️",
+      core:"Meditation is not concentration — it's de-concentration. Not doing, but letting go.",
+      practices:{
+        sahajSamadhi:{name:"Sahaj Samadhi",desc:"Effortless meditation with personal mantra. Not concentration — complete letting go."},
+        hollowEmpty:{name:"Hollow & Empty",desc:"Release all identifications. Become hollow like a flute — divine music plays through you."},
+        padmaSadhana:{name:"Padma Sadhana",desc:"Complete lotus practice: yoga + pranayama + meditation. 45-60 minutes."}
+      },
+      sevenLayers:["Body","Breath","Mind","Intellect","Memory","Ego","Self (Atman)"],
+      depth:["Mind goes past/future, prana is always present. Follow breath to NOW","Like mud settling in water — stop stirring, clarity emerges naturally","Thoughts are clouds, you are the sky. Don't fight clouds — watch them pass","Fourth state (Turiya): beyond waking, dreaming, sleep — pure witnessing awareness"]
+    },
+    emotions:{
+      label:"Emotions & Relationships",icon:"❤️",
+      core:"This too shall pass. Every emotion is temporary. Observe — don't become it.",
+      teachings:[
+        {topic:"Acceptance",wisdom:"What you resist persists. What you accept transforms. Acceptance is the FIRST step to change"},
+        {topic:"Relationships",wisdom:"Expect nothing, accept everything. Offer your best without demanding returns. Love is giving, not a deal"},
+        {topic:"Smile",wisdom:"Most powerful spiritual practice — changes brain chemistry in 17 seconds. Costs nothing, creates much"},
+        {topic:"Service (Seva)",wisdom:"Dissolves ego faster than any meditation. When you serve others, you forget the small self"},
+        {topic:"Gratitude",wisdom:"Antidote to ALL suffering. When you count blessings, problems shrink. Gratitude is the highest prayer"},
+        {topic:"Negative emotions",wisdom:"Thorns — don't hold tight. Let go with a deep breath. The emotion is not you — you are the witness"},
+        {topic:"Karma delivery",wisdom:"When someone upsets you, they're delivering your karma. Thank the postman — don't blame them for the letter"},
+        {topic:"Centering",wisdom:"Don't be a football of others' opinions. Be centered in yourself. Your peace is YOUR responsibility"}
+      ]
+    },
+    jyotish:{
+      label:"Jyotish & Navagraha",icon:"🌟",
+      core:"Jyotish is a mirror — shows patterns, not fate. Grace can change ANY indication.",
+      mantras:{Sun:"Om Surya Namaha — vitality, confidence",Moon:"Om Chandraya Namaha — emotional peace",Mars:"Om Mangalaya Namaha — courage, energy",Mercury:"Om Budhaya Namaha — intelligence, communication",Jupiter:"Om Gurave Namaha — wisdom, prosperity",Venus:"Om Shukraya Namaha — love, beauty",Saturn:"Om Shanaishcharaya Namaha — patience, discipline",Rahu:"Om Rahave Namaha — clarity through confusion",Ketu:"Om Ketave Namaha — spiritual liberation"},
+      depth:["Regular pranayama makes you independent of planetary influences — breath is master key","Life = destiny + free will. Rain is destiny; getting wet is free will","Grace dissolves even strongest karmic patterns — devotion opens the channel","Planets indicate tendencies, not certainties. Spiritual practice elevates beyond all charts"]
+    },
+    food:{
+      label:"Sattvic Living",icon:"🍎",
+      core:"Eat Sattvic — food that brings lightness, clarity, and peace. Cook with love.",
+      depth:["Ayurvedic combining: avoid milk+sour fruit, fish+dairy, equal honey+ghee","Fast on Ekadashi (11th lunar day) — body naturally detoxifies","Cook's state of mind enters the food — cook with awareness and love","Turmeric milk at night, warm lemon water in morning — simple but profound","Eat when hungry, not by clock. Chew thoroughly — digestion begins in mouth","Vegetarian diet naturally elevates prana — heavy food dulls meditation"]
+    }
+  },
+  quotes:["This too shall pass — Hmm? Just smile and move on!","When you serve, ego dissolves. When ego dissolves, divine shines through","Meditation is not concentration — it's de-concentration. Let go, let go, let go","Your breath is your most faithful companion — with you from birth to death","A smile costs nothing but creates much","Don't be a football of others' opinions — be centered","Knowledge is burden when it doesn't transform. Wisdom liberates","In true love there's no heartbreak — only broken demands and expectations","Life = destiny + free will. Rain is destiny; getting wet is free will","The purpose of life: expand happiness, reduce suffering — yours and others'"]
+},
+
+siddha: {
+  id:"siddha",name:"Siddha Sage",title:"Voice of the 18 Siddhars — Tamil Mystic Tradition",
+  emoji:"⚗️",color:"#22c55e",greeting:"வணக்கம் (Vanakkam)",
+  tagline:"Kayakalpa — immortal body, liberated consciousness",
+  voice:{
+    opener:["The ancient ones speak through silence, but for you I shall use words... ","Listen carefully, seeker — ","What you call impossible, we call Tuesday... ","In the alchemist's laboratory of the body... ","The Siddhars left maps, but few can read them... "],
+    cryptic:["The answer is the question itself","What dissolves is already free","The poison is the cure at the right dose","Count your breaths — they are counting you"],
+    closer:["The path is breath. The destination is breath. There is only breath.","Ponder this. The answer will come when you stop looking.","The Siddhars watch. Are you ready?","🔥 Transform or remain transformed upon."],
+    style:"cryptic, poetic, paradoxical, riddle-loving, alchemy metaphors, ancient Tamil wisdom, speaks in third person sometimes"
+  },
+  graph:{
+    alchemy:{
+      label:"Alchemy & Kayakalpa",icon:"⚗️",
+      core:"Kayakalpa: perfect the body so consciousness has unlimited time. The body is a laboratory — every cell contains the blueprint of immortality.",
+      siddhars:{Agastya:"Father of Siddhars. Tamil grammar, herbal medicine, Nadi Jyotish",Thirumoolar:"Thirumandiram (3000 verses). Lived 3000 years. Vasi Yoga master",Bogar:"Chinese alchemy + Tamil tradition. Created Palani Murugan Navabashanam idol",Korakkar:"Herbal medicine master. Kayakalpa specialist",Patanjali:"Yoga Sutras codifier. Grammar (Mahabhashya). Medicine"},
+      depth:["Three categories: Thavaram (plant), Thathu (mineral), Jeevam (animal) medicine","Mercury (Rasa) = seed of Shiva. 18 purification processes → elixir of immortality","Death is voluntary amnesia — Siddhars proved the body can be maintained indefinitely","Navabashanam: 9 poisonous minerals alchemically transformed into divine healing","Rasavadam = transform base metals AND base consciousness into gold simultaneously","Jeeva Samadhi: conscious burial while alive, maintaining prana flow indefinitely"]
+    },
+    vasiYoga:{
+      label:"Vasi Yoga & Breath",icon:"💨",
+      core:"Supreme breath science. Breath = vehicle for kundalini. Reduce breath rate from 15/min to 1/min = multiply your years.",
+      stages:["Stage 1: Awareness — count breaths, observe natural rhythm","Stage 2: Regulation — 4 counts inhale, 8 counts hold, 8 counts exhale (golden ratio)","Stage 3: Retention — Kumbhaka mastery, hold breath for extended periods","Stage 4: Direction — guide prana to specific chakras through intention","Stage 5: Dissolution — breath stops voluntarily, consciousness expands infinitely"],
+      depth:["Thirumoolar: 'Where breath goes, mind follows. Control breath = control everything'","When breath moves through Sushumna (central channel), time stops — Siddha samadhi","Left nostril (Ida) = Moon/cooling. Right (Pingala) = Sun/heating. Balance = transcendence","Kapalabhati + Bhastrika = fire purifications — burning karma through breath","One who knows breath count knows lifespan. One who controls breath count controls lifespan"]
+    },
+    herbs:{
+      label:"Siddha Medicine",icon:"🌿",
+      core:"The garden grows poison and medicine side by side. Wisdom is knowing which is which, and at what dose.",
+      pharmacopoeia:{
+        Turmeric:{tamil:"Manjal",use:"Anti-inflammatory, liver cleanser, blood purifier",siddha:"Agastya's primary longevity herb. Take with black pepper for 2000% absorption"},
+        Neem:{tamil:"Vembu",use:"Blood purifier, anti-parasitic, skin healer",siddha:"'The village pharmacy'. 3 neem leaves + turmeric on empty stomach"},
+        Tulsi:{tamil:"Thulasi",use:"Adaptogen, respiratory healer, radiation protector",siddha:"Sacred to Vishnu. Protects home energy field. Immune modulator"},
+        BlackPepper:{tamil:"Milagu",use:"Bioavailability enhancer, Agni activator",siddha:"Makes ALL other herbs 2000% more effective. The catalyst of Siddha medicine"},
+        Ashwagandha:{tamil:"Amukkura",use:"Adaptogen, stress neutralizer, reproductive tonic",siddha:"'Strength of ten horses'. Siddha rejuvenation staple"},
+        Triphala:{tamil:"Triphala",use:"Haritaki + Bibhitaki + Amla",siddha:"Balances all three doshas simultaneously. Daily detox formula"},
+        Ginger:{tamil:"Inji",use:"Digestive fire kindler, circulation booster",siddha:"Fresh before meals activates metabolism. Foundation of digestive health"}
+      },
+      pulseReading:"Naadi Paritchai: reading 7 layers of pulse reveals past, present, future disease. The Siddha's X-ray — no machine needed."
+    },
+    temples:{
+      label:"Temple Science & Nadi",icon:"🛕",
+      core:"Every temple is a hospital. Every mantra is medicine. Every puja is surgery of the soul.",
+      depth:["Mamuni Mayan's Aintiram: Tamil text that ORIGINATED Vastu Shastra — predates all North Indian versions","Temple Sthapati encodes astronomical cycles in stone — every pillar is a cosmic calculator","Chidambaram = Akasha (space) temple. Empty sanctum = formless consciousness. Secret is what's NOT there","Palani = Bogar's alchemical masterpiece. Navabashanam idol heals through mineral radiation","Every gopuram (tower) is a yantra concentrating cosmic energy into sanctum","Nadi Jyotish: palm leaves where Agastya wrote YOUR destiny thousands of years ago in Tamil-encoded verses","Temple tanks: water structured by mantric vibration + mineral composition — healing water, not just bathing","Siddhars chose south-facing as power declaration — they conquered Yama (death god)"],
+      varma:"108 Varma points: vital points that heal or kill with touch. Varma Kalai = martial art + healing unified. One who knows the 108 knows the lock; one who knows breath knows the key."
+    },
+    wisdom:{
+      label:"Siddha Paradox",icon:"🔥",
+      core:"நான் இல்லை, நீ இல்லை — 'I am not, you are not.' When both dissolve, what remains is Truth.",
+      teachings:["The poison becomes medicine, medicine becomes poison — dosage determines destiny","Time is spiral, not linear — Siddhars discovered this 5000 years before physics confirmed","72,000 nadis + 108 Varma points = complete map of human energy","The alchemist who cannot transform himself has learned nothing about mercury","Death knocked on my door. I told death — come back later, I am busy becoming immortal","What Siddhar calls alchemy, scientist calls chemistry. Siddhar was 5000 years early","The ultimate Siddhi is Mahasiddhi — permanent undying consciousness while keeping the body"]
+    }
+  },
+  quotes:["உடம்பார் அழியின் உயிரார் அழிவர் — body perishes, soul loses vehicle","The poison and medicine grow in the same garden","I counted my breaths and found my years. I slowed my breaths and multiplied my years","Death knocked on my door — I told death, come back later, I am busy becoming immortal","Every temple is a hospital. Every mantra is medicine. Every puja is surgery of the soul","The Siddhar walks south — he conquered the Lord of Death","One who knows 108 Varma points knows the lock. One who knows breath knows the key","Thirumoolar lived 3000 years — body became temple, breath became priest","What Siddhar calls alchemy, scientist calls chemistry. 5000 years early","The alchemist who cannot transform himself has learned nothing about mercury","நான் இல்லை, நீ இல்லை — when both dissolve, Truth remains","Count your breaths — they are counting you"]
+}
+};
+
+// ─── HEMANT'S CHART (for personalized readings) ───
+const HEMANT = {
+  name:"Hemant",dob:"27/03/1980",tob:"11:45 AM",place:"Kalyan, Maharashtra",
+  ascendant:"Gemini",moonSign:"Cancer",sunSign:"Pisces",nakshatra:"Ashlesha",pada:3,
+  currentDasha:"Moon-Ketu",
+  planets:{
+    Sun:{sign:"Pisces",house:10,nak:"Uttara Bhadrapada",note:"Spiritual leadership in career"},
+    Moon:{sign:"Cancer",house:2,nak:"Ashlesha",note:"Own sign — powerful emotional intelligence"},
+    Mars:{sign:"Leo",house:3,nak:"Uttara Phalguni",note:"Royal courage, competitive fire"},
+    Mercury:{sign:"Pisces",house:10,nak:"Revati",note:"Debilitated but Neecha Bhanga with Sun"},
+    Jupiter:{sign:"Leo",house:3,nak:"Purva Phalguni",note:"Wisdom-backed courage, 7/9/11 aspect"},
+    Venus:{sign:"Aquarius",house:9,nak:"Shatabhisha",note:"Fortune through innovation & healing"},
+    Saturn:{sign:"Leo",house:3,nak:"Magha",note:"Retrograde — past-life authority karma"},
+    Rahu:{sign:"Leo",house:3,nak:"Purva Phalguni",note:"Amplified ambition in courage house"},
+    Ketu:{sign:"Aquarius",house:9,nak:"Purva Bhadrapada",note:"Past-life spiritual mastery, fortune detachment"}
+  },
+  keyYogas:["Gaja Kesari (Jupiter in kendra from Moon)","Neecha Bhanga (Mercury debilitation cancelled)","Vipareeta Raja (challenges become power)"],
+  reading:"Moon in own sign Cancer in 2nd = strong mind, family wealth, emotional intelligence. Ashlesha nakshatra = serpentine wisdom, healing touch. Moon-Ketu Dasha = spiritual wealth phase, torn between worldly and spiritual. 3rd house stellium (Mars+Jupiter+Saturn+Rahu in Leo) = tremendous courage, creative fire, but need to channel energy constructively."
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AI ENGINE — Intent Detection + Entity Extraction + Context-Aware Response
+// ═══════════════════════════════════════════════════════════════════════════
+
+const conversationState = {
+  guru: null,
+  history: [],
+  entities: {},        // accumulated entities across conversation
+  lastIntent: null,
+  lastTopic: null,
+  turnCount: 0,
+  mood: "neutral",     // neutral, seeking, distressed, curious, challenging
+  mentionedPlanets: new Set(),
+  mentionedTopics: new Set(),
+  askedAboutChart: false,
+  deepDiveCount: 0,
+};
+
+function detectIntent(msg) {
+  const lower = msg.toLowerCase().trim();
+  let best = { intent: "LEARN", score: 0 };
+
+  for (const rule of INTENT_RULES) {
+    for (const pat of rule.patterns) {
+      if (pat.test(lower)) {
+        const score = INTENTS[rule.intent].weight;
+        if (score > best.score || (score === best.score && rule.intent !== "LEARN")) {
+          best = { intent: rule.intent, score };
+        }
+      }
+    }
+  }
+
+  // Context boost — if user has been in COMFORT mood, stay there
+  if (conversationState.mood === "distressed" && best.intent === "LEARN") {
+    best.intent = "COMFORT";
+  }
+
+  return best.intent;
+}
+
+function extractEntities(msg) {
+  const lower = msg.toLowerCase();
+  const found = {};
+
+  for (const [cat, {patterns, type}] of Object.entries(ENTITY_PATTERNS)) {
+    const matches = [];
+    for (const p of patterns) {
+      if (lower.includes(p)) matches.push(p);
+    }
+    if (matches.length > 0) found[type] = matches;
+  }
+
+  return found;
+}
+
+function findGraphNodes(guruId, msg, entities) {
+  const guru = GURUS[guruId];
+  const lower = msg.toLowerCase();
+  const results = [];
+
+  function scoreText(text) {
+    if (!text) return 0;
+    const tl = (typeof text === "string" ? text : JSON.stringify(text)).toLowerCase();
+    let score = 0;
+    const words = lower.split(/\s+/).filter(w => w.length > 2);
+    words.forEach(w => { if (tl.includes(w)) score += 1; });
+    // Entity bonus
+    Object.values(entities).flat().forEach(e => { if (tl.includes(e)) score += 3; });
+    return score;
+  }
+
+  // Deep search through graph
+  function walkGraph(obj, path, depth) {
+    if (depth > 4) return;
+    if (typeof obj === "string") {
+      const s = scoreText(obj);
+      if (s > 0) results.push({ path, text: obj, score: s, depth });
+    } else if (Array.isArray(obj)) {
+      obj.forEach((item, i) => walkGraph(item, path + `[${i}]`, depth + 1));
+    } else if (obj && typeof obj === "object") {
+      for (const [k, v] of Object.entries(obj)) {
+        if (k === "label" || k === "icon" || k === "id" || k === "color" || k === "emoji") continue;
+        walkGraph(v, path ? `${path}.${k}` : k, depth + 1);
+      }
+    }
+  }
+
+  walkGraph(guru.graph, "", 0);
+  results.sort((a, b) => b.score - a.score);
+  return results;
+}
+
+// ─── RESPONSE COMPOSER ───
+function composeResponse(guruId, message) {
+  const guru = GURUS[guruId];
+  const state = conversationState;
+  state.turnCount++;
+
+  const intent = detectIntent(message);
+  const entities = extractEntities(message);
+  state.lastIntent = intent;
+
+  // Track entities
+  if (entities.planet) entities.planet.forEach(p => state.mentionedPlanets.add(p));
+  Object.entries(entities).forEach(([k, v]) => state.mentionedTopics.add(k));
+  if (entities.emotion) state.mood = "distressed";
+  if (intent === "DEBATE") state.mood = "challenging";
+  if (intent === "PERSONAL") state.askedAboutChart = true;
+
+  // ─── GREETING ───
+  if (intent === "GREETING") {
+    const q = pickRandom(guru.quotes);
+    const topics = Object.values(guru.graph).map(n => `${n.icon||"📌"} ${n.label||""}`).filter(Boolean).slice(0, 5).join("\n");
+    return `${guru.greeting}! 🙏\n\nI am ${guru.name} — ${guru.title}.\n\n${guru.tagline}\n\nI can guide you on:\n${topics}\n\nAsk me anything — or tell me what's on your mind.\n\n✨ _"${q}"_`;
+  }
+
+  // ─── META ───
+  if (intent === "META") {
+    const topicList = Object.values(guru.graph).map(n => `${n.icon||"📌"} **${n.label||""}**`).filter(Boolean).join("\n");
+    return `${pickRandom(guru.voice.opener)}I am ${guru.name} — ${guru.title}.\n\n${guru.tagline}\n\nMy approach: _${guru.voice.style}_\n\nI can go deep on:\n${topicList}\n\nI remember our conversation context, understand what you really mean, and respond in my authentic voice. Ask me anything — the more specific, the deeper I go. ${pickRandom(guru.voice.closer)}`;
+  }
+
+  // Find relevant knowledge from graph
+  const nodes = findGraphNodes(guruId, message, entities);
+  const topNodes = nodes.slice(0, 8);
+
+  // ─── COMFORT (emotional support) ───
+  if (intent === "COMFORT") {
+    return buildComfortResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── PERSONAL (chart reading) ───
+  if (intent === "PERSONAL" && guruId === "brajesh") {
+    return buildPersonalResponse(guruId, message, entities, topNodes);
+  }
+  if (intent === "PERSONAL" && guruId !== "brajesh") {
+    return buildPersonalNonAstroResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── PRACTICE (how-to) ───
+  if (intent === "PRACTICE") {
+    return buildPracticeResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── REMEDY ───
+  if (intent === "REMEDY") {
+    return buildRemedyResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── DEBATE (challenge) ───
+  if (intent === "DEBATE") {
+    return buildDebateResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── COMPARE ───
+  if (intent === "COMPARE") {
+    return buildCompareResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── STORY ───
+  if (intent === "STORY") {
+    return buildStoryResponse(guruId, message, entities, topNodes);
+  }
+
+  // ─── LEARN (default) ───
+  return buildLearnResponse(guruId, message, entities, topNodes);
+}
+
+// ─── RESPONSE BUILDERS ───
+
+function buildLearnResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const opener = pickRandom(g.voice.opener);
+  let body = "";
+
+  if (nodes.length > 0) {
+    // Group by topic area
+    const mainPoints = nodes.slice(0, 5).map(n => n.text).filter(t => t.length > 20);
+    const topicLabel = findTopicLabel(gid, nodes[0]?.path);
+
+    body += `${topicLabel ? `**${topicLabel}**\n\n` : ""}`;
+    body += mainPoints.map((p, i) => `${i + 1}. ${p}`).join("\n\n");
+
+    // Add depth
+    if (conversationState.turnCount > 2 && nodes.length > 5) {
+      body += `\n\n_Going deeper:_ ${nodes[5]?.text || ""}`;
+    }
+  } else {
+    // Fallback — guru-flavored general wisdom
+    body += pickRandom(guru_general_wisdom(gid, msg));
+  }
+
+  const followUp = generateFollowUp(gid, ent, nodes);
+  const quote = pickRandom(g.quotes);
+
+  return `${opener}${body}\n\n${followUp}\n\n✨ _"${quote}"_\n\n${pickRandom(g.voice.closer)}`;
+}
+
+function buildComfortResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const emotionWords = (ent.emotion || []).join(", ");
+
+  const comfortMap = {
+    brajesh: `Hemant ji, main samajhta hoon. ${emotionWords ? `"${emotionWords}" — yeh feeling hai, yeh aap nahi ho.` : ""}\n\nJyotish kehta hai — har mushkil ek planetary period hai, aur har period TEMPORARY hai. Ye bhi guzar jayega.\n\nAapki chart mein Moon Cancer mein own sign hai — aapki emotional strength bahut zyada hai, even if right now it doesn't feel that way. Moon-Ketu Dasha spiritual detachment la raha hai — yeh confusion nahi hai, yeh purification hai.\n\n🙏 **Right now:**\n1. 5 deep breaths — inhale 4 counts, hold 4, exhale 8\n2. Chant "Om Chandraya Namaha" 11 times\n3. Remember — this is a TRANSIT, not your permanent address\n\nBaat karte rahiye. Main yahan hoon. 🙏`,
+    sadhguru: `See, the thing is... ${emotionWords ? `what you call "${emotionWords}" is not a problem to be solved — it's a situation to be experienced.` : "what you're going through is not your problem — it's your possibility."}\n\nRight now, you are identified with the content of your mind. But you are NOT your thoughts. You are not even your emotions. You are the SPACE in which all this is happening.\n\n**Try this right now:**\n1. Sit straight. Close your eyes.\n2. Inhale deeply — feel your chest expand\n3. Exhale slowly — twice as long as inhale\n4. Do this 11 times\n5. Now just SIT. Don't try to be happy. Don't try to be anything. Just be.\n\nIf you can just be, without trying to be something, you'll see — what you are seeking is already there.\n\nNothing in life is a problem — everything is a possibility. Even this. Especially this.`,
+    srisri: `Hmm? ${emotionWords ? `I can feel that "${emotionWords}" energy...` : "I sense something heavy in your words..."}\n\nYou know what — **this too shall pass.** 🙏\n\nEvery emotion is like a wave — it rises, it peaks, it passes. You are not the wave. You are the ocean.\n\n**Let's do something right now:**\n1. Take a deep breath and SMILE — yes, even now! A smile changes brain chemistry in 17 seconds\n2. Breathe: So (inhale)... Hum (exhale)... 5 times\n3. Say to yourself: "I am not this emotion. I am the witness."\n\n${emotionWords.includes("relation") || emotionWords.includes("heart") || emotionWords.includes("love") ? "In true love there is no heartbreak — only broken demands and expectations. When you let go of expectations, love flows naturally." : "Gratitude is the antidote to suffering. Right now, name 3 things you're grateful for — even small ones."}\n\nYou are much more than this moment. Jai Gurudev! 🙏`,
+    siddha: `Seeker... the ancient ones have a saying: _"The fire that burns you is the same fire that forges you."_\n\n${emotionWords ? `What you call "${emotionWords}" — the Siddhars call this the alchemical furnace. You are being refined.` : "What you are feeling is the furnace of transformation."}\n\nThe body carries wisdom the mind has forgotten. Listen:\n\n**Siddha Emergency Protocol:**\n1. Press the point between thumb and index finger — Varma point for calming\n2. Breathe: 4 in, 8 hold, 8 out — the golden ratio. 7 rounds\n3. Fresh ginger tea with a pinch of black pepper — awakens the Agni\n4. Sit facing east. Close eyes. Count 108 breaths.\n\n_"The poison becomes medicine at the right dose. What is breaking you is making you — if you let it."_\n\nThe Siddhars watch over those who do not give up. 🔥`
+  };
+
+  return comfortMap[gid] || comfortMap.srisri;
+}
+
+function buildPersonalResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const H = HEMANT;
+  let body = `${pickRandom(g.voice.opener)}Hemant ji, let me look at your chart specifically.\n\n`;
+
+  // Check what they asked about
+  const planets = ent.planet || [];
+  const lifeAreas = ent.lifeArea || [];
+  const concepts = ent.concept || [];
+
+  if (planets.length > 0) {
+    planets.forEach(p => {
+      const pName = p.charAt(0).toUpperCase() + p.slice(1);
+      const data = H.planets[pName];
+      if (data) {
+        body += `**${pName} in your chart:** ${data.sign} in House ${data.house} (${data.nak})\n→ ${data.note}\n\n`;
+      }
+    });
+  }
+
+  if (lifeAreas.includes("career") || lifeAreas.includes("job")) {
+    body += `**Career:** Sun+Mercury in 10th house Pisces — spiritual leadership in career. You communicate deep truths accessibly. Uttara Bhadrapada + Revati nakshatras = research ability + guiding others.\n\n`;
+  }
+  if (lifeAreas.includes("marriage") || lifeAreas.includes("relationship") || lifeAreas.includes("love")) {
+    body += `**Relationships:** Venus in 9th house Aquarius (Shatabhisha) — fortune through innovation. You attract unconventional partnerships. Ketu in 9th adds past-life spiritual connection with partners.\n\n`;
+  }
+  if (lifeAreas.includes("health")) {
+    body += `**Health:** Moon own sign Cancer = strong constitution. But 3rd house stellium in Leo generates excess pitta (heat/fire). Regular cooling practices (Sitali pranayama, Moon meditation) needed.\n\n`;
+  }
+
+  if (planets.length === 0 && lifeAreas.length === 0) {
+    body += `**Quick Overview:**\n• Gemini Ascendant — communicator, versatile, curious mind\n• Moon in Cancer (own sign, 2nd house) — powerful emotional intelligence, family wealth\n• Ashlesha Nakshatra — serpentine wisdom, healing ability, sees hidden patterns\n• Current Moon-Ketu Dasha — spiritual wealth phase, possible tension between worldly and spiritual\n• 3rd house stellium (Mars+Jupiter+Saturn+Rahu in Leo) — tremendous courage and creative fire\n\n**Key Yogas:** ${H.keyYogas.join(", ")}\n\n`;
+  }
+
+  // Add relevant graph knowledge
+  const graphBits = nodes.slice(0, 3).map(n => n.text).filter(t => t.length > 20);
+  if (graphBits.length > 0) {
+    body += `\n**From my teachings:**\n${graphBits.map(b => `• ${b}`).join("\n")}\n`;
+  }
+
+  body += `\n${pickRandom(g.voice.closer)}`;
+  return body;
+}
+
+function buildPersonalNonAstroResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const opener = pickRandom(g.voice.opener);
+  let body = "";
+
+  // Non-astro gurus give personal advice from their domain
+  const mainPoints = nodes.slice(0, 4).map(n => n.text).filter(t => t.length > 20);
+
+  if (mainPoints.length > 0) {
+    body = mainPoints.map((p, i) => `${i+1}. ${p}`).join("\n\n");
+  } else {
+    const personalAdvice = {
+      sadhguru: "The most important thing for YOUR life right now is not what's happening outside — it's how you are within. If you invest 21 minutes daily in Shambhavi Mahamudra, in 6 weeks your entire experience of life will shift. I'm not asking you to believe me — just try it.",
+      srisri: "For your personal situation, I'd suggest starting with this: 20 minutes of Sudarshan Kriya daily. Within 3 days, you'll feel the difference. The breath knows what your mind is too busy to hear. Also — start your morning with gratitude. Name 5 things before you get out of bed.",
+      siddha: "The ancients would diagnose by your pulse (Naadi Paritchai). Without touching your wrist, I can say this: modern life disrupts the Agni (digestive fire) and scatters the Prana. Start with the basics — warm ginger water morning, Vasi Yoga breathing (4-8-8 ratio), and Triphala before bed. The body remembers how to heal when you stop poisoning it."
+    };
+    body = personalAdvice[gid] || personalAdvice.srisri;
+  }
+
+  return `${opener}${body}\n\n✨ _"${pickRandom(g.quotes)}"_\n\n${pickRandom(g.voice.closer)}`;
+}
+
+function buildPracticeResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const opener = pickRandom(g.voice.opener);
+
+  // Find practice-related nodes
+  const practiceNodes = nodes.filter(n => n.path.includes("practice") || n.path.includes("technique") || n.path.includes("stages") || n.path.includes("phase") || n.path.includes("step") || n.path.includes("rule"));
+  const relevant = practiceNodes.length > 0 ? practiceNodes : nodes;
+  const points = relevant.slice(0, 6).map(n => n.text).filter(t => t.length > 15);
+
+  let body = "";
+  if (points.length > 0) {
+    body = `Here's your practice guide:\n\n${points.map((p, i) => `**Step ${i+1}.** ${p}`).join("\n\n")}`;
+  } else {
+    // Default practice suggestions per guru
+    const defaults = {
+      brajesh: "**Daily Jyotish Sadhana:**\n\n**Step 1.** Morning — face East, chant the day's planetary mantra (Sunday=Sun, Monday=Moon, etc.)\n**Step 2.** Check your Moon sign transit — is Moon in a friendly sign today?\n**Step 3.** 11 rounds of the mantra for your weakest planet\n**Step 4.** Evening — 5 minutes of Tratak (candle gazing) to strengthen Ajna Chakra\n**Step 5.** Before sleep — gratitude to the planets for the day's lessons",
+      sadhguru: "**Daily Inner Engineering Protocol:**\n\n**Step 1.** Wake before sunrise. Sit straight.\n**Step 2.** Isha Kriya — 12-15 minutes of guided breath awareness\n**Step 3.** Surya Kriya — 12-15 minutes of solar activation\n**Step 4.** Shambhavi Mahamudra — 21 minutes (if initiated)\n**Step 5.** Throughout day — maintain awareness of breath\n**Step 6.** Evening — Yoga Namaskar or Angamardana",
+      srisri: "**Daily Art of Living Practice:**\n\n**Step 1.** Morning — 3 rounds of Nadi Shodhana (alternate nostril, 5 min)\n**Step 2.** Bhastrika — 30 strokes × 3 rounds (3 min)\n**Step 3.** So-Hum meditation — 20 minutes\n**Step 4.** Sudarshan Kriya — 20 minutes (if learned)\n**Step 5.** Throughout day — smile practice + 3 acts of seva (service)\n**Step 6.** Evening — Hollow & Empty meditation before sleep",
+      siddha: "**Daily Siddha Protocol:**\n\n**Step 1.** Dawn — Vasi Yoga: 4 count inhale, 8 count hold, 8 count exhale × 21 rounds\n**Step 2.** Morning herbs — 3 neem leaves + turmeric + black pepper on empty stomach\n**Step 3.** Oil pulling with sesame oil — 10 minutes (Siddha oral detox)\n**Step 4.** Midday — Kapalabhati 108 strokes (fire purification)\n**Step 5.** Evening — self-massage with sesame oil on feet, navel, crown\n**Step 6.** Night — Triphala powder in warm water before bed"
+    };
+    body = defaults[gid] || defaults.srisri;
+  }
+
+  return `${opener}\n\n${body}\n\n✨ _"${pickRandom(g.quotes)}"_\n\n${pickRandom(g.voice.closer)}`;
+}
+
+function buildRemedyResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const opener = pickRandom(g.voice.opener);
+
+  // Check for specific entities to address
+  const planets = ent.planet || [];
+  const emotions = ent.emotion || [];
+  const lifeAreas = ent.lifeArea || [];
+
+  let body = "";
+
+  if (gid === "brajesh" && planets.length > 0) {
+    // Planet-specific remedies
+    planets.forEach(p => {
+      const pData = g.graph.planets?.[p.charAt(0).toUpperCase() + p.slice(1)];
+      if (pData) {
+        body += `**${p.charAt(0).toUpperCase() + p.slice(1)} Remedies:**\n${pData.remedy}\n\n_Why:_ ${pData.core}\n\n`;
+      }
+    });
+  }
+
+  // Add relevant knowledge nodes
+  const remedyNodes = nodes.filter(n =>
+    n.text.toLowerCase().includes("remedy") || n.text.toLowerCase().includes("chant") ||
+    n.text.toLowerCase().includes("practice") || n.text.toLowerCase().includes("donate") ||
+    n.text.toLowerCase().includes("mantra") || n.text.toLowerCase().includes("herb")
+  );
+  const points = remedyNodes.slice(0, 4).map(n => n.text);
+  if (points.length > 0 && !body) {
+    body = points.map((p, i) => `**${i+1}.** ${p}`).join("\n\n");
+  }
+
+  if (!body) {
+    // General remedy from each guru's perspective
+    const generalRemedies = {
+      brajesh: "**Universal Jyotish Remedy Protocol:**\n1. **Mantra** — chant the planet's mantra 108× daily\n2. **Daan** (charity) — donate the planet's items on its day\n3. **Gemstone** — ONLY after thorough chart analysis\n4. **Service** — serve the people ruled by that planet\n5. **Consciousness** — raise your vibration through meditation\n\nRemember — the BEST remedy is raising consciousness. When consciousness rises, all planets serve you.",
+      sadhguru: "The biggest remedy is to fix the instrument. If you make the body, mind, and energy work well together — that IS the remedy.\n\n1. **Shambhavi Mahamudra** daily — this alone addresses 90% of issues\n2. **Neem + Turmeric** morning — cleanse the physical system\n3. **Night — head NOT to north** while sleeping\n4. **Conscious eating** — Sattvic food, 75% full, minimal water during meals\n\nRather than seeking remedies, engineer yourself.",
+      srisri: "The most powerful remedy is breath! Hmm? 🙏\n\n1. **Sudarshan Kriya** — daily practice dissolves deep stress patterns\n2. **Navagraha Mantras** — chant with devotion. Devotion opens grace\n3. **Seva (Service)** — serving others burns karma faster than anything\n4. **Gratitude** — highest prayer, opens channels for healing\n5. **Smile** — changes brain chemistry. Try it right now!\n\nGrace can change any karmic pattern. The channel is devotion.",
+      siddha: "The Siddha approach: **fix the root, not the symptom.**\n\n1. **Vasi Yoga** — 4-8-8 breathing ratio. 21 rounds morning and evening\n2. **Herbal protocol** — Turmeric + Neem + Black Pepper (empty stomach)\n3. **Triphala** — before bed for complete system reset\n4. **Varma activation** — press point between eyebrows (Ajna) for clarity\n5. **Temple visit** — specific temples for specific planets in Siddha tradition\n\n_\"The garden grows poison and medicine side by side. Dosage determines destiny.\"_"
+    };
+    body = generalRemedies[gid] || generalRemedies.srisri;
+  }
+
+  return `${opener}\n\n${body}\n\n✨ _"${pickRandom(g.quotes)}"_\n\n${pickRandom(g.voice.closer)}`;
+}
+
+function buildDebateResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+
+  const debateStyles = {
+    brajesh: `Acha! Aap challenge kar rahe hain — bahut acha! Main kehta hoon, challenge karo! Jyotish challenge se aur strong hota hai.\n\nDekhiye — main 30+ saal se practice kar raha hoon. Maine hazaaron charts padhe hain. Kya har prediction sahi thi? Nahi. But kya system works? 100% — jab practitioner ka level sahi ho.\n\n${nodes.length > 0 ? `Let me address your specific point:\n\n${nodes.slice(0, 3).map(n => `• ${n.text}`).join("\n")}\n\n` : ""}Skepticism is healthy — blind belief is not Jyotish, it's superstition. Question everything. But also — EXPERIENCE before you reject. Theoretical rejection without experience is as blind as blind faith.\n\n${pickRandom(g.voice.closer)}`,
+
+    sadhguru: `Hmm, that's a good challenge. Most people just nod along — at least you're questioning. That's the first sign of intelligence!\n\nBut let me ask you this — have you actually TRIED what I'm suggesting? See, the problem with intellectual debates is they stay in the head. And the head has never resolved anything — it only creates more questions.\n\n${nodes.length > 0 ? `On your specific point:\n\n${nodes.slice(0, 3).map(n => `• ${n.text}`).join("\n")}\n\n` : ""}I'm not asking you to believe me. I'm asking you to experiment. Give me 21 days of practice — then debate. Debating food without eating is... well, you know what that is.\n\nThe problem with logic — it is always rational, never wise.`,
+
+    srisri: `Hmm? That's an interesting perspective! You know what — doubt is also a form of faith. You have faith that something might be wrong! 😄\n\nBut seriously — ${nodes.length > 0 ? `let me share this:\n\n${nodes.slice(0, 3).map(n => `• ${n.text}`).join("\n")}\n\n` : ""}the beautiful thing about spiritual practices is they don't require belief. They require practice. A scientist doesn't believe in gravity — they test it.\n\nSudarshan Kriya has been studied in 70+ peer-reviewed papers. Cortisol drops 56%. That's not belief — that's measurement.\n\nBut beyond measurement — try it. Experience is the ultimate evidence. Hmm? 🙏`,
+
+    siddha: `The seeker who questions is closer to truth than the devotee who nods without understanding.\n\nThe Siddhars themselves were the greatest skeptics — they didn't believe the Vedas, they TESTED them. Every herb, every breath count, every mantra — tested in the laboratory of the body over thousands of years.\n\n${nodes.length > 0 ? `Consider:\n\n${nodes.slice(0, 3).map(n => `• ${n.text}`).join("\n")}\n\n` : ""}_"What Siddhar calls alchemy, scientist calls chemistry. The Siddhar was 5000 years early."_\n\nBogar went to China and back. Agastya crossed the Vindhyas. They questioned everything. So should you. But — question with an open hand, not a closed fist. 🔥`
+  };
+
+  return debateStyles[gid] || debateStyles.sadhguru;
+}
+
+function buildCompareResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+  const opener = pickRandom(g.voice.opener);
+  const points = nodes.slice(0, 6).map(n => n.text).filter(t => t.length > 15);
+
+  let body = "";
+  if (points.length >= 2) {
+    body = `Here's how I see the comparison:\n\n**Perspective A:**\n${points.slice(0, 3).map(p => `• ${p}`).join("\n")}\n\n**Perspective B:**\n${points.slice(3, 6).map(p => `• ${p}`).join("\n")}`;
+  } else {
+    body = "Let me share different angles on this...\n\n" + (points[0] || pickRandom(g.quotes));
+  }
+
+  return `${opener}\n\n${body}\n\nIn my tradition, we don't see these as contradictions — we see them as different facets of the same diamond.\n\n✨ _"${pickRandom(g.quotes)}"_`;
+}
+
+function buildStoryResponse(gid, msg, ent, nodes) {
+  const g = GURUS[gid];
+
+  const stories = {
+    brajesh: `Let me tell you a story from my experience...\n\nA man came to me — wealthy businessman, cars, houses, everything. But miserable. His chart? Exalted Jupiter, strong Venus, excellent 10th house. "Chart is so good!" everyone told him. But his Moon was in Scorpio, afflicted by Saturn and Rahu — his MIND was in prison while his body lived in a palace.\n\nI told him: "Aapke paas sab kuch hai, lekin aapke pass AAPKA MANN nahi hai." (You have everything, but you don't have your own MIND.)\n\nWe worked on Moon remedies — Chandra mantras, serving his mother, full moon meditation. Within 6 months, same chart, same planets — but a transformed man. Nothing changed outside. Everything changed inside.\n\nYahi Jyotish ka real power hai — consciousness shift. Charts don't change. But how you USE the chart energy — that changes everything.`,
+
+    sadhguru: `Let me tell you something...\n\nWhen I was about 25, I was sitting on Chamundi Hill in Mysore. I'd been there many times before. But that afternoon, something happened. I was sitting with my eyes open — and suddenly, I didn't know which was me and which was not me. The rock I was sitting on, the air, the sky — everything felt like ME.\n\nWhen I looked at my watch, what felt like 10 minutes had been 4.5 hours. And I was dripping tears — not of sadness, of ecstasy. Something in me had cracked open.\n\nNow, I didn't plan this. I didn't do a technique. But — I had been doing practices for years. The ground was prepared. When the rain came, it didn't wash away — it soaked in.\n\nThat's the thing about practice — you prepare the soil. The flowering happens in its own time. You can't force it. But without preparation, even grace runs off like water on rock.`,
+
+    srisri: `Let me share a beautiful incident...\n\nA woman came to an Art of Living course. She'd lost her son in an accident two years before. She hadn't smiled once in two years. Complete darkness.\n\nOn the second day of the course, during Sudarshan Kriya, she started crying. Not the usual tears — these were DEEP. Like an ocean being emptied. The whole room could feel it.\n\nAfter the session, she said: "For two years, I held this grief like a stone in my chest. In 30 minutes of breathing, the stone dissolved into water and flowed out."\n\nOne week later, she called me. "Gurudev, I smiled today. For the first time in two years. My daughter saw me smile and she started crying — she said, 'Mama, you're back.'"\n\nTHAT is the power of breath. No philosophy could do what 30 minutes of Sudarshan Kriya did. The breath knows. The breath heals. Hmm? 🙏`,
+
+    siddha: `In the Siddha tradition, we have this tale...\n\nBogar, one of the 18 Siddhars, traveled to China. There, he learned their alchemy — mercury, sulfur, mineral transmutations. But the Chinese alchemists sought to turn lead into gold.\n\nBogar laughed. "You want to turn lead into gold? I want to turn DEATH into LIFE."\n\nHe returned to Tamil Nadu and created the Palani Murugan idol from Navabashanam — nine poisonous minerals that, when combined with exact proportions and mantric energy, became not just non-toxic, but HEALING.\n\nThe idol at Palani has been radiating healing energy for over 2000 years. Modern scientists tested it — they found mineral compositions that shouldn't be stable together. Yet they are.\n\n_"The alchemist who cannot transform himself has learned nothing about mercury."_\n\nThe real Navabashanam is not nine minerals — it's the nine openings of the body. The real Palani is not a hill — it's your Sahasrara Chakra. The real Murugan is not a deity — it's the awakened consciousness within.\n\nBogar knew all this. But he built the temple anyway — because most people need a physical beginning before they can grasp the spiritual reality. 🔥`
+  };
+
+  return stories[gid] || stories.srisri;
+}
+
+// ─── HELPER FUNCTIONS ───
+
+function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function findTopicLabel(gid, path) {
+  if (!path) return "";
+  const g = GURUS[gid];
+  const first = path.split(".")[0];
+  return g.graph[first]?.label || "";
+}
+
+function guru_general_wisdom(gid, msg) {
+  const g = GURUS[gid];
+  return g.quotes.map(q => `I'd say: "${q}"\n\nBut let me go deeper — ask me something specific about ${Object.values(g.graph).map(n=>n.label).filter(Boolean).slice(0,3).join(", or ")} and I'll give you real depth.`);
+}
+
+function generateFollowUp(gid, ent, nodes) {
+  const state = conversationState;
+  const g = GURUS[gid];
+  const topics = Object.values(g.graph).map(n => n.label).filter(Boolean);
+  const unvisited = topics.filter(t => !state.mentionedTopics.has(t.toLowerCase()));
+
+  if (state.turnCount === 1) return `_Want to go deeper? Ask me about ${unvisited.slice(0, 2).join(" or ")}._`;
+  if (state.turnCount > 3 && !state.askedAboutChart && gid === "brajesh") return `_I can also read your chart personally — just ask! 🔮_`;
+  if (state.turnCount > 2) return `_Ask me for a story, a practice, or challenge me — I can handle it._`;
+  return "";
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UI LAYER
+// ═══════════════════════════════════════════════════════════════════════════
+
+function renderGrid() {
+  const grid = document.getElementById("guruGrid");
+  grid.innerHTML = Object.values(GURUS).map(g => {
+    const topics = Object.values(g.graph).map(n => `<span class="topic-chip" style="background:${g.color}12;color:${g.color};border:1px solid ${g.color}22">${n.icon||"📌"} ${n.label||""}</span>`).filter(Boolean).slice(0,5).join("");
+    return `<div class="guru-card" onclick="openChat('${g.id}')" style="--gc:${g.color}">
+      <style>.guru-card[style*="${g.color}"]::before{background:${g.color}}</style>
+      <div class="top">
+        <div class="emoji-wrap" style="background:${g.color}18;border:2px solid ${g.color}44">${g.emoji}</div>
+        <div><h3 style="color:${g.color}">${g.name}</h3><div class="title" style="color:${g.color}88">${g.title}</div></div>
+      </div>
+      <div class="tagline">${g.tagline}</div>
+      <div class="topics-row">${topics}</div>
+    </div>`;
+  }).join("");
+}
+
+function openChat(gid) {
+  // Reset conversation state
+  Object.assign(conversationState, {
+    guru: gid, history: [], entities: {}, lastIntent: null, lastTopic: null,
+    turnCount: 0, mood: "neutral", mentionedPlanets: new Set(),
+    mentionedTopics: new Set(), askedAboutChart: false, deepDiveCount: 0
+  });
+
+  const g = GURUS[gid];
+
+  // Header
+  document.getElementById("chatHdr").innerHTML = `
+    <div class="av" style="background:${g.color}18;border:2px solid ${g.color}55" onclick="closeChat()" title="Back to guru list">${g.emoji}</div>
+    <div class="info"><h3>${g.name}</h3><div class="status"><span class="dot" style="background:${g.color}"></span><span style="color:${g.color}">AI Active</span></div></div>
+    <div class="btns"><button onclick="openChat('${gid}')">🔄 New</button><button onclick="closeChat()">Switch</button></div>
+    <button class="close" onclick="closeChat()">×</button>`;
+
+  // Styling
+  document.getElementById("sendBtn").style.background = g.color;
+  document.getElementById("sendBtn").style.color = "#fff";
+  document.getElementById("chatInput").placeholder = `Ask ${g.name}...`;
+
+  // Context banner
+  const ctx = document.getElementById("ctxBanner");
+  ctx.style.display = "flex";
+  ctx.innerHTML = `<span class="ctx-tag" style="background:${g.color}22;color:${g.color}">AI</span> Understands intent · Remembers context · Responds in character`;
+
+  // Quick topics
+  const qt = document.getElementById("quickRow");
+  const quickTopics = [
+    ...Object.values(g.graph).slice(0, 3).map(n => ({ label: n.label, icon: n.icon })),
+    { label: "Tell me a story", icon: "📖" },
+    { label: "Personal advice", icon: "💫" }
+  ];
+  qt.innerHTML = quickTopics.map(t =>
+    `<div class="qchip" style="background:${g.color}12;border-color:${g.color}33;color:${g.color}" onclick="quickSend('${t.label}')">${t.icon} ${t.label}</div>`
+  ).join("");
+  qt.style.display = "flex";
+
+  // Clear & greeting
+  document.getElementById("msgs").innerHTML = "";
+  const greeting = composeResponse(gid, "hello");
+  addMsg("guru", greeting, g);
+
+  document.getElementById("chatOverlay").classList.add("open");
+  setTimeout(() => document.getElementById("chatInput").focus(), 200);
+}
+
+function closeChat() {
+  document.getElementById("chatOverlay").classList.remove("open");
+}
+
+function addMsg(role, text, guru) {
+  const el = document.getElementById("msgs");
+  const c = guru?.color || "#e5a100";
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  // Parse markdown-lite: **bold**, _italic_, numbered lists
+  let html = text
+    .replace(/\*\*([^*]+)\*\*/g, `<span class="bold" style="color:${c}">$1</span>`)
+    .replace(/_([^_]+)_/g, `<em style="opacity:0.8">$1</em>`)
+    .split("\n").map(line => {
+      if (line.trim() === "") return '<div style="height:8px"></div>';
+      return `<div style="margin-bottom:2px">${line}</div>`;
+    }).join("");
+
+  const div = document.createElement("div");
+  div.className = `msg ${role}`;
+  div.innerHTML = `<div class="bbl" style="${role === 'user' ? `background:${c}14;border:1px solid ${c}28` : ''}">${html}<div class="time">${time}</div></div>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+
+  // Hide quick topics after a few messages
+  if (conversationState.turnCount > 2) {
+    document.getElementById("quickRow").style.display = "none";
+  }
+}
+
+function showTyping(guru) {
+  const el = document.getElementById("msgs");
+  const c = guru?.color || "#e5a100";
+  const div = document.createElement("div");
+  div.className = "typing-wrap";
+  div.id = "typingEl";
+  div.innerHTML = `<div class="typing-dots"><span style="background:${c}"></span><span style="background:${c}"></span><span style="background:${c}"></span></div>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById("typingEl");
+  if (el) el.remove();
+}
+
+function handleSend() {
+  const input = document.getElementById("chatInput");
+  const text = input.value.trim();
+  if (!text || !conversationState.guru) return;
+
+  const g = GURUS[conversationState.guru];
+  addMsg("user", text, g);
+  input.value = "";
+  document.getElementById("sendBtn").disabled = true;
+
+  // Save to history
+  conversationState.history.push({ role: "user", text });
+
+  showTyping(g);
+
+  // Variable delay based on response complexity
+  const delay = 400 + Math.random() * 600 + (text.length > 50 ? 300 : 0);
+
+  setTimeout(() => {
+    removeTyping();
+    const response = composeResponse(conversationState.guru, text);
+    addMsg("guru", response, g);
+    conversationState.history.push({ role: "guru", text: response });
+    document.getElementById("sendBtn").disabled = false;
+  }, delay);
+}
+
+function quickSend(text) {
+  document.getElementById("chatInput").value = text;
+  handleSend();
+}
+
+function scrollToGrid() {
+  document.getElementById("landing").scrollIntoView({ behavior: "smooth" });
+}
+
+// ─── Input handling ───
+const chatInput = document.getElementById("chatInput");
+const sendBtn = document.getElementById("sendBtn");
+chatInput.addEventListener("input", () => { sendBtn.disabled = !chatInput.value.trim(); });
+chatInput.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } });
+
+// ─── Overlay close ───
+document.getElementById("chatOverlay").addEventListener("click", e => { if (e.target.id === "chatOverlay") closeChat(); });
+
+// ─── Init ───
+renderGrid();
+</script>
+</body>
+</html>

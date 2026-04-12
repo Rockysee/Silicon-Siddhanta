@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silicon Siddhanta — Vedic Intelligence Platform</title>
+<meta name="description" content="AI-powered Vedic astrology, Vastu analysis, and Pranayama breathing simulator. KP System, Parashari, Nadi Jyotish, Brajesh Gautam Method. Built with Swiss Ephemeris.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b1120;--bg2:#131b2e;--bg3:#1a2340;
+  --card:rgba(19,27,46,0.85);--card-hov:rgba(26,35,64,0.92);
+  --text:#eef2f7;--text2:#8b9cc0;--text3:#5a6b8a;
+  --accent:#e5a100;--accent-hov:#f5b800;--accent-dim:rgba(229,161,0,0.12);
+  --indigo:#6366f1;--cyan:#0ea5e9;
+  --pos:#22c55e;--neg:#ef4444;--warn:#eab308;
+  --border:#1e2a42;--border-acc:rgba(229,161,0,0.25);
+  --radius:12px;--font:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-hov)}
+
+/* ═══ HERO ═══ */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:40px 24px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 40%,var(--bg) 100%);
+}
+.hero::before{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(ellipse at 30% 20%,rgba(229,161,0,0.04) 0%,transparent 60%),
+             radial-gradient(ellipse at 70% 80%,rgba(99,102,241,0.03) 0%,transparent 60%);
+  animation:drift 20s ease-in-out infinite alternate;z-index:0;
+}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(30px,-20px)}}
+.hero>*{position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 18px;
+  background:var(--accent-dim);border:1px solid var(--border-acc);border-radius:999px;
+  font-size:11px;font-weight:600;color:var(--accent);letter-spacing:1px;margin-bottom:24px;
+}
+.hero h1{
+  font-size:clamp(36px,6vw,72px);font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-hov) 40%,var(--text) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.1;margin-bottom:16px;
+}
+.hero .tagline{
+  font-size:clamp(14px,2vw,20px);color:var(--text2);max-width:600px;line-height:1.7;margin-bottom:32px;
+}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{
+  padding:14px 32px;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:700;
+  cursor:pointer;border:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{background:var(--accent);color:var(--bg);box-shadow:0 0 24px rgba(229,161,0,0.3)}
+.btn-primary:hover{background:var(--accent-hov);box-shadow:0 0 32px rgba(229,161,0,0.4);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg3);color:var(--text2);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ═══ NAV ═══ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(11,17,32,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:56px;
+}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:var(--accent)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{
+  padding:8px 16px;font-size:12px;font-weight:600;color:var(--text3);border-radius:6px;
+  transition:all 0.2s;
+}
+.nav-links a:hover{color:var(--accent);background:var(--accent-dim)}
+
+/* ═══ SECTIONS ═══ */
+section{padding:80px 24px;max-width:1200px;margin:0 auto}
+.section-label{
+  font-size:11px;color:var(--accent);font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:8px;
+}
+.section-title{font-size:clamp(24px,3vw,40px);font-weight:800;margin-bottom:16px;line-height:1.2}
+.section-desc{font-size:14px;color:var(--text2);max-width:600px;line-height:1.8;margin-bottom:40px}
+
+/* ═══ FEATURE GRID ═══ */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.feature-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px;transition:all 0.3s;position:relative;overflow:hidden;
+  backdrop-filter:blur(8px);
+}
+.feature-card:hover{border-color:var(--border-acc);transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.feature-card .icon{font-size:32px;margin-bottom:12px}
+.feature-card h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.feature-card p{font-size:13px;color:var(--text2);line-height:1.7}
+.feature-card .tag{
+  display:inline-block;font-size:9px;padding:3px 10px;border-radius:999px;
+  font-weight:600;margin-top:12px;
+}
+
+/* ═══ BREATHING DEMO ═══ */
+.breath-demo{
+  display:flex;flex-direction:column;align-items:center;padding:60px 24px;
+  background:linear-gradient(180deg,transparent 0%,rgba(99,102,241,0.04) 50%,transparent 100%);
+}
+.orb-container{position:relative;width:240px;height:240px;margin:40px auto}
+.orb{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  border-radius:50%;transition:all 0.4s ease-out;
+}
+.orb-core{
+  width:120px;height:120px;
+  background:radial-gradient(circle at 40% 35%,rgba(229,161,0,0.8),rgba(229,161,0,0.3) 60%,transparent);
+  box-shadow:0 0 40px rgba(229,161,0,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;color:var(--text);letter-spacing:3px;
+  animation:breathe 8s ease-in-out infinite;
+}
+@keyframes breathe{
+  0%,100%{width:80px;height:80px;box-shadow:0 0 20px rgba(229,161,0,0.2)}
+  25%{width:140px;height:140px;box-shadow:0 0 60px rgba(229,161,0,0.5)}
+  50%{width:140px;height:140px;box-shadow:0 0 40px rgba(99,102,241,0.4)}
+  75%{width:80px;height:80px;box-shadow:0 0 30px rgba(14,165,233,0.3)}
+}
+.orb-ring{
+  border:1px solid rgba(229,161,0,0.12);animation:breathe-ring 8s ease-in-out infinite;
+}
+.orb-ring:nth-child(1){animation-delay:0.1s}
+.orb-ring:nth-child(2){animation-delay:0.2s}
+@keyframes breathe-ring{
+  0%,100%{width:100px;height:100px;opacity:0.3}
+  25%{width:180px;height:180px;opacity:0.6}
+  50%{width:180px;height:180px;opacity:0.4}
+  75%{width:100px;height:100px;opacity:0.2}
+}
+.breath-techniques{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:32px;
+}
+.breath-chip{
+  padding:8px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:999px;
+  font-size:12px;color:var(--text2);font-weight:500;display:flex;align-items:center;gap:6px;
+}
+
+/* ═══ TECH STACK ═══ */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.stack-item{
+  background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;
+  font-size:12px;color:var(--text2);line-height:1.6;
+}
+.stack-item strong{color:var(--text);font-size:13px;display:block;margin-bottom:4px}
+
+/* ═══ CHART PREVIEW ═══ */
+.chart-grid{
+  display:inline-grid;grid-template-columns:repeat(4,72px);gap:2px;
+  margin:0 auto;
+}
+.chart-cell{
+  width:72px;height:72px;background:var(--card);border:1px solid var(--border);
+  border-radius:4px;padding:4px;font-size:8px;color:var(--text3);overflow:hidden;
+}
+.chart-cell.asc{background:var(--accent-dim);border-color:var(--accent)}
+.chart-cell .sign{font-size:9px;font-weight:600;color:var(--text3)}
+.chart-cell.asc .sign{color:var(--accent)}
+.chart-cell .planet{font-size:10px;font-weight:700;margin-right:2px}
+.chart-center{
+  width:72px;height:72px;background:var(--bg3);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent);opacity:0.3;
+}
+
+/* ═══ VASTU PREVIEW ═══ */
+.vastu-grid-preview{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:360px;margin:0 auto;
+}
+.vastu-zone{
+  background:var(--bg3);border-radius:8px;padding:12px;text-align:center;
+  border:1px solid var(--border);transition:all 0.2s;
+}
+.vastu-zone:hover{border-color:var(--border-acc);transform:scale(1.03)}
+.vastu-zone .z-icon{font-size:20px;margin-bottom:4px}
+.vastu-zone .z-dir{font-size:12px;font-weight:700;color:var(--accent)}
+.vastu-zone .z-el{font-size:10px;color:var(--text3)}
+
+/* ═══ STATS ═══ */
+.stats{
+  display:flex;gap:32px;justify-content:center;flex-wrap:wrap;padding:40px 24px;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  margin:0 auto;max-width:900px;
+}
+.stat{text-align:center}
+.stat .num{font-size:36px;font-weight:900;color:var(--accent)}
+.stat .lbl{font-size:11px;color:var(--text3);margin-top:4px}
+
+/* ═══ CTA SECTION ═══ */
+.cta-section{
+  text-align:center;padding:80px 24px;
+  background:linear-gradient(180deg,transparent 0%,rgba(229,161,0,0.03) 50%,transparent 100%);
+}
+
+/* ═══ FOOTER ═══ */
+footer{
+  text-align:center;padding:32px 24px;border-top:1px solid var(--border);
+  font-size:10px;color:var(--text3);line-height:1.8;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .features-grid{grid-template-columns:1fr}
+  .stats{gap:16px}
+  .stat .num{font-size:28px}
+  section{padding:60px 16px}
+}
+
+/* ═══ ANIMATIONS ═══ */
+.fade-up{opacity:0;transform:translateY(20px);animation:fadeUp 0.6s forwards}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+.delay-1{animation-delay:0.1s}.delay-2{animation-delay:0.2s}.delay-3{animation-delay:0.3s}
+.delay-4{animation-delay:0.4s}.delay-5{animation-delay:0.5s}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-brand">🕉️ Silicon Siddhanta</div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#astrology">Astrology</a>
+    <a href="#vastu">Vastu</a>
+    <a href="#breathing">Breathing</a>
+    <a href="#stack">Tech Stack</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero" id="top">
+  <div class="hero-badge">🕉️ VEDIC INTELLIGENCE PLATFORM</div>
+  <h1>Silicon Siddhanta</h1>
+  <p class="tagline">
+    Ancient Vedic wisdom meets modern computation. KP System, Parashari, Nadi Jyotish, Vastu Purusha analysis, and Pranayama breathing — all powered by Swiss Ephemeris and AI.
+  </p>
+  <div class="hero-cta">
+    <a href="#features" class="btn btn-primary">Explore Features ↓</a>
+    <a href="#breathing" class="btn btn-secondary">Try Breathing Demo</a>
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats">
+  <div class="stat"><div class="num">5</div><div class="lbl">Jyotish Systems</div></div>
+  <div class="stat"><div class="num">45</div><div class="lbl">Vastu Deities Mapped</div></div>
+  <div class="stat"><div class="num">14</div><div class="lbl">Breathing Techniques</div></div>
+  <div class="stat"><div class="num">9×9</div><div class="lbl">Mandala Grid</div></div>
+  <div class="stat"><div class="num">6</div><div class="lbl">Research Documents</div></div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features">
+  <div class="section-label">Platform Modules</div>
+  <h2 class="section-title">Everything in One Vedic Intelligence Suite</h2>
+  <p class="section-desc">
+    Each module is self-contained, individually deployable, and follows the Vedic Mystic design system — cosmic navy backgrounds with saffron gold accents.
+  </p>
+  <div class="features-grid">
+    <div class="feature-card fade-up">
+      <div class="icon">🪐</div>
+      <h3>Astrology Engine</h3>
+      <p>Full natal chart with South Indian display, 9 planets, 12 houses, Vimshottari Dasha timeline, Ashtakavarga scoring, planetary yogas, and multi-method predictions combining KP, Parashari, Nadi, and Brajesh Gautam methods.</p>
+      <span class="tag" style="background:rgba(99,102,241,0.12);color:var(--indigo)">KP + Parashari + Nadi + BG</span>
+    </div>
+    <div class="feature-card fade-up delay-1">
+      <div class="icon">⏰</div>
+      <h3>Muhurta & Timing</h3>
+      <p>Daily Panchang with Tithi, Nakshatra, Yoga, Karana. Auspicious windows (Brahma Muhurta, Abhijit, Jupiter Hora) and danger periods (Rahu Kaal, Gulika, Yamagandam). Weekly forecast with Moon transit analysis.</p>
+      <span class="tag" style="background:rgba(234,179,8,0.12);color:var(--warn)">Real-time Ephemeris</span>
+    </div>
+    <div class="feature-card fade-up delay-2">
+      <div class="icon">🏠</div>
+      <h3>Vastu Cross-Check</h3>
+      <p>Upload floor plans, overlay the 9×9 Vastu Purusha Mandala with 45 deities, mark room positions, and get automated defect detection with severity scoring. Remedies from both classical texts (Brihat Samhita, Mayamata) and Brajesh Gautam.</p>
+      <span class="tag" style="background:rgba(229,161,0,0.12);color:var(--accent)">45-Deity Mandala</span>
+    </div>
+    <div class="feature-card fade-up delay-3">
+      <div class="icon">🌬️</div>
+      <h3>Breathing Simulator</h3>
+      <p>14 Pranayama techniques from Sadhguru (Isha Kriya, Simha Kriya, Shambhavi Prep), Sri Sri Ravi Shankar (Sudarshan Kriya, So-Hum), and classical (Nadi Shodhana, Kapalabhati, Bhastrika). Animated breathing orb with real-time guidance.</p>
+      <span class="tag" style="background:rgba(14,165,233,0.12);color:var(--cyan)">Boltable: ZenFlo + Airjun</span>
+    </div>
+    <div class="feature-card fade-up delay-4">
+      <div class="icon">🤖</div>
+      <h3>BG Jyotish Chatbot</h3>
+      <p>AI chatbot trained on Brajesh Gautam's actual Hindi transcripts (148,000+ words across 10 episodes). Source-verified with confidence tagging — every answer distinguishes verified teachings from AI-organized content.</p>
+      <span class="tag" style="background:rgba(34,197,94,0.12);color:var(--pos)">Source-Verified</span>
+    </div>
+    <div class="feature-card fade-up delay-5">
+      <div class="icon">📊</div>
+      <h3>Multi-Method Predictions</h3>
+      <p>Side-by-side prediction scoring across 4 Jyotish systems. Each method independently evaluates career, finance, health, relationships, and foreign travel — then shows where they agree and diverge.</p>
+      <span class="tag" style="background:rgba(139,92,246,0.12);color:#a78bfa">Consensus Analysis</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ASTROLOGY PREVIEW ═══ -->
+<section id="astrology">
+  <div class="section-label">Astrology Engine</div>
+  <h2 class="section-title">South Indian Chart + Multi-System Analysis</h2>
+  <p class="section-desc">
+    Swiss Ephemeris precision combined with four distinct Jyotish interpretation frameworks. Every planet position, nakshatra pada, and sub-lord chain computed to arc-second accuracy.
+  </p>
+  <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:start;justify-content:center">
+    <!-- Chart -->
+    <div>
+      <div class="chart-grid">
+        <!-- Row 0: Pisces Aries Taurus Gemini -->
+        <div class="chart-cell"><div class="sign">♓ Pis</div></div>
+        <div class="chart-cell"><div class="sign">♈ Ari</div><span class="planet" style="color:#EC4899">♀</span></div>
+        <div class="chart-cell"><div class="sign">♉ Tau</div></div>
+        <div class="chart-cell asc"><div class="sign">♊ Gem</div><span style="font-size:7px;color:var(--accent)">ASC</span></div>
+        <!-- Row 1 -->
+        <div class="chart-cell"><div class="sign">♒ Aqu</div><span class="planet" style="color:#FF8C00">☉</span></div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-cell"><div class="sign">♋ Can</div><span class="planet" style="color:#B8C4D4">☽</span></div>
+        <!-- Row 2 -->
+        <div class="chart-cell"><div class="sign">♑ Cap</div><span class="planet" style="color:#16A34A">☿</span><span class="planet" style="color:#B45309">☋</span></div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-center">🕉️</div>
+        <div class="chart-cell"><div class="sign">♌ Leo</div><span class="planet" style="color:#DC2626">♂ᴿ</span><span class="planet" style="color:#EAB308">♃ᴿ</span><span class="planet" style="color:#8B5CF6">☊ᴿ</span><span class="planet" style="color:#4F6BCC">♄ᴿ</span></div>
+        <!-- Row 3 -->
+        <div class="chart-cell"><div class="sign">♐ Sag</div></div>
+        <div class="chart-cell"><div class="sign">♏ Sco</div></div>
+        <div class="chart-cell"><div class="sign">♎ Lib</div></div>
+        <div class="chart-cell"><div class="sign">♍ Vir</div></div>
+      </div>
+      <p style="text-align:center;font-size:10px;color:var(--text3);margin-top:8px">Hemant Thackeray · 27/03/1980 · Kalyan</p>
+    </div>
+    <!-- Details -->
+    <div style="max-width:400px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-size:12px;color:var(--text2);line-height:2">
+        <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Chart Summary</div>
+        <div><strong style="color:var(--text)">Ascendant:</strong> ♊ Gemini (6.81°) · Lord: Mercury</div>
+        <div><strong style="color:var(--text)">Moon:</strong> ♋ Cancer 25°42' · Ashlesha · Own Sign</div>
+        <div><strong style="color:var(--text)">Sun:</strong> ♓ Pisces 13°09' · Uttara Bhadrapada</div>
+        <div><strong style="color:var(--text)">Current Dasha:</strong> <span style="color:#B8C4D4">☽ Moon</span>-<span style="color:#B45309">☋ Ketu</span></div>
+        <div><strong style="color:var(--text)">Active Yoga:</strong> <span style="color:var(--pos)">Gajakesari (80%)</span></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:10px;color:var(--indigo);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Systems Used</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(59,130,246,0.12);color:#3b82f6;font-weight:600">KP System</span>
+            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(34,197,94,0.12);color:#22c55e;font-weight:600">Parashari</span>
+            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(168,85,247,0.12);color:#a855f7;font-weight:600">Brajesh Gautam</span>
+            <span style="font-size:9px;padding:3px 10px;border-radius:999px;background:rgba(239,68,68,0.12);color:#ef4444;font-weight:600">Nadi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VASTU PREVIEW ═══ -->
+<section id="vastu" style="background:linear-gradient(180deg,transparent,rgba(229,161,0,0.02),transparent)">
+  <div class="section-label">Vastu Cross-Check</div>
+  <h2 class="section-title">9×9 Vastu Purusha Mandala Analysis</h2>
+  <p class="section-desc">
+    Upload your floor plan, overlay the classical 81-pada grid with 45 Vastu deities, mark room positions, and receive automated defect detection with prioritized remedies.
+  </p>
+  <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:start;justify-content:center">
+    <div class="vastu-grid-preview">
+      <div class="vastu-zone"><div class="z-icon">🌬️</div><div class="z-dir">NW</div><div class="z-el">Air · Vayu</div></div>
+      <div class="vastu-zone"><div class="z-icon">🌊</div><div class="z-dir">N</div><div class="z-el">Water · Kubera</div></div>
+      <div class="vastu-zone"><div class="z-icon">💧</div><div class="z-dir">NE</div><div class="z-el">Water · Ishaan</div></div>
+      <div class="vastu-zone"><div class="z-icon">💨</div><div class="z-dir">W</div><div class="z-el">Air · Varun</div></div>
+      <div class="vastu-zone" style="border-color:var(--border-acc)"><div class="z-icon">🕉️</div><div class="z-dir" style="color:var(--indigo)">CENTER</div><div class="z-el">Akasha · Brahma</div></div>
+      <div class="vastu-zone"><div class="z-icon">✨</div><div class="z-dir">E</div><div class="z-el">Space · Indra</div></div>
+      <div class="vastu-zone"><div class="z-icon">🏔️</div><div class="z-dir">SW</div><div class="z-el">Earth · Nairitya</div></div>
+      <div class="vastu-zone"><div class="z-icon">🌍</div><div class="z-dir">S</div><div class="z-el">Earth · Yama</div></div>
+      <div class="vastu-zone"><div class="z-icon">🔥</div><div class="z-dir">SE</div><div class="z-el">Fire · Agni</div></div>
+    </div>
+    <div style="max-width:360px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;font-size:12px;color:var(--text2);line-height:1.8">
+        <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Analysis Features</div>
+        <div>📐 Floor plan image upload (drag & drop)</div>
+        <div>🔲 Interactive 9×9 grid with 45 deity positions</div>
+        <div>🏠 16 room types with click-to-assign</div>
+        <div>⚠️ Automated defect detection (Critical/Major/Minor)</div>
+        <div>💊 Remedies from classical texts + BG teachings</div>
+        <div>📊 Vastu Score (0-100) with direction-wise report</div>
+        <div>🪐 Optional birth chart integration (9th house rules)</div>
+        <div>📋 Comprehensive PDF-ready report generation</div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:10px;color:var(--indigo);font-weight:700;margin-bottom:4px">SOURCES</div>
+          <div style="font-size:11px">Brihat Samhita · Mayamata · Manasara · BG Ep.11</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BREATHING DEMO ═══ -->
+<section class="breath-demo" id="breathing">
+  <div class="section-label">Pranayama Simulator</div>
+  <h2 class="section-title" style="text-align:center">Breathe With the Masters</h2>
+  <p class="section-desc" style="text-align:center;margin:0 auto 8px">
+    14 breathing techniques from Sadhguru, Sri Sri Ravi Shankar, and classical Pranayama. Animated orb with real-time guidance. Boltable into any React app.
+  </p>
+
+  <div class="orb-container">
+    <div class="orb orb-ring" style="width:180px;height:180px"></div>
+    <div class="orb orb-ring" style="width:200px;height:200px"></div>
+    <div class="orb orb-core" id="breathOrb">IN</div>
+  </div>
+
+  <div class="breath-techniques">
+    <span class="breath-chip">🌊 Ujjayi</span>
+    <span class="breath-chip">🌙 Nadi Shodhana</span>
+    <span class="breath-chip">🌀 Sudarshan Kriya</span>
+    <span class="breath-chip">🧘 Isha Kriya</span>
+    <span class="breath-chip">🐝 Bhramari</span>
+    <span class="breath-chip">💎 Kapalabhati</span>
+    <span class="breath-chip">🔥 Bhastrika</span>
+    <span class="breath-chip">⬜ Box Breathing</span>
+    <span class="breath-chip">😴 4-7-8 Relaxation</span>
+    <span class="breath-chip">🕊️ So-Hum</span>
+    <span class="breath-chip">🦁 Simha Kriya</span>
+    <span class="breath-chip">👁️ Shambhavi Prep</span>
+    <span class="breath-chip">❄️ Sitali</span>
+    <span class="breath-chip">🧘 Meditation</span>
+  </div>
+
+  <div style="margin-top:24px;text-align:center;max-width:500px">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;font-size:12px;color:var(--text2);line-height:1.8">
+      <div style="font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Boltable Architecture</div>
+      <code style="font-size:11px;color:var(--accent);background:var(--bg3);padding:2px 8px;border-radius:4px">&lt;BreathingSimulator theme={...} compact={true} /&gt;</code>
+      <div style="margin-top:8px;font-size:11px;color:var(--text3)">
+        Props API: <strong>theme</strong> (20+ tokens) · <strong>compact</strong> (mini mode) · <strong>startTechnique</strong> (auto-start)
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECH STACK ═══ -->
+<section id="stack">
+  <div class="section-label">Under the Hood</div>
+  <h2 class="section-title">Technical Architecture</h2>
+  <p class="section-desc">Built for precision, designed for beauty.</p>
+  <div class="stack-grid">
+    <div class="stack-item"><strong>🐍 Swiss Ephemeris</strong>Planetary positions computed to arc-second precision via Python skyfield + swisseph bindings. Lahiri ayanamsha.</div>
+    <div class="stack-item"><strong>⚛️ React JSX</strong>Self-contained components with inline theme tokens. No external CSS dependencies. Each module independently deployable.</div>
+    <div class="stack-item"><strong>🎨 Vedic Mystic StyleKit</strong>Design system: cosmic navy (#0b1120), saffron gold (#e5a100), 50+ tokens. 60% dashboard + 40% dark-luxury aesthetic.</div>
+    <div class="stack-item"><strong>📚 Knowledge Base</strong>6 research documents from Brajesh Gautam transcripts (148K+ words). Source-verified with 🟢🟡🔴 confidence tagging.</div>
+    <div class="stack-item"><strong>🔮 4-System Jyotish</strong>KP (Krishnamurti), Parashari (BPHS), Nadi (conjunction-based), BG Method (Three Fortune Levels).</div>
+    <div class="stack-item"><strong>🏠 Vastu Engine</strong>45-deity 9×9 Mandala, Pancha Bhoota mapping, defect scoring (0-100), remedies from Brihat Samhita + BG.</div>
+    <div class="stack-item"><strong>🌬️ Breath Engine</strong>Phase-based animation with variable timing, mantra sync, nostril tracking, and multi-cycle support.</div>
+    <div class="stack-item"><strong>🔌 Boltable Design</strong>Breathing simulator portable to ZenFlo & Airjun via props API. Theme injection for brand matching.</div>
+  </div>
+</section>
+
+<!-- ═══ FILES ═══ -->
+<section style="background:linear-gradient(180deg,transparent,rgba(99,102,241,0.02),transparent)">
+  <div class="section-label">Deliverables</div>
+  <h2 class="section-title">Component Inventory</h2>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="padding:10px;text-align:left;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:0.5px">File</th>
+          <th style="padding:10px;text-align:left;color:var(--text3);font-size:10px;text-transform:uppercase">Type</th>
+          <th style="padding:10px;text-align:right;color:var(--text3);font-size:10px;text-transform:uppercase">Lines</th>
+          <th style="padding:10px;text-align:left;color:var(--text3);font-size:10px;text-transform:uppercase">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(30,42,66,0.3)"><td style="padding:10px;color:var(--accent);font-weight:600">silicon_siddhanta_app.jsx</td><td style="padding:10px"><span style="font-size:9px;padding:2px 8px;border-radius:999px;background:rgba(229,161,0,0.12);color:var(--accent);font-weight:600">Unified App</span></td><td style="padding:10px;text-align:right;color:var(--text2)">973</td><td style="padding:10px;color:var(--text2)">Full platform: Astrology + Vastu + Breathing floater</td></tr>
+        <tr style="border-bottom:1px solid rgba(30,42,66,0.3)"><td style="padding:10px;color:var(--accent);font-weight:600">breathing_simulator.jsx</td><td style="padding:10px"><span style="font-size:9px;padding:2px 8px;border-radius:999px;background:rgba(14,165,233,0.12);color:var(--cyan);font-weight:600">Boltable</span></td><td style="padding:10px;text-align:right;color:var(--text2)">817</td><td style="padding:10px;color:var(--text2)">Standalone breathing simulator (ZenFlo + Airjun)</td></tr>
+        <tr style="border-bottom:1px solid rgba(30,42,66,0.3)"><td style="padding:10px;color:var(--accent);font-weight:600">vastu_crosscheck.jsx</td><td style="padding:10px"><span style="font-size:9px;padding:2px 8px;border-radius:999px;background:rgba(34,197,94,0.12);color:var(--pos);font-weight:600">Full Module</span></td><td style="padding:10px;text-align:right;color:var(--text2)">1,484</td><td style="padding:10px;color:var(--text2)">Complete Vastu tool with defect engine + report</td></tr>
+        <tr style="border-bottom:1px solid rgba(30,42,66,0.3)"><td style="padding:10px;color:var(--text2)">silicon_siddhanta_ui.jsx</td><td style="padding:10px;color:var(--text3)">Chart UI</td><td style="padding:10px;text-align:right;color:var(--text3)">1,200+</td><td style="padding:10px;color:var(--text3)">Original chart dashboard with recharts</td></tr>
+        <tr style="border-bottom:1px solid rgba(30,42,66,0.3)"><td style="padding:10px;color:var(--text2)">brajesh_gautam_chatbot.jsx</td><td style="padding:10px;color:var(--text3)">Chatbot</td><td style="padding:10px;text-align:right;color:var(--text3)">900+</td><td style="padding:10px;color:var(--text3)">BG Jyotish AI chatbot</td></tr>
+        <tr><td style="padding:10px;color:var(--text2)">vedic_theme.js</td><td style="padding:10px;color:var(--text3)">Design System</td><td style="padding:10px;text-align:right;color:var(--text3)">317</td><td style="padding:10px;color:var(--text3)">50+ theme tokens, planet colors, utility functions</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-section">
+  <div class="section-label">Built by Hemant Thackeray</div>
+  <h2 class="section-title" style="text-align:center">Vedic Wisdom, Computational Precision</h2>
+  <p style="font-size:14px;color:var(--text2);max-width:500px;margin:0 auto 24px;line-height:1.8;text-align:center">
+    Silicon Siddhanta combines practitioner-level Jyotish knowledge with modern software engineering. Every calculation verified against Swiss Ephemeris. Every teaching traced to its source.
+  </p>
+  <a href="#top" class="btn btn-primary">Back to Top ↑</a>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>🕉️ Silicon Siddhanta v2.0 — Vedic Intelligence Platform</div>
+  <div>Engines: KP System · Parashari BPHS · Nadi Jyotish · Brajesh Gautam Method</div>
+  <div>Breathing: Sadhguru · Sri Sri Ravi Shankar · Classical Pranayama</div>
+  <div>Vastu: Brihat Samhita · Mayamata · Manasara · South Indian Traditions</div>
+  <div style="margin-top:8px">Built with ❤️ by Hemant Thackeray · 2026</div>
+</footer>
+
+<script>
+// Breathing orb animation text cycle
+const orb = document.getElementById('breathOrb');
+const states = ['IN','IN','IN','IN','HOLD','HOLD','OUT','OUT','OUT','OUT','OUT','OUT'];
+let idx = 0;
+setInterval(() => {
+  orb.textContent = states[idx % states.length];
+  idx++;
+}, 700);
+
+// Fade-up on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fade-up'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.feature-card,.stack-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
