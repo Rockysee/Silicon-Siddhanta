@@ -312,8 +312,131 @@ footer{
 .form-btn.demo{background:var(--indigo);margin-left:8px}
 .form-btn.demo:hover{background:#4f46e5}
 .astro-explanation{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:8px;padding:16px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.6}
-.astro-chart-display{max-width:360px;text-align:center}
+.astro-chart-display{max-width:900px;text-align:center}
 .chart-label-text{font-size:12px;color:var(--accent);margin-top:12px;font-weight:600}
+
+/* ═══ REPORT TABS ═══ */
+.astro-tabs{
+  display:flex;gap:4px;margin:20px 0;border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.astro-tab{
+  padding:12px 16px;background:transparent;border:none;border-bottom:2px solid transparent;
+  color:var(--text3);font-size:12px;font-weight:600;cursor:pointer;
+  transition:all 0.2s;white-space:nowrap;
+}
+.astro-tab:hover{color:var(--accent)}
+.astro-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.astro-tab-content{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px;margin:16px 0;display:none;
+}
+.astro-tab-content.show{display:block}
+.planet-table{
+  width:100%;font-size:12px;color:var(--text2);border-collapse:collapse;
+}
+.planet-table th{
+  background:var(--bg3);padding:12px;text-align:left;font-weight:700;color:var(--accent);
+  border-bottom:1px solid var(--border);
+}
+.planet-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.planet-table tr:hover{background:var(--bg3)}
+.planet-symbol{font-size:14px;font-weight:700;margin-right:8px}
+.house-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:16px;margin:12px 0;
+}
+.house-card .house-num{
+  font-size:14px;font-weight:700;color:var(--accent);margin-bottom:8px;
+}
+.house-card .occupants{font-size:12px;color:var(--text2);line-height:1.6}
+.dasha-timeline{
+  background:var(--bg3);border-radius:8px;padding:16px;margin:12px 0;
+  overflow-x:auto;
+}
+.dasha-period{
+  display:inline-block;background:var(--bg2);border:1px solid var(--border);
+  padding:10px 12px;margin:4px;border-radius:6px;font-size:11px;
+  color:var(--text2);min-width:80px;text-align:center;
+}
+.dasha-period.current{
+  background:var(--accent);color:var(--bg);border-color:var(--accent);
+  font-weight:700;box-shadow:0 0 12px rgba(229,161,0,0.3);
+}
+.dasha-period.future{opacity:0.6}
+.insight-section{
+  background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);
+  border-radius:8px;padding:16px;margin:12px 0;
+}
+.insight-section h4{
+  color:var(--indigo);font-size:13px;font-weight:700;margin-bottom:8px;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.insight-section p{
+  font-size:12px;color:var(--text2);line-height:1.8;
+}
+.yoga-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:14px;margin:10px 0;
+}
+.yoga-card .yoga-name{
+  font-size:13px;font-weight:700;color:var(--pos);margin-bottom:6px;
+}
+.yoga-card .yoga-effect{
+  font-size:12px;color:var(--text2);line-height:1.6;
+}
+.report-actions{
+  display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;
+}
+.profile-bar{
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:12px;
+}
+
+/* ═══ VALIDATION INTERACTIVE ═══ */
+.validation-header{text-align:center;padding:20px 0;border-bottom:1px solid var(--border);margin-bottom:20px}
+.validation-header h3{font-size:16px;font-weight:800;color:var(--accent);margin-bottom:4px}
+.validation-header p{font-size:12px;color:var(--text3);line-height:1.6}
+.gauge-container{display:flex;align-items:center;justify-content:center;gap:24px;margin:20px 0;flex-wrap:wrap}
+.gauge-ring{position:relative;width:140px;height:140px}
+.gauge-ring svg{width:140px;height:140px;transform:rotate(-90deg)}
+.gauge-ring .bg{fill:none;stroke:var(--bg3);stroke-width:10}
+.gauge-ring .fg{fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s ease,stroke 0.5s}
+.gauge-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;font-weight:900;color:var(--accent)}
+.gauge-pct small{display:block;font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;text-align:center}
+.gauge-stats{font-size:12px;color:var(--text2);line-height:2}
+.gauge-stats span{font-weight:700}
+.gauge-stats .hit{color:var(--pos)}
+.gauge-stats .miss{color:var(--neg)}
+.gauge-stats .pending{color:var(--warn)}
+.validation-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:18px;margin:14px 0;transition:all .3s}
+.validation-card:hover{border-color:var(--border-acc)}
+.validation-card.hit{border-left:4px solid var(--pos)}
+.validation-card.miss{border-left:4px solid var(--neg)}
+.validation-card.partial{border-left:4px solid var(--warn)}
+.validation-card .v-period{font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.validation-card .v-dasha{font-size:11px;color:var(--indigo);margin-bottom:8px}
+.validation-card .v-prediction{font-size:13px;color:var(--text);font-weight:600;margin-bottom:6px;line-height:1.5}
+.validation-card .v-domains{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.validation-card .v-domain{font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(99,102,241,0.12);color:var(--indigo);font-weight:600}
+.validation-card .v-explanation{font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:12px;font-style:italic}
+.validation-btns{display:flex;gap:8px;flex-wrap:wrap}
+.v-btn{padding:6px 16px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--font)}
+.v-btn:hover{transform:translateY(-1px)}
+.v-btn.yes{border-color:var(--pos);color:var(--pos)}.v-btn.yes:hover,.v-btn.yes.selected{background:var(--pos);color:var(--bg)}
+.v-btn.partial{border-color:var(--warn);color:var(--warn)}.v-btn.partial:hover,.v-btn.partial.selected{background:var(--warn);color:var(--bg)}
+.v-btn.no{border-color:var(--neg);color:var(--neg)}.v-btn.no:hover,.v-btn.no.selected{background:var(--neg);color:var(--bg)}
+.v-user-input{margin-top:10px;display:none}
+.v-user-input.show{display:block}
+.v-user-input input,.v-user-input textarea{width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;font-family:var(--font);margin-top:6px}
+.v-user-input textarea{min-height:50px;resize:vertical}
+.v-user-input label{font-size:10px;color:var(--text3);font-weight:600}
+.validation-summary{background:rgba(229,161,0,0.08);border:1px solid rgba(229,161,0,0.25);border-radius:10px;padding:20px;margin-top:20px;text-align:center}
+.validation-summary h4{color:var(--accent);font-size:14px;margin-bottom:8px}
+.validation-summary p{font-size:12px;color:var(--text2);line-height:1.7}
+.brajesh-verdict{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:10px;padding:16px;margin-top:16px;text-align:left}
+.brajesh-verdict .guru-name{font-size:10px;color:var(--indigo);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.brajesh-verdict p{font-size:12px;color:var(--text2);line-height:1.8}
 
 /* ═══ VASTU INTERACTIVE ═══ */
 .vastu-selector{display:flex;flex-direction:column;gap:20px;max-width:420px}
@@ -453,56 +576,75 @@ footer{
   <div class="astro-container">
     <!-- Input Form -->
     <div class="astro-form">
+      <div id="profileBar" class="profile-bar" style="margin-bottom:16px">
+        <div style="font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Saved Profiles</div>
+        <select id="profileSelect" style="width:100%;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px" onchange="loadProfile()">
+          <option value="">➕ New Chart</option>
+        </select>
+      </div>
       <h3>📋 Your Birth Data</h3>
       <div class="form-group">
         <label>Name</label>
-        <input type="text" id="astroName" placeholder="Your name" value="Hemant Thackeray">
+        <input type="text" id="astroName" placeholder="Your name">
       </div>
       <div class="form-group">
         <label>Date of Birth</label>
-        <input type="date" id="astroDOB" value="1980-03-27">
+        <input type="date" id="astroDOB">
       </div>
       <div class="form-group">
         <label>Time of Birth (24-hour)</label>
-        <input type="time" id="astroTOB" value="11:45">
+        <input type="time" id="astroTOB">
       </div>
       <div class="form-group">
         <label>Place of Birth</label>
-        <input type="text" id="astroPOB" placeholder="City, Country" value="Kalyan, India">
+        <input type="text" id="astroPOB" placeholder="City, Country">
       </div>
-      <button class="form-btn" onclick="generateAstroChart()">Generate Chart</button>
-      <button class="form-btn demo" onclick="loadDemoChart()">Demo</button>
+      <div style="display:flex;gap:8px">
+        <button class="form-btn" onclick="generateAstroChart()">Generate Chart</button>
+        <button class="form-btn demo" onclick="loadDemoChart()">Demo</button>
+        <button class="form-btn" style="background:var(--indigo);flex:1" onclick="clearAstroForm()">Clear</button>
+      </div>
       <div class="astro-explanation">
         <strong>Your Ascendant</strong> (Rising Sign) is the zodiac sign that was rising on the eastern horizon at your birth time. It shapes your personality and how others see you. <strong>Your Moon Sign</strong> represents your emotional nature and inner self. <strong>Your Sun Sign</strong> (Western astrology) is your core identity and life purpose.
       </div>
     </div>
     <!-- Chart Display -->
     <div class="astro-chart-display">
-      <div class="chart-grid" id="astroChartGrid">
-        <div class="chart-cell"><div class="sign">♓</div></div>
-        <div class="chart-cell"><div class="sign">♈</div></div>
-        <div class="chart-cell"><div class="sign">♉</div></div>
-        <div class="chart-cell asc"><div class="sign">♊</div><span style="font-size:7px;color:var(--accent)">ASC</span></div>
-        <div class="chart-cell"><div class="sign">♒</div></div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-cell"><div class="sign">♋</div></div>
-        <div class="chart-cell"><div class="sign">♑</div></div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-center">🕉️</div>
-        <div class="chart-cell"><div class="sign">♌</div></div>
-        <div class="chart-cell"><div class="sign">♐</div></div>
-        <div class="chart-cell"><div class="sign">♏</div></div>
-        <div class="chart-cell"><div class="sign">♎</div></div>
-        <div class="chart-cell"><div class="sign">♍</div></div>
-      </div>
-      <div id="astroSummary" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.8">
-        <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Chart Summary</div>
-        <div id="astroSummaryContent">
-          <div><strong style="color:var(--text)">Ascendant:</strong> ♊ Gemini · Communicative, analytical</div>
-          <div><strong style="color:var(--text)">Moon:</strong> ♋ Cancer · Emotional, nurturing</div>
-          <div><strong style="color:var(--text)">Sun:</strong> ♓ Pisces · Intuitive, spiritual</div>
+      <div id="chartContentArea" style="display:none">
+        <div class="chart-label-text" id="chartLabelText">Loading...</div>
+        <div class="chart-grid" id="astroChartGrid" style="margin:20px auto">
+          <!-- Dynamically populated -->
         </div>
+        <div id="astroSummary" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:12px;color:var(--text2);line-height:1.8">
+          <div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Chart Summary</div>
+          <div id="astroSummaryContent"></div>
+        </div>
+        <!-- Report Tabs -->
+        <div class="astro-tabs" id="reportTabs" style="margin-top:20px">
+          <button class="astro-tab active" data-tab="chart">Chart</button>
+          <button class="astro-tab" data-tab="planets">Planets</button>
+          <button class="astro-tab" data-tab="houses">Houses</button>
+          <button class="astro-tab" data-tab="dashas">Dashas</button>
+          <button class="astro-tab" data-tab="insights">Insights</button>
+          <button class="astro-tab" data-tab="yogas">Yogas</button>
+          <button class="astro-tab" data-tab="validate" style="color:var(--warn)">⚡ Validate</button>
+        </div>
+        <div class="astro-tab-content" id="tabChart"></div>
+        <div class="astro-tab-content" id="tabPlanets" style="display:none"></div>
+        <div class="astro-tab-content" id="tabHouses" style="display:none"></div>
+        <div class="astro-tab-content" id="tabDashas" style="display:none"></div>
+        <div class="astro-tab-content" id="tabInsights" style="display:none"></div>
+        <div class="astro-tab-content" id="tabYogas" style="display:none"></div>
+        <div class="astro-tab-content" id="tabValidate" style="display:none"></div>
+        <!-- Report Actions -->
+        <div class="report-actions">
+          <button class="form-btn" style="background:var(--pos)" onclick="saveProfile()">💾 Save Profile</button>
+          <button class="form-btn" style="background:var(--cyan)" onclick="window.print()">🖨️ Print Report</button>
+        </div>
+      </div>
+      <div id="chartPlaceholder" style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:40px;text-align:center;color:var(--text2)">
+        <div style="font-size:32px;margin-bottom:16px">🪐</div>
+        <div>Enter your birth details and click "Generate Chart" to see your personalized Vedic astrology analysis</div>
       </div>
     </div>
   </div>
@@ -1796,6 +1938,78 @@ const SIGN_MEANINGS = {
   "Pisces": "Intuitive, artistic, spiritual"
 };
 
+// ═══ COMPREHENSIVE ASTROLOGY ENGINE ═══
+
+// In-memory profile storage
+let astroProfiles = {};
+
+// Planets configuration with symbols and colors
+const PLANETS = [
+  { symbol: "☉", name: "Sun", meanMotion: 0.9856, tropicalRef: 280.46, benefic: true },
+  { symbol: "☽", name: "Moon", meanMotion: 13.2, tropicalRef: 218.32, benefic: true },
+  { symbol: "♂", name: "Mars", meanMotion: 0.5240, tropicalRef: 355.45, benefic: false },
+  { symbol: "☿", name: "Mercury", meanMotion: 4.0923, tropicalRef: 252.25, benefic: true },
+  { symbol: "♃", name: "Jupiter", meanMotion: 0.0831, tropicalRef: 34.40, benefic: true },
+  { symbol: "♀", name: "Venus", meanMotion: 1.6021, tropicalRef: 181.98, benefic: true },
+  { symbol: "♄", name: "Saturn", meanMotion: 0.0335, tropicalRef: 49.94, benefic: false },
+  { symbol: "☊", name: "Rahu", meanMotion: -0.0530, tropicalRef: 125.04, benefic: false },
+  { symbol: "☋", name: "Ketu", meanMotion: -0.0530, tropicalRef: 305.04, benefic: false }
+];
+
+const NAKSHATRAS = [
+  "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
+  "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
+  "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+  "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha",
+  "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+];
+
+const DASHA_SEQUENCE = [
+  { lord: "Ketu", years: 7 },
+  { lord: "Venus", years: 20 },
+  { lord: "Sun", years: 6 },
+  { lord: "Moon", years: 10 },
+  { lord: "Mars", years: 7 },
+  { lord: "Rahu", years: 18 },
+  { lord: "Jupiter", years: 16 },
+  { lord: "Saturn", years: 19 },
+  { lord: "Mercury", years: 17 }
+];
+
+function calculateJulianDay(y, m, d, h) {
+  if (m <= 2) { m += 12; y -= 1; }
+  const A = Math.floor(y / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  const JD = Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + (h / 24) + B - 1524.5;
+  return JD;
+}
+
+function calculatePlanetPosition(planetIndex, y, m, d, h) {
+  const planet = PLANETS[planetIndex];
+  const jd = calculateJulianDay(y, m, d, h);
+  const daysSinceEpoch = jd - 2451545; // J2000.0
+
+  let longitude = planet.tropicalRef + (planet.meanMotion * daysSinceEpoch);
+  longitude = ((longitude % 360) + 360) % 360;
+
+  // Apply Ayanamsa (Lahiri)
+  const ayanamsa = 23.85 + (daysSinceEpoch / 36525) * 0.0000146;
+  const siderealLongitude = ((longitude - ayanamsa) % 360 + 360) % 360;
+
+  const signIndex = Math.floor(siderealLongitude / 30);
+  const degreesInSign = siderealLongitude % 30;
+
+  return { signIndex, degreesInSign, siderealLongitude };
+}
+
+function getSignFromIndex(index) {
+  return VEDIC_SIGNS[index % 12];
+}
+
+function getNakshatraIndex(longitude) {
+  return Math.floor((longitude % 360) / (360 / 27));
+}
+
 function getSunSign(month, day) {
   for (let s of VEDIC_SIGNS) {
     const [sm, sd] = s.start;
@@ -1809,7 +2023,7 @@ function getSunSign(month, day) {
 
 function getMoonSign(month, day) {
   const daysPerSign = 2.25;
-  const refDate = new Date(2024, 0, 1); // Reference for Moon in Aries
+  const refDate = new Date(2024, 0, 1);
   const birthDate = new Date(2024, month - 1, day);
   const daysDiff = Math.floor((birthDate - refDate) / (24 * 60 * 60 * 1000));
   const signIndex = Math.floor((daysDiff / daysPerSign) % 12);
@@ -1817,7 +2031,7 @@ function getMoonSign(month, day) {
 }
 
 function getAscendant(month, day, hour) {
-  const baseHour = 6; // sunrise
+  const baseHour = 6;
   const hoursDiff = hour - baseHour;
   const signShift = Math.floor(hoursDiff / 2);
   const sunSign = getSunSign(month, day);
@@ -1825,25 +2039,293 @@ function getAscendant(month, day, hour) {
   return VEDIC_SIGNS[ascIndex];
 }
 
+function calculateChart(y, m, d, h, min) {
+  const chart = {};
+
+  // Calculate all planets
+  PLANETS.forEach((p, idx) => {
+    const pos = calculatePlanetPosition(idx, y, m, d, h + min / 60);
+    const sign = getSignFromIndex(pos.signIndex);
+    const nakshatra = NAKSHATRAS[getNakshatraIndex(pos.siderealLongitude)];
+    chart[p.name] = { sign, degreesInSign: pos.degreesInSign, nakshatra, symbol: p.symbol, benefic: p.benefic };
+  });
+
+  // Calculate Ascendant
+  const asc = getAscendant(m, d, h);
+  chart.Ascendant = asc;
+
+  return chart;
+}
+
+function renderChartGrid(chart) {
+  const asc = chart.Ascendant;
+  const signs = VEDIC_SIGNS.map(s => s.sign);
+  let html = "";
+
+  // Create 4x4 grid with planets in their signs
+  const cellsData = [
+    [11, 0, 1, 2], [10, null, null, 3], [9, null, null, 4], [8, 7, 6, 5]
+  ];
+
+  cellsData.forEach((row, rowIdx) => {
+    row.forEach((signIdx, colIdx) => {
+      if (signIdx === null) {
+        html += `<div class="chart-center">🕉️</div>`;
+      } else {
+        const sign = VEDIC_SIGNS[signIdx];
+        const isAsc = sign.num === asc.num ? "asc" : "";
+        const planetsInSign = Object.entries(chart).filter(([name, p]) =>
+          name !== "Ascendant" && p.sign && p.sign.num === signIdx
+        );
+
+        let planetStr = "";
+        planetsInSign.slice(0, 3).forEach(([name, p]) => {
+          const color = p.benefic ? "var(--pos)" : "var(--neg)";
+          planetStr += `<span class="planet" style="color:${color}">${p.symbol}</span>`;
+        });
+
+        html += `<div class="chart-cell ${isAsc}">
+          <div class="sign">${sign.sign}</div>
+          <div style="font-size:9px;line-height:1.2">${planetStr}</div>
+          ${isAsc ? '<span style="font-size:7px;color:var(--accent)">ASC</span>' : ''}
+        </div>`;
+      }
+    });
+  });
+
+  document.getElementById("astroChartGrid").innerHTML = html;
+}
+
+function renderPlanetsTable(chart) {
+  let html = `<table class="planet-table">
+    <thead><tr>
+      <th>Planet</th><th>Sign</th><th>Degrees</th><th>Nakshatra</th><th>Type</th>
+    </tr></thead><tbody>`;
+
+  Object.entries(chart).forEach(([name, p]) => {
+    if (name === "Ascendant") return;
+    const type = p.benefic ? "Benefic" : "Malefic";
+    const typeColor = p.benefic ? "var(--pos)" : "var(--neg)";
+    html += `<tr>
+      <td><span class="planet-symbol">${p.symbol}</span>${name}</td>
+      <td>${p.sign.sign} ${p.sign.name}</td>
+      <td>${p.degreesInSign.toFixed(1)}°</td>
+      <td>${p.nakshatra}</td>
+      <td><span style="color:${typeColor};font-weight:700">${type}</span></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById("tabPlanets").innerHTML = html;
+}
+
+function renderHouses(chart) {
+  let html = "";
+  const asc = chart.Ascendant;
+
+  for (let i = 0; i < 12; i++) {
+    const houseSign = VEDIC_SIGNS[(asc.num + i) % 12];
+    const occupants = Object.entries(chart).filter(([name, p]) =>
+      name !== "Ascendant" && p.sign && p.sign.num === houseSign.num
+    );
+
+    const meanings = {
+      1: "Self, Personality, Appearance, Life Path",
+      2: "Wealth, Family, Food, Speech",
+      3: "Siblings, Communication, Short Travel",
+      4: "Home, Mother, Property, Happiness",
+      5: "Children, Creativity, Romance, Intelligence",
+      6: "Health, Enemies, Debts, Diseases",
+      7: "Marriage, Partnerships, Spouse, Public Relations",
+      8: "Longevity, Inheritance, Sudden Events, Occult",
+      9: "Father, Luck, Religion, Higher Learning, Travel",
+      10: "Career, Status, Public Image, Mother",
+      11: "Gains, Friendships, Wishes, Income",
+      12: "Losses, Isolation, Spirituality, Sleep, Foreign Travel"
+    };
+
+    html += `<div class="house-card">
+      <div class="house-num">House ${i + 1}: ${houseSign.sign} ${houseSign.name}</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">${meanings[i + 1]}</div>
+      <div class="occupants">
+        <strong>Planets:</strong> ${occupants.length ? occupants.map(([n]) => n).join(", ") : "None"}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById("tabHouses").innerHTML = html;
+}
+
+function renderDashas(chart, birthDate) {
+  const moonNakIndex = getNakshatraIndex((chart.Moon.degreesInSign || 0) + (Math.floor(chart.Moon.sign.num) * 30));
+  const dasheLord = DASHA_SEQUENCE[moonNakIndex % 9].lord;
+  const dashIndex = DASHA_SEQUENCE.findIndex(d => d.lord === dasheLord);
+
+  let html = `<div style="font-size:11px;color:var(--text2);margin-bottom:16px">
+    <strong>Birth Nakshatra:</strong> ${NAKSHATRAS[moonNakIndex]} (${dasheLord} Dasha starts)
+  </div><div class="dasha-timeline">`;
+
+  const today = new Date();
+  const birthTime = new Date(birthDate);
+  let currentTime = new Date(birthTime);
+
+  for (let i = 0; i < 9; i++) {
+    const dasha = DASHA_SEQUENCE[(dashIndex + i) % 9];
+    const endTime = new Date(currentTime.getTime() + dasha.years * 365.25 * 24 * 60 * 60 * 1000);
+    const isCurrent = currentTime <= today && today < endTime;
+
+    html += `<div class="dasha-period ${isCurrent ? "current" : endTime < today ? "past" : "future"}">
+      <div style="font-weight:700">${dasha.lord}</div>
+      <div style="font-size:9px">${dasha.years}y</div>
+    </div>`;
+
+    currentTime = endTime;
+  }
+
+  html += `</div>`;
+  document.getElementById("tabDashas").innerHTML = html;
+}
+
+function generateInsights(chart, name) {
+  const insights = [];
+
+  // Sun insights
+  const sunMeaning = {
+    Aries: "Natural leader with pioneering spirit. Focused, ambitious career drive.",
+    Leo: "Confident and authoritative. Seeks recognition and creative expression.",
+    Sagittarius: "Philosophical outlook. Higher learning, ethics guide life direction."
+  };
+
+  if (chart.Sun.sign.name in sunMeaning) {
+    insights.push({
+      section: "Personality & Identity",
+      title: `Sun in ${chart.Sun.sign.name}`,
+      text: sunMeaning[chart.Sun.sign.name]
+    });
+  }
+
+  // Moon insights
+  insights.push({
+    section: "Emotional Nature",
+    title: `Moon in ${chart.Moon.sign.name}`,
+    text: `Your emotional core is ${chart.Moon.sign.name.toLowerCase()}. This sign shapes your inner world, family bonds, and how you process feelings.`
+  });
+
+  // Ascendant
+  insights.push({
+    section: "Outward Personality",
+    title: `Ascendant in ${chart.Ascendant.name}`,
+    text: `People see you as ${chart.Ascendant.name.toLowerCase()}. Your natural demeanor and first impression reflect this sign's qualities.`
+  });
+
+  // Career (look at 10th house / Saturn)
+  insights.push({
+    section: "Career & Public Life",
+    title: "Professional Path",
+    text: "Saturn governs your career timeline. Early struggles often transform into mastery. Saturn periods (7-8 years) are formative for career growth."
+  });
+
+  // Health
+  insights.push({
+    section: "Health & Wellness",
+    title: "Constitutional Tendencies",
+    text: "Mars and Saturn influence your physical resilience. Preventive care and consistent exercise support long-term health."
+  });
+
+  let html = "";
+  insights.forEach(ins => {
+    html += `<div class="insight-section">
+      <h4>${ins.section}</h4>
+      <div style="color:var(--accent);font-weight:700;margin-bottom:6px">${ins.title}</div>
+      <p>${ins.text}</p>
+    </div>`;
+  });
+
+  document.getElementById("tabInsights").innerHTML = html;
+}
+
+function detectYogas(chart) {
+  const yogas = [];
+
+  // Gajakesari Yoga: Moon & Jupiter in Kendra
+  if (Math.abs(chart.Moon.sign.num - chart.Jupiter.sign.num) <= 3 || Math.abs(chart.Moon.sign.num - chart.Jupiter.sign.num) >= 9) {
+    yogas.push({
+      name: "Gajakesari Yoga",
+      effect: "Brings prosperity, good memory, intellectual acumen, and success in endeavors."
+    });
+  }
+
+  // Budh-Aditya: Mercury & Sun in same sign
+  if (chart.Mercury.sign.num === chart.Sun.sign.num) {
+    yogas.push({
+      name: "Budh-Aditya Yoga",
+      effect: "Sharp intellect, excellent communication, business acumen, literary talent."
+    });
+  }
+
+  // Dhana Yoga: Wealth planets strong
+  if (chart.Jupiter.benefic && chart.Venus.benefic) {
+    yogas.push({
+      name: "Dhana Yoga",
+      effect: "Financial abundance, prosperity through intelligence and careful planning."
+    });
+  }
+
+  let html = yogas.length ? "" : '<div style="color:var(--text3);padding:16px;text-align:center">No major yogas detected in this chart. Continue building positive karma!</div>';
+
+  yogas.forEach(y => {
+    html += `<div class="yoga-card">
+      <div class="yoga-name">✨ ${y.name}</div>
+      <div class="yoga-effect">${y.effect}</div>
+    </div>`;
+  });
+
+  document.getElementById("tabYogas").innerHTML = html;
+}
+
 function generateAstroChart() {
-  const name = document.getElementById("astroName").value || "User";
+  const name = document.getElementById("astroName").value.trim();
   const dob = document.getElementById("astroDOB").value;
   const tob = document.getElementById("astroTOB").value;
-  const pob = document.getElementById("astroPOB").value;
+  const pob = document.getElementById("astroPOB").value.trim();
 
-  if (!dob || !tob) {
-    alert("Please fill in Date of Birth and Time of Birth");
+  if (!name || !dob || !tob || !pob) {
+    alert("Please fill in all birth details");
     return;
   }
 
   const [y, m, d] = dob.split('-').map(Number);
   const [h, min] = tob.split(':').map(Number);
 
-  const sunSign = getSunSign(m, d);
-  const moonSign = getMoonSign(m, d);
-  const ascSign = getAscendant(m, d, h);
+  const chart = calculateChart(y, m, d, h, min);
 
-  renderAstroChart(ascSign, sunSign, moonSign, name, dob, pob);
+  // Render all tabs
+  renderChartGrid(chart);
+  renderPlanetsTable(chart);
+  renderHouses(chart, dob);
+  renderDashas(chart, dob);
+  generateInsights(chart, name);
+  detectYogas(chart);
+  renderValidation(chart, dob);
+
+  // Show report area
+  document.getElementById("chartContentArea").style.display = "block";
+  document.getElementById("chartPlaceholder").style.display = "none";
+
+  // Update summary
+  document.getElementById("astroSummaryContent").innerHTML = `
+    <div><strong style="color:var(--accent)">Ascendant:</strong> ${chart.Ascendant.sign} ${chart.Ascendant.name}</div>
+    <div style="margin-top:8px"><strong style="color:var(--accent)">Moon:</strong> ${chart.Moon.sign.sign} ${chart.Moon.sign.name}</div>
+    <div style="margin-top:8px"><strong style="color:var(--accent)">Sun:</strong> ${chart.Sun.sign.sign} ${chart.Sun.sign.name}</div>
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--text3)">
+      <strong>${name}</strong> · ${dob} · ${pob}
+    </div>
+  `;
+
+  document.getElementById("chartLabelText").textContent = `${name}'s Vedic Birth Chart · ${dob}`;
+
+  // Setup tab switching
+  setupTabSwitching();
 }
 
 function loadDemoChart() {
@@ -1854,43 +2336,462 @@ function loadDemoChart() {
   generateAstroChart();
 }
 
-function renderAstroChart(ascSign, sunSign, moonSign, name, dob, pob) {
-  const signs = VEDIC_SIGNS.map(s => s.sign);
-  let html = "";
+function clearAstroForm() {
+  document.getElementById("astroName").value = "";
+  document.getElementById("astroDOB").value = "";
+  document.getElementById("astroTOB").value = "";
+  document.getElementById("astroPOB").value = "";
+  document.getElementById("profileSelect").value = "";
+  document.getElementById("chartContentArea").style.display = "none";
+  document.getElementById("chartPlaceholder").style.display = "block";
+}
 
-  // Row 0: Pisces, Aries, Taurus, Gemini
-  html += `<div class="chart-cell"><div class="sign">${signs[11]}</div></div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[0]}</div></div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[1]}</div></div>`;
-  const asc0 = ascSign.num === 2 ? `asc` : '';
-  html += `<div class="chart-cell ${asc0}"><div class="sign">${signs[2]}</div>${asc0 ? '<span style="font-size:7px;color:var(--accent)">ASC</span>' : ''}</div>`;
+function saveProfile() {
+  const name = document.getElementById("astroName").value;
+  if (!name) { alert("Please enter a name"); return; }
 
-  // Row 1: Aquarius, center, center, Cancer
-  html += `<div class="chart-cell"><div class="sign">${signs[10]}</div></div>`;
-  html += `<div class="chart-center">🕉️</div>`;
-  html += `<div class="chart-center">🕉️</div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[3]}</div></div>`;
+  const profile = {
+    name: name,
+    dob: document.getElementById("astroDOB").value,
+    tob: document.getElementById("astroTOB").value,
+    pob: document.getElementById("astroPOB").value
+  };
 
-  // Row 2: Capricorn, center, center, Leo
-  html += `<div class="chart-cell"><div class="sign">${signs[9]}</div></div>`;
-  html += `<div class="chart-center">🕉️</div>`;
-  html += `<div class="chart-center">🕉️</div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[4]}</div></div>`;
+  astroProfiles[name] = profile;
+  updateProfileSelect();
+  alert(`Profile "${name}" saved!`);
+}
 
-  // Row 3: Sagittarius, Scorpio, Libra, Virgo
-  html += `<div class="chart-cell"><div class="sign">${signs[8]}</div></div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[7]}</div></div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[6]}</div></div>`;
-  html += `<div class="chart-cell"><div class="sign">${signs[5]}</div></div>`;
+function loadProfile() {
+  const name = document.getElementById("profileSelect").value;
+  if (!name) return;
 
-  document.getElementById("astroChartGrid").innerHTML = html;
-  document.getElementById("astroSummaryContent").innerHTML = `
-    <div><strong style="color:var(--accent)">Ascendant (Rising Sign):</strong><br>${ascSign.sign} ${ascSign.name} · ${SIGN_MEANINGS[ascSign.name]}</div>
-    <div style="margin-top:8px"><strong style="color:var(--accent)">Moon Sign:</strong><br>${moonSign.sign} ${moonSign.name} · ${SIGN_MEANINGS[moonSign.name]}</div>
-    <div style="margin-top:8px"><strong style="color:var(--accent)">Sun Sign:</strong><br>${sunSign.sign} ${sunSign.name} · ${SIGN_MEANINGS[sunSign.name]}</div>
-    <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--text3)"><strong>${name}</strong> · ${dob} · ${pob}</div>
+  const profile = astroProfiles[name];
+  document.getElementById("astroName").value = profile.name;
+  document.getElementById("astroDOB").value = profile.dob;
+  document.getElementById("astroTOB").value = profile.tob;
+  document.getElementById("astroPOB").value = profile.pob;
+  generateAstroChart();
+}
+
+function updateProfileSelect() {
+  const select = document.getElementById("profileSelect");
+  select.innerHTML = '<option value="">➕ New Chart</option>';
+  Object.keys(astroProfiles).forEach(name => {
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    select.appendChild(opt);
+  });
+}
+
+function setupTabSwitching() {
+  document.querySelectorAll(".astro-tab").forEach(tab => {
+    tab.onclick = function() {
+      const tabName = this.getAttribute("data-tab");
+      document.querySelectorAll(".astro-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".astro-tab-content").forEach(c => c.style.display = "none");
+      this.classList.add("active");
+      document.getElementById("tab" + tabName.charAt(0).toUpperCase() + tabName.slice(1)).style.display = "block";
+    };
+  });
+}
+
+// Initialize astrology section
+updateProfileSelect();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INTERACTIVE VALIDATION / RETRODICTION ENGINE
+// ═══════════════════════════════════════════════════════════════════════════
+
+const validationState = { predictions: [], responses: {} };
+
+// Dasha lord → life domain predictions (planetary confluence mapping)
+const DASHA_PREDICTIONS = {
+  Ketu: {
+    domains: ["Spirituality", "Detachment", "Research"],
+    events: [
+      { text: "Interest in spirituality, meditation, or occult sciences", weight: 0.8 },
+      { text: "Sense of detachment from material pursuits", weight: 0.7 },
+      { text: "Sudden changes or unexpected turns in life direction", weight: 0.75 },
+      { text: "Health issues related to nervous system or unexplained ailments", weight: 0.5 }
+    ]
+  },
+  Venus: {
+    domains: ["Marriage", "Wealth", "Luxury", "Arts"],
+    events: [
+      { text: "Marriage or significant romantic relationship", weight: 0.85 },
+      { text: "Acquisition of property, vehicle, or luxury items", weight: 0.8 },
+      { text: "Financial prosperity and material comfort", weight: 0.75 },
+      { text: "Interest in arts, music, beauty, or creative pursuits", weight: 0.65 },
+      { text: "Foreign travel or connection with foreign lands", weight: 0.6 }
+    ]
+  },
+  Sun: {
+    domains: ["Career", "Authority", "Father", "Government"],
+    events: [
+      { text: "Rise in career, authority, or public recognition", weight: 0.85 },
+      { text: "Government-related opportunity or leadership role", weight: 0.7 },
+      { text: "Father's health or relationship with father becomes significant", weight: 0.65 },
+      { text: "Health concerns related to bones, eyes, or heart", weight: 0.5 },
+      { text: "Increased confidence and self-expression", weight: 0.7 }
+    ]
+  },
+  Moon: {
+    domains: ["Emotions", "Mother", "Mind", "Home"],
+    events: [
+      { text: "Emotional transformation or deep introspection", weight: 0.8 },
+      { text: "Mother's health or relationship with mother becomes focal", weight: 0.7 },
+      { text: "Change of residence or home renovation", weight: 0.65 },
+      { text: "Mental health awareness or emotional healing journey", weight: 0.6 },
+      { text: "Increased intuition and spiritual sensitivity", weight: 0.7 }
+    ]
+  },
+  Mars: {
+    domains: ["Energy", "Property", "Siblings", "Courage"],
+    events: [
+      { text: "Property purchase, construction, or real estate activity", weight: 0.8 },
+      { text: "Significant event involving siblings or close friends", weight: 0.65 },
+      { text: "Physical challenges, surgeries, or injuries", weight: 0.6 },
+      { text: "Increase in courage, ambition, or competitive drive", weight: 0.7 },
+      { text: "Conflicts or legal disputes requiring assertiveness", weight: 0.55 }
+    ]
+  },
+  Rahu: {
+    domains: ["Foreign", "Technology", "Ambition", "Unconventional"],
+    events: [
+      { text: "Foreign travel, relocation, or international opportunity", weight: 0.85 },
+      { text: "Involvement with technology, innovation, or unconventional career", weight: 0.75 },
+      { text: "Intense ambition driving major life decisions", weight: 0.7 },
+      { text: "Breaking from tradition or family expectations", weight: 0.6 },
+      { text: "Obsessive pursuit of a goal or sudden fame/notoriety", weight: 0.55 }
+    ]
+  },
+  Jupiter: {
+    domains: ["Wisdom", "Children", "Education", "Dharma"],
+    events: [
+      { text: "Birth of children or significant events with children", weight: 0.8 },
+      { text: "Higher education, teaching, or mentoring role", weight: 0.75 },
+      { text: "Spiritual growth, pilgrimage, or religious inclination", weight: 0.7 },
+      { text: "Financial expansion through ethical means", weight: 0.65 },
+      { text: "Recognition as advisor, guide, or subject matter expert", weight: 0.6 }
+    ]
+  },
+  Saturn: {
+    domains: ["Career", "Discipline", "Hardship", "Structure"],
+    events: [
+      { text: "Career setback followed by long-term growth", weight: 0.8 },
+      { text: "Chronic health issues or health discipline required", weight: 0.65 },
+      { text: "Delays in plans but eventual reward for persistence", weight: 0.75 },
+      { text: "Responsibility for elderly family members", weight: 0.6 },
+      { text: "Learning patience and developing resilience", weight: 0.7 }
+    ]
+  },
+  Mercury: {
+    domains: ["Education", "Communication", "Business", "Intellect"],
+    events: [
+      { text: "Strong focus on education, exams, or intellectual development", weight: 0.85 },
+      { text: "Business ventures, trading, or financial dealings", weight: 0.75 },
+      { text: "Development of communication skills or writing ability", weight: 0.7 },
+      { text: "Skin-related health issues or nervous system concerns", weight: 0.5 },
+      { text: "Short travels, networking, or building social connections", weight: 0.65 }
+    ]
+  }
+};
+
+function generateRetrodictions(chart, birthDate) {
+  const [by, bm, bd] = birthDate.split('-').map(Number);
+  const birthTime = new Date(by, bm - 1, bd);
+  const today = new Date();
+  const currentYear = today.getFullYear();
+
+  // Calculate Moon nakshatra and dasha starting lord
+  const moonLong = (chart.Moon.degreesInSign || 0) + (Math.floor(chart.Moon.sign.num) * 30);
+  const moonNakIndex = getNakshatraIndex(moonLong);
+  const dasheLord = DASHA_SEQUENCE[moonNakIndex % 9].lord;
+  const dashIndex = DASHA_SEQUENCE.findIndex(d => d.lord === dasheLord);
+
+  // Calculate balance of first dasha at birth
+  const nakStart = moonNakIndex * (360 / 27);
+  const posInNak = moonLong - nakStart;
+  const nakSpan = 360 / 27;
+  const fractionElapsed = posInNak / nakSpan;
+  const firstDasha = DASHA_SEQUENCE[dashIndex];
+  const balanceYears = firstDasha.years * (1 - fractionElapsed);
+
+  // Build full dasha timeline
+  const dashaTimeline = [];
+  let currentTime = new Date(birthTime);
+
+  for (let i = 0; i < 9; i++) {
+    const dasha = DASHA_SEQUENCE[(dashIndex + i) % 9];
+    const years = i === 0 ? balanceYears : dasha.years;
+    const endTime = new Date(currentTime.getTime() + years * 365.25 * 24 * 60 * 60 * 1000);
+
+    dashaTimeline.push({
+      lord: dasha.lord,
+      start: new Date(currentTime),
+      end: new Date(endTime),
+      years: years,
+      isPast: endTime < today,
+      isCurrent: currentTime <= today && today < endTime
+    });
+
+    currentTime = endTime;
+  }
+
+  // Generate predictions for each past + current dasha period
+  const predictions = [];
+  let predId = 0;
+
+  dashaTimeline.forEach(period => {
+    if (period.start > today) return; // Skip future periods
+
+    const lordData = DASHA_PREDICTIONS[period.lord];
+    if (!lordData) return;
+
+    const startYear = period.start.getFullYear();
+    const endYear = Math.min(period.end.getFullYear(), currentYear);
+    const ageAtStart = startYear - by;
+    const ageAtEnd = endYear - by;
+
+    // Pick 2-3 most relevant events based on weight and age
+    let events = [...lordData.events].sort((a, b) => b.weight - a.weight);
+
+    // Age-based filtering: education events for young age, marriage for 20s-30s, etc.
+    if (ageAtStart < 10) {
+      events = events.filter(e => !e.text.includes("Marriage") && !e.text.includes("Property purchase") && !e.text.includes("Children"));
+    }
+    if (ageAtStart < 18) {
+      events = events.filter(e => !e.text.includes("Marriage") && !e.text.includes("Career setback"));
+    }
+
+    const selectedEvents = events.slice(0, Math.min(3, events.length));
+
+    selectedEvents.forEach(evt => {
+      predictions.push({
+        id: predId++,
+        period: `${startYear} – ${endYear}`,
+        age: `Age ${Math.max(0, ageAtStart)} – ${ageAtEnd}`,
+        dasha: `${period.lord} Mahadasha (${period.years.toFixed(1)} years)`,
+        lord: period.lord,
+        prediction: evt.text,
+        confidence: Math.round(evt.weight * 100),
+        domains: lordData.domains,
+        isPast: period.isPast,
+        isCurrent: period.isCurrent,
+        explanation: generatePlanetaryExplanation(period.lord, chart, evt.text)
+      });
+    });
+  });
+
+  return predictions;
+}
+
+function generatePlanetaryExplanation(lord, chart, prediction) {
+  const lordPlanet = chart[lord] || null;
+  const signName = lordPlanet ? lordPlanet.sign.name : "its sign";
+  const houseMeanings = {
+    1: "self and personality", 2: "wealth and family", 3: "courage and siblings",
+    4: "home and mother", 5: "children and intellect", 6: "health and enemies",
+    7: "marriage and partnerships", 8: "transformation and longevity", 9: "fortune and dharma",
+    10: "career and reputation", 11: "gains and aspirations", 12: "loss and liberation"
+  };
+
+  let explanation = `${lord} as Mahadasha lord activates its significations while placed in ${signName}.`;
+  if (lordPlanet && lordPlanet.house) {
+    const hMeaning = houseMeanings[lordPlanet.house] || "its house";
+    explanation += ` Positioned in House ${lordPlanet.house} (${hMeaning}), it directly influences this life area.`;
+  }
+  explanation += ` As per Brihat Parashara Hora Shastra, the Dasha lord's placement and aspects determine the timing and nature of life events.`;
+  return explanation;
+}
+
+function renderValidation(chart, birthDate) {
+  const predictions = generateRetrodictions(chart, birthDate);
+  validationState.predictions = predictions;
+  validationState.responses = {};
+
+  const pastPreds = predictions.filter(p => p.isPast);
+  const currentPreds = predictions.filter(p => p.isCurrent);
+
+  let html = `
+    <div class="validation-header">
+      <h3>Interactive Retrodiction Validator</h3>
+      <p>Validate predictions against your actual life events. Each confirmation strengthens the engine's accuracy score. Even partial matches count — astrology accounts for birth time variations of up to 2 hours.</p>
+    </div>
+
+    <div class="gauge-container">
+      <div class="gauge-ring">
+        <svg viewBox="0 0 140 140">
+          <circle class="bg" cx="70" cy="70" r="58"/>
+          <circle class="fg" id="gaugeArc" cx="70" cy="70" r="58"
+            stroke-dasharray="${2 * Math.PI * 58}" stroke-dashoffset="${2 * Math.PI * 58}"/>
+        </svg>
+        <div class="gauge-pct" id="gaugePct">—<small>awaiting<br>validation</small></div>
+      </div>
+      <div class="gauge-stats">
+        <div>Total Predictions: <span>${predictions.length}</span></div>
+        <div>Confirmed: <span class="hit" id="statHits">0</span></div>
+        <div>Partial Match: <span class="pending" id="statPartial">0</span></div>
+        <div>Not Matched: <span class="miss" id="statMiss">0</span></div>
+        <div>Pending: <span class="pending" id="statPending">${predictions.length}</span></div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+          Birth Time Tolerance: <span>±2 hours</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;color:var(--accent);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:20px 0 8px">Past Dasha Periods — Validate These</div>
   `;
-  document.querySelector('.chart-label-text').textContent = `${name}'s Chart · ${dob.split('-')[2]}-${dob.split('-')[1]}-${dob.split('-')[0]}`;
+
+  pastPreds.forEach(pred => {
+    html += renderValidationCard(pred);
+  });
+
+  if (currentPreds.length) {
+    html += `<div style="font-size:11px;color:var(--warn);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:24px 0 8px">Current Period — Emerging Trends</div>`;
+    currentPreds.forEach(pred => {
+      html += renderValidationCard(pred);
+    });
+  }
+
+  html += `
+    <div class="validation-summary" id="validationSummary" style="display:none">
+      <h4 id="summaryTitle">Validation Complete</h4>
+      <p id="summaryText"></p>
+      <div class="brajesh-verdict" id="brajeshVerdict">
+        <div class="guru-name">Brajesh Gautam's Assessment</div>
+        <p id="brajeshVerdictText"></p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("tabValidate").innerHTML = html;
+}
+
+function renderValidationCard(pred) {
+  return `
+    <div class="validation-card" id="vcard-${pred.id}">
+      <div class="v-period">${pred.period} · ${pred.age}</div>
+      <div class="v-dasha">${pred.dasha}</div>
+      <div class="v-prediction">${pred.prediction}</div>
+      <div class="v-domains">${pred.domains.map(d => `<span class="v-domain">${d}</span>`).join('')}</div>
+      <div class="v-explanation">${pred.explanation}</div>
+      <div class="validation-btns">
+        <button class="v-btn yes" onclick="validatePrediction(${pred.id}, 'yes', this)">Yes, this happened</button>
+        <button class="v-btn partial" onclick="validatePrediction(${pred.id}, 'partial', this)">Partially / Close timing</button>
+        <button class="v-btn no" onclick="validatePrediction(${pred.id}, 'no', this)">No, didn't happen</button>
+      </div>
+      <div class="v-user-input" id="vinput-${pred.id}">
+        <label>When did this actually happen? (optional)</label>
+        <input type="text" placeholder="e.g., 2005, or March 2003" onchange="saveValidationNote(${pred.id}, 'when', this.value)">
+        <label style="margin-top:6px;display:block">Your notes (optional)</label>
+        <textarea placeholder="Describe what actually happened..." onchange="saveValidationNote(${pred.id}, 'note', this.value)"></textarea>
+      </div>
+    </div>
+  `;
+}
+
+function validatePrediction(id, response, btn) {
+  // Update button states
+  const card = document.getElementById(`vcard-${id}`);
+  card.querySelectorAll('.v-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  // Show user input area
+  const inputArea = document.getElementById(`vinput-${id}`);
+  inputArea.classList.add('show');
+
+  // Update card style
+  card.classList.remove('hit', 'miss', 'partial');
+  card.classList.add(response === 'yes' ? 'hit' : response === 'partial' ? 'partial' : 'miss');
+
+  // Store response
+  validationState.responses[id] = { response, when: '', note: '' };
+
+  // Recalculate gauge
+  updateValidationGauge();
+}
+
+function saveValidationNote(id, field, value) {
+  if (validationState.responses[id]) {
+    validationState.responses[id][field] = value;
+  }
+}
+
+function updateValidationGauge() {
+  const total = validationState.predictions.length;
+  const responses = Object.values(validationState.responses);
+  const hits = responses.filter(r => r.response === 'yes').length;
+  const partials = responses.filter(r => r.response === 'partial').length;
+  const misses = responses.filter(r => r.response === 'no').length;
+  const pending = total - responses.length;
+
+  // Update stats
+  document.getElementById('statHits').textContent = hits;
+  document.getElementById('statPartial').textContent = partials;
+  document.getElementById('statMiss').textContent = misses;
+  document.getElementById('statPending').textContent = pending;
+
+  // Calculate accuracy: hits = 100%, partial = 60%, miss = 0%
+  const answered = hits + partials + misses;
+  if (answered === 0) return;
+
+  const weightedScore = (hits * 1.0 + partials * 0.6 + misses * 0.0) / answered;
+  const pct = Math.round(weightedScore * 100);
+
+  // Apply birth time discount (±2hr uncertainty = -5% to -10%)
+  const birthTimeDiscount = 5;
+  const finalPct = Math.max(0, pct - birthTimeDiscount);
+
+  // Update gauge ring
+  const circumference = 2 * Math.PI * 58;
+  const offset = circumference - (circumference * finalPct / 100);
+  const arc = document.getElementById('gaugeArc');
+  arc.style.strokeDashoffset = offset;
+
+  // Color based on score
+  if (finalPct >= 75) arc.style.stroke = 'var(--pos)';
+  else if (finalPct >= 50) arc.style.stroke = 'var(--accent)';
+  else if (finalPct >= 30) arc.style.stroke = 'var(--warn)';
+  else arc.style.stroke = 'var(--neg)';
+
+  // Update percentage text
+  const gaugeEl = document.getElementById('gaugePct');
+  gaugeEl.innerHTML = `${finalPct}%<small>prediction<br>accuracy</small>`;
+  gaugeEl.style.color = arc.style.stroke;
+
+  // Show summary when all answered
+  if (pending === 0) {
+    showValidationSummary(finalPct, hits, partials, misses, total);
+  }
+}
+
+function showValidationSummary(pct, hits, partials, misses, total) {
+  const summary = document.getElementById('validationSummary');
+  summary.style.display = 'block';
+
+  const title = document.getElementById('summaryTitle');
+  const text = document.getElementById('summaryText');
+  const verdict = document.getElementById('brajeshVerdictText');
+
+  if (pct >= 75) {
+    title.textContent = `Excellent Accuracy: ${pct}%`;
+    text.textContent = `${hits} direct hits and ${partials} partial matches out of ${total} predictions. This chart shows strong correlation between planetary periods and life events. The Vimshottari Dasha system demonstrates remarkable predictive validity for this horoscope.`;
+    verdict.textContent = `"This is a textbook example of how the Dasha system works. With ${pct}% accuracy, we can see that the planetary lords are clearly manifesting their significations in the native's life. The chart is well-calibrated and future predictions from this horoscope carry high reliability. I would recommend using this chart for important timing decisions — the planets are speaking clearly here." — Brajesh Gautam`;
+  } else if (pct >= 50) {
+    title.textContent = `Good Correlation: ${pct}%`;
+    text.textContent = `${hits} confirmed, ${partials} partial matches, and ${misses} misses out of ${total} predictions. This is a solid correlation rate. Some deviations may be due to birth time uncertainty — even a 15-minute shift can change house cusps and sub-lord sequences.`;
+    verdict.textContent = `"A ${pct}% accuracy with approximate birth time is actually quite encouraging. The major life themes are aligning with Dasha periods, which validates the Moon's nakshatra placement. I would suggest rectifying the birth time by ±30 minutes to see if accuracy improves. The foundation is strong — with precise birth time, this chart will be even more reliable." — Brajesh Gautam`;
+  } else {
+    title.textContent = `Needs Refinement: ${pct}%`;
+    text.textContent = `${hits} confirmed and ${partials} partial matches out of ${total} predictions. Lower accuracy often indicates birth time uncertainty. The Dasha framework is sound, but precise calculations require exact birth time.`;
+    verdict.textContent = `"A lower correlation often points to birth time recording error rather than system failure. In traditional practice, we use 'Birth Time Rectification' (Tattva Shodhana) — working backwards from known events to correct the birth time. I recommend verifying the exact birth time with hospital records or family elders. Even a 2-hour shift completely changes the Ascendant and house lords." — Brajesh Gautam`;
+  }
+
+  // Scroll to summary
+  summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
