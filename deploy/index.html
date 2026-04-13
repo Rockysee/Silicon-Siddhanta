@@ -1029,6 +1029,14 @@ const BREATH_TECHNIQUES = {
   }
 };
 
+// Safe DOM helper — prevents null reference crashes
+function $(sel) { return document.querySelector(sel); }
+function $id(id) { return document.getElementById(id); }
+function $text(el, txt) { if (el) el.textContent = txt; }
+function $html(el, h) { if (el) el.innerHTML = h; }
+function $show(el) { if (el) el.style.display = 'block'; }
+function $hide(el) { if (el) el.style.display = 'none'; }
+
 // State
 let breathState = { running:false, techKey:null, phaseIdx:0, timer:null, countdown:0, cycles:0 };
 const breathOrb = document.getElementById('breathOrb');
@@ -1055,11 +1063,17 @@ document.querySelectorAll('.breath-chip[data-tech]').forEach(chip => {
     const cycleDur = tech.phases.reduce((s,p) => s + p.dur, 0);
     const totalMin = ((cycleDur * tech.cycles) / 60).toFixed(1);
     breathCycleCount.textContent = tech.master + ' — ' + tech.cycles + ' cycles (' + totalMin + ' min)';
-    breathOrb.querySelector('.phase-label').textContent = 'READY';
-    breathOrb.querySelector('.timer-label').textContent = 'press start';
+    setOrbText('READY', 'press start');
     setOrbSize(80, 0.2, 'rgba(229,161,0,0.8)');
   });
 });
+
+function setOrbText(phase, timer) {
+  const pl = breathOrb && breathOrb.querySelector('.phase-label');
+  const tl = breathOrb && breathOrb.querySelector('.timer-label');
+  if (pl && phase !== undefined) pl.textContent = phase;
+  if (tl && timer !== undefined) tl.textContent = timer;
+}
 
 function setOrbSize(size, glow, color) {
   const c = color || 'rgba(229,161,0,0.8)';
@@ -1087,7 +1101,7 @@ function runPhase() {
   const dur = phase.dur;
   const label = phase.label;
 
-  breathOrb.querySelector('.phase-label').textContent = label;
+  setOrbText(label);
 
   // Determine orb size based on phase type
   let targetSize, targetGlow;
@@ -1108,11 +1122,11 @@ function runPhase() {
 
   // Countdown timer
   breathState.countdown = Math.ceil(dur);
-  breathOrb.querySelector('.timer-label').textContent = breathState.countdown + 's';
+  setOrbText(undefined, breathState.countdown + 's');
   const countInterval = setInterval(() => {
     breathState.countdown--;
     if(breathState.countdown > 0) {
-      breathOrb.querySelector('.timer-label').textContent = breathState.countdown + 's';
+      setOrbText(undefined, breathState.countdown + 's');
     } else {
       clearInterval(countInterval);
     }
@@ -1159,8 +1173,7 @@ function stopBreathing() {
   breathStartBtn.textContent = 'Start';
   breathStartBtn.classList.add('primary');
   const tech = breathState.techKey ? BREATH_TECHNIQUES[breathState.techKey] : null;
-  breathOrb.querySelector('.phase-label').textContent = 'PAUSED';
-  breathOrb.querySelector('.timer-label').textContent = breathState.cycles ? breathState.cycles + ' cycles' : '';
+  setOrbText('PAUSED', breathState.cycles ? breathState.cycles + ' cycles' : '');
 }
 
 function resetBreathing() {
@@ -1169,8 +1182,7 @@ function resetBreathing() {
   breathState.phaseIdx = 0;
   breathState.cycles = 0;
   document.querySelectorAll('.breath-chip').forEach(c => c.classList.remove('active'));
-  breathOrb.querySelector('.phase-label').textContent = 'OM';
-  breathOrb.querySelector('.timer-label').textContent = 'select below';
+  setOrbText('OM', 'select below');
   breathTechName.textContent = 'Choose a Technique';
   breathTechDesc.textContent = 'Each technique has unique inhale, hold, exhale, and rest timing';
   breathCycleCount.textContent = '';
@@ -2881,16 +2893,19 @@ function updateVastuResult() {
 }
 
 // ─── Init ───
-renderGrid();
+try { renderGrid(); } catch(e) { console.error('Init renderGrid:', e); }
 
-// Add layman text before chart
-document.querySelector('.astro-form').insertAdjacentHTML('afterbegin', '<p style="font-size:11px;color:var(--text3);margin-bottom:16px;font-style:italic">Your birth time determines your Ascendant (Rising Sign) — the most personal part of your chart. Even 2 hours difference changes everything!</p>');
+try {
+  const astroForm = document.querySelector('.astro-form');
+  if (astroForm) astroForm.insertAdjacentHTML('afterbegin', '<p style="font-size:11px;color:var(--text3);margin-bottom:16px;font-style:italic">Your birth time determines your Ascendant (Rising Sign) — the most personal part of your chart. Even 2 hours difference changes everything!</p>');
+} catch(e) { console.error('Init astro-form text:', e); }
 
-// Fade-up on scroll
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fade-up'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.feature-card,.stack-item').forEach(el => observer.observe(el));
+try {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fade-up'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.feature-card,.stack-item').forEach(el => observer.observe(el));
+} catch(e) { console.error('Init observer:', e); }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TTS VOICEOVER ENGINE — Browser Web Speech API
@@ -2972,7 +2987,7 @@ const TTS = {
   }
 };
 
-TTS.init();
+try { TTS.init(); } catch(e) { console.error('TTS init:', e); }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // BREATHING VOICEOVER — Guru-style guidance per phase
